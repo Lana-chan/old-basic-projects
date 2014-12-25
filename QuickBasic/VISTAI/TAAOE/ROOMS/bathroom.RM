@@ -1,0 +1,30 @@
+[VISTAI ROOM]
+Bathroom
+&DESC
+You are in the bathroom. The only useful thing here is a mirror.
+To the east there is the living room.
+%H
+
+[ACTION]
+@USE MIRROR
+SAY It is useful but you can't -use- it.
+END
+
+@GET MIRROR
+@PICK UP MIRROR
+SAY No. You can't pick it up.
+END
+
+@LOOK AT THE MIRROR
+@LOOK AT MIRROR
+CHKITEM 0 $REFLECTION
+SCORE 2
+ITEM $REFLECTION
+You see the reflection of an awesome guy that has long hair and wears glasses.
+You see the reflection of an awesome guy that has long hair and wears glasses.
+END
+
+@EAST
+@GO EAST
+@E
+GOTO LIVING

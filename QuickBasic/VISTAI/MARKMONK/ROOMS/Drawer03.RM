@@ -1,0 +1,18 @@
+[VISTAI ROOM]
+The Office
+&DESC
+You unlock it and look inside your drawer.
+%I GUN
+There is a HOLY MOTHER OF ALL HELL A GUN here.
+%H
+[ACTION]
+@CLOSE DRAWER
+GOTO Office00
+END
+@CLOSE DRAWER 2
+GOTO Office00
+END
+@GET GUN
+SAY You get the HOLY MOTHER OF ALL HELL A GUN.
+GET 1 POINT
+END

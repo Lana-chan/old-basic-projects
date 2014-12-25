@@ -1,0 +1,102 @@
+[VISTAI ROOM]
+Chinese Food Restaurant
+&DESC
+%N $CHINESE
+You are in a chinese food bar and restaurant.
+%I $CHINESE
+You enter a chinese food bar and restaurant.
+You see a depressed woman on the corner table sobbing over countless empty beer
+bottles, presumably hers.
+There is a menu hanging on the wall.
+%G $CHINESE
+%G $PEOPLE
+%H
+
+[ACTION]
+@TALK TO WOMAN
+@TALK TO DEPRESSED WOMAN
+@TALK TO DEPRESSED WOMAN ON THE CORNER TABLE
+@TALK TO WOMAN ON THE CORNER TABLE
+SITEM $WOMAN
+SAY You walk over to the woman.
+SAY "Hi. What's wrong?", you ask.
+SAY "Oh," she says, over some sobs, "nothing at all. It's just that in a single day
+SAY my whole life went to hell."
+SAY "How so?"
+SAY "Well, a blimp crashed in my house, killing my whole family, right after I open
+SAY a letter from my workplace to discover I was fired, just this morning." She
+SAY turns to you and opens a shy, small smile, "Sounds freakish, doesn't it?"
+END
+
+@MENU
+@LOOK AT MENU
+@LOOK AT THE MENU
+@LOOK AT THE MENU HANGING ON THE WALL
+@READ MENU
+@READ THE MENU
+@READ THE MENU HANGING ON THE WALL
+SAY The menu board reads the following:
+SAY "Sushi - $3.40
+SAY Rice - $2.00
+SAY Fortune cookies - $0.25
+SAY Beer - $0.75"
+END
+
+@ORDER
+SAY What?
+END
+
+@ORDER SUSHI
+@ORDER SOME SUSHI
+SAY You order some sushi, the waiter says it'll take some minutes to be prepared.
+TIMER 02 sushi
+END
+
+@ORDER RICE
+@ORDER SOME RICE
+SAY You order some rice, the waiter says it'll take some minutes to be prepared.
+TIMER 02 rice
+END
+
+@ORDER FORTUNE COOKIE
+@ORDER A FORTUNE COOKIE
+SITEM Fortune cookie
+SAY You order a fortune cookie, the waiter gives one to you and you pay $0.25.
+END
+
+@ORDER BEER
+@ORDER SOME BEER
+SITEM Beer
+SAY You order some beer, the waiter gives you a cup and fills it with beer. You
+SAY pay $0.75.
+END
+
+@LOOK BARTENDER
+SAY He's a common bartender, despite the fact that he sends you an evil look while
+SAY being asian. That's like being twice as rad.
+END
+
+@LOOK WOMAN
+@LOOK AT WOMAN
+@LOOK AT THE WOMAN IN THE CORNER
+@LOOK AT THE WOMAN
+SAY You sligthly turn to your left so you can see her without being noted. She
+SAY notes you anyways. She has dark brown hair and it seems like she drank the
+SAY bar's whole stock of beer, yet she's not as drunk as you would expect her to
+SAY be.
+END
+
+@LEAVE
+SAY You'd rather not to.
+END
+
+[TIMER]
+&sushi
+SITEM Sushi
+SAY The waiter serves you your sushi.
+END
+
+&rice
+SITEM Rice
+SAY The waiter serves you your rice.
+END

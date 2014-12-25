@@ -1,0 +1,22 @@
+[VISTAI ROOM]
+The Office
+&DESC
+You look inside your drawer.
+%I MATCHES
+Inside you find matches.
+%H
+[ACTION]
+@CLOSE DRAWER
+GOTO Office00
+END
+@CLOSE DRAWER 4
+GOTO Office00
+END
+@GET MATCHES
+SAY Momma always said "Don't play with matches!"
+WAIT
+WAIT
+SAY I'll show her!
+CHKITEM 1 MATCHES
+SAY You already have matches.
+END

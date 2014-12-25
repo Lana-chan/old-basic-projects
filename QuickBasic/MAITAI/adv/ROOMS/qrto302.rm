@@ -1,0 +1,72 @@
+[MAITAI ROOM]
+Quarto 302
+&DESC
+%I $QUADRO
+Você está no quarto 302.
+%N $QUADRO
+Você está no quarto 302, tem um quadro de Bosch em uma das paredes.
+%G MAPA
+%H
+
+[ACTION]
+@OLHAR O QUARTO
+@OLHAR QUARTO
+SAY É um belo quarto igual a todos os outros do hotel diferenciando que nesse o piso
+SAY é de granito e tem uma reprodução de "A Nau dos Insensatos" de Bosch em uma das
+SAY paredes. Nesse quarto as paredes são todas decoradas com um papel de parede bege
+SAY com estampa de flores xilografadas.
+ITEM $QUADRO
+
+
+END
+
+@OLHAR O MAPA
+@OLHAR O MAPA ANTIGO
+@OLHAR MAPA
+@OLHAR MAPA ANTIGO
+SAY Você confere no mapa antigo e vê que de acordo com o mapa antigo era no quarto
+SAY 302 que ficava a passagem secreta.
+END
+
+@PROCURAR PASSAGEM
+@PROCURAR PASSAGEM SECRETA
+SAY Seria muito fácil assim não acha?
+END
+
+@OLHAR PASSAGEM
+@OLHAR PASSAGEM SECRETA
+SAY Eu o faria, se soubesse onde fica a passagem secreta.
+END
+
+@INVESTIGAR
+@INVESTIGAR QUARTO
+@INVESTIGAR O QUARTO
+SAY Andando um pouco pelo quarto você percebe que ele tem um aspecto mais conservado
+SAY que os outros do hotel, de forma que parece ter sido reformado mais
+SAY recentemente. Provavelmente a passagem secreta ainda está por aqui em algum
+SAY lugar.
+END
+
+@MOVER PINTURA
+@MOVER A PINTURA
+SAY Você move e remove a pintura do lugar para ver se há algo atrás dela mas não há.
+END
+
+@OLHAR O PAPEL DE PAREDE
+@OLHAR PAPEL DE PAREDE
+SAY Você procura por irregularidades no papel de parede mas não encontra. Foi muito
+SAY bem colocado na parede e só existem remendos nas quinas das paredes.
+END
+
+@CORTAR O PAPEL DE PAREDE
+@CORTAR PAPEL DE PAREDE
+SAY Não tenho nada para cortar o papel de parede.
+END
+
+@TESTE
+SAY " + points
+END
+
+@SAIR DO QUARTO
+GOTO corredor
+END

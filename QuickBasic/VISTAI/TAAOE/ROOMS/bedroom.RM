@@ -1,0 +1,120 @@
+[VISTAI ROOM]
+Bedroom
+&DESC
+You are in your bedroom. There is a computer and a bed here.
+%I DISK
+You see a disk here.
+To the north is the living room.
+%I DISK
+%D bedroom2
+%N DISK
+%D bedroom
+%H
+
+[ACTION]
+@TALK
+CHKITEM 0 $TALK1
+SITEM $TALK1
+
+CHKITEM 1 $TALK4
+SAY I'll rape you to death.
+CHKITEM 1 $TALK4
+RMITEM $TALK1
+CHKITEM 1 $TALK4
+RMITEM $TALK2
+CHKITEM 1 $TALK4
+RMITEM $TALK3
+CHKITEM 1 $TALK4
+RMITEM $TALK4
+
+CHKITEM 1 $TALK3
+SAY Yeah, shut up.
+CHKITEM 1 $TALK3
+SITEM $TALK4
+CHKITEM 1 $TALK3
+END
+
+CHKITEM 1 $TALK2
+SAY Sunny here, ain't it?
+CHKITEM 1 $TALK2
+SITEM $TALK3
+CHKITEM 1 $TALK2
+END
+
+CHKITEM 1 $TALK1
+SAY Hello, mate.
+CHKITEM 1 $TALK1
+SITEM $TALK2
+END
+
+@GET DISK
+CHKITEM 0 $PCON
+SCORE 1
+ITEM DISK
+You got mail! I mean disk.
+You already have that.
+CHKITEM 1 DISK
+LOADDRAW bedroom
+END
+	
+@USE DISK
+SAY With?
+END
+
+@USE DISK WITH COMPUTER
+CHKITEM 0 DISK
+SAY You don't have the disk.
+CHKITEM 1 DISK
+SAY You use the disk. The computer will boot in 2 steps.
+CHKITEM 1 DISK
+TIMER 02 boot
+CHKITEM 1 DISK
+LOADDRAW bedroom3
+CHKITEM 1 DISK
+RMITEM DISK
+END
+
+@SLEEP
+SAY You're not tired.
+END
+
+@TURN COMPUTER ON
+@TURN ON COMPUTER
+@TURN THE COMPUTER ON
+@TURN ON THE COMPUTER
+CHKITEM 0 DISK
+SAY It doesn't boot.
+CHKITEM 1 DISK
+SAY You turn on the computer, it'll boot in 2 steps.
+CHKITEM 1 DISK
+TIMER 2 boot
+END
+
+@TURN COMPUTER OFF
+@TURN OFF COMPUTER
+@TURN THE COMPUTER OFF
+@TURN OFF THE COMPUTER
+CHKITEM 0 $PCON
+SAY It's not on.
+CHKITEM 1 $PCON
+LOADDRAW bedroom
+CHKITEM 1 $PCON
+SAY You turn the computer off and get back the disk.
+CHKITEM 1 $PCON
+SITEM DISK
+CHKITEM 1 $PCON
+RMITEM $PCON
+END
+
+@NORTH
+@GO NORTH
+@N
+GOTO LIVING
+END
+
+[TIMER]
+&boot
+SAY The computer is on.
+LOADDRAW bedroom4
+SITEM $PCON
+END

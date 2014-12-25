@@ -1,0 +1,10 @@
+@TALK
+CHKITEM 1 $PEOPLE
+SAY To?
+CHKITEM 0 $PEOPLE
+SAY There is noone to talk to here.
+END
+
+@WAIT
+SAY Time passes...
+END

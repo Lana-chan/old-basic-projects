@@ -1,0 +1,37 @@
+[VISTAI ROOM]
+The Bus of IsAnAtY
+&DESC
+The Bus, just then, pulled up. The door opened, revealing it was a hydraulic one. Mark Monkey scampered on. He sat down. It wasn't that crowded, yet, but still. There is another man here.
+%H
+[ACTION]
+@EXAMINE SEATS
+SAY Leather on a cold day is not a good idea. Then again, it's not a good idea when it's hot. Why do people like leather!?
+END
+@TALK TO MAN
+CHKITEM 0 $TALK1
+CHKITEM 0 $TALK2
+CHKITEM 0 $TALK3
+SAY "So, where are you going?" asked Mark Monkey.
+SAY "Oh, yeah, to the zoo. You?"
+SAY "Same here."
+ITEM $TALK1
+END
+CHKITEM 1 $TALK1
+SAY "So, why are you going to the zoo?"
+SAY "Oh, yeah, I just like zoos.
+ITEM $TALK2
+RMITEM $TALK1
+END
+CHKITEM $TALK2
+SAY "Me, I'm here to solve a mystery. Detyective, you know."
+SAY "A mystery? Ooh, I love mystries!"
+SAY "Yeah, animals are dissapearing."
+ITEM $TALK3
+RMITEM $TALK2
+END
+CHKITEM $TALK3
+SAY Mark Monkey said to the man "Yeah, it's not going to be very fun there with most animals missing."
+SAY "Oh, well. I'm already on the bus!"
+SAY The man let out a chuckle.
+RMITEM $TALK3
+END

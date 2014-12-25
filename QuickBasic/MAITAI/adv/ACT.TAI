@@ -1,0 +1,9 @@
+@OLHAR O MAPA
+@OLHAR O MAPA ANTIGO
+@OLHAR MAPA
+@OLHAR MAPA ANTIGO
+CHKITEM 1 MAPA
+SAY Você confere no mapa antigo e vê que de acordo com o mapa antigo era no quarto
+CHKITEM 1 MAPA
+SAY 302 que ficava a passagem secreta.
+END

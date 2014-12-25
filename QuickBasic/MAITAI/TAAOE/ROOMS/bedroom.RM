@@ -1,0 +1,78 @@
+[MAITAI ROOM]
+Bedroom
+&DESC
+You are in your bedroom. There is a computer and a bed here.
+#%I DISK
+You see a disk here.
+To the north is the living room.
+%G $TALK1
+%H
+
+[ACTION]
+@GET DISK
+CHKITEM 0 DISK
+SCORE 1
+ITEM DISK
+You got mail! I mean disk.
+You already have that.
+END
+	
+@USE DISK
+SAY With?
+END
+
+@USE DISK WITH COMPUTER
+CHKITEM 0 DISK
+SAY You don't have the disk.
+CHKITEM 1 DISK
+SAY You use the disk. The computer will boot in 4 steps.
+CHKITEM 1 DISK
+TIMER 04 boot
+END
+
+@SLEEP
+SAY You're not tired.
+END
+
+@TURN COMPUTER ON
+@TURN ON COMPUTER
+@TURN THE COMPUTER ON
+@TURN ON THE COMPUTER
+SAY It doesn't boot.
+END
+
+@NORTH
+@GO NORTH
+@N
+GOTO LIVING
+END
+
+@TALK TO MAN
+CHKITEM 1 $TALK3
+SAY You fucking fail.
+CHKITEM 1 $TALK3
+SITEM $TALK1
+CHKITEM 1 $TALK3
+RMITEM $TALK3
+CHKITEM 1 $TALK2
+SAY Eat shit and die.
+CHKITEM 1 $TALK2
+SITEM $TALK3
+CHKITEM 1 $TALK2
+RMITEM $TALK2
+CHKITEM 1 $TALK1
+SAY I hate you.
+CHKITEM 1 $TALK1
+SITEM $TALK2
+CHKITEM 1 $TALK1
+RMITEM $TALK1
+END
+
+[TIMER]
+&boot
+SAY The computer is on.
+END
+
+&lol
+SAY lol
+END

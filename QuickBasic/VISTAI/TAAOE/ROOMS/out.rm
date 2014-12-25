@@ -1,0 +1,17 @@
+[VISTAI ROOM]
+Outside
+&DESC
+You are outside. You breathe some of this 'fresh air' everyone's been babbling
+about for so long. It's actually filled with toxic elements from the automated
+machines that humans seem to refer to as 'cars'. You think about starting a
+'stop pollution' manifestation but ultimately decide to carry on with your own
+life.
+To the south there is your home.
+%H
+
+[ACTION]
+
+@SOUTH
+@GO SOUTH
+@S
+GOTO LIVING

@@ -1,0 +1,66 @@
+[VISTAI ROOM]
+The Bus Stop
+&DESC
+Mark M. Monkey, relegated to the bus stop. Unbeleivable. Well, maybe not so much. A newspaper box sits here. There's a bench under the rain shelter. However, it was scattered showers, so you're in the clear.
+%I STRING
+A rather large amount of string lies under the bench.
+%T 7 BUS
+%H
+
+[ACTION]
+@PUSH NEWSPAPER BOX
+SAY No. It worked before, but no.
+END
+
+@GET NEWSPAPER
+CHKITEM 0 COIN
+SAY Mark Monkey doesn't have no coin.
+CHKITEM 1 TRICK COIN
+SAY Mark Monkey inserts his trick coin into the slot, and a newpaper pops out.
+ITEM NEWSPAPER
+CHKITEM 1 COIN
+SAY What a waste of a coin!
+CHKITEM 1 COIN
+RMITEM COIN
+END
+
+@GET STRING
+SITEM STRING
+ITEM GUNK
+You reach way way under the bench and get a handfull of string and gunk. You take the gunk for good measure.
+You already have that.
+END
+
+@EXAMINE BENCH
+SAY Bland and brown.
+CHKITEM 0 COIN
+CHKITEM 0 TRICK COIN
+SAY But it has a RLL RLL shiney coin!
+END
+
+@GET COIN
+ITEM COIN
+You get the coin.
+No more coins.
+CHKITEM 1 TRICK COIN
+SAY Sorry, you shot your only one.
+END
+
+@SHOOT COIN
+SAY As a bad coin, it gives way easily. You now have a coin with a giant hoel in it. And also, you somehow keep the old coin through time or lack of programming skill.
+SITEM COIN WITH A HOLE
+RMITEM COIN
+END
+
+@RUN STRING THROUGH COIN
+CHKITEM 1 COIN WITH A HOLE
+SAY Aha! A retreivable trick coin!
+SITEM TRICK COIN 
+RMITEM COIN WITH A HOLE
+END
+
+[TIMER]
+&BUS
+SAY The Bus has arrived!
+GOTO BUS00000
+END
