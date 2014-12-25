@@ -1,0 +1,66 @@
+[MAITAI ROOM]
+Dining
+&DESC
+You are in the Dining Room.
+You spot a table.
+%I $MARSHMaLLOW
+On the table you see a marshmallow.
+You also see a note on the table.
+To the south is your bedroom.
+To the east is the kitchen.
+%H
+
+[ACTION]
+@USE MARSHMALLOW
+SAY What do you do with it?
+END
+
+@EAT MARSHMALLOW
+CHKITEM 0 $MARSHMALLOW
+SCORE 1
+ITEM $MARSHMALLOW
+You eat the marshmallow. It makes you feel good.
+You already ate your marshmallow.
+END
+
+@TOSS MARSHMALLOW
+@THROW MARSHMALLOW
+@CHUCK MARSHMALLOW
+CHKITEM 0 $MARSHMALLOW
+SCORE 2
+ITEM $MARSHMALLOW
+Your marshmallow goes flying. Bonus points for finding secret action!
+You already tossed/threw/chucked your marshmallow.
+END
+
+@USE NOTE
+SAY With what?
+END
+
+@READ NOTE
+SCORE 2
+ITEM $NOTE
+SAY The note says: Hi Homestar. This is Marzipan. I'm worried that you can't read and preform simple directions. So if you can read this note please staple it and give it to me.
+END
+
+@USE STAPLER WITH NOTE
+@USE NOTE WITH STAPLER
+@STAPLE NOTE
+CHKITEM 1 $NOTE
+SCORE 3
+ITEM STAPLED NOTE
+You follow Marzipan's instructions and staple the note. Now you just have to find Marzipan...
+You already stapled the note.
+CHKITEM 0 $NOTE
+Why should you?
+END
+
+@SOUTH
+@S
+@GO SOUTH
+GOTO BEDROOM
+
+@EAST
+@E
+@GO EAST
+GOTO KITCHEN

@@ -1,0 +1,164 @@
+'Treasure Hunt 2 ----- Copyright 2009-2010 Electrokinesis Studios
+'Rewritten code 20/06/2010 by Syniphas and Treeki
+#include "fbgfx.bi"
+'Types--------------------------------------------------------------------------
+Type Tile
+    raw(16,16,3) as ubyte
+    imageL as any ptr
+    imageR as any ptr
+    Declare Function Load(filename as string, off as integer) as integer
+End Type
+
+Type Enemy
+    Exists as Integer
+    X as Integer
+    Y as Integer
+    XSpeed as Integer
+    YSpeed as Integer
+    D as Integer
+    State as Integer
+    Declare Function Create(x as Integer, y as Integer, typ as integer) as integer
+    Declare Sub Destroy()
+    Declare Sub Execute()
+    Declare Sub Draw()
+End Type
+
+Type Map
+    tilemap(20,15) as ubyte
+    collision(20,15) as ubyte
+    screens(20,20) as ubyte
+    Declare Function Load(filename as string) as integer
+    Declare Sub Draw(x as integer, y as integer)
+End Type
+'Global Dims--------------------------------------------------------------------
+Dim shared as double aspW, aspH
+Dim shared as integer n
+Dim shared as Tile bgTile(11)
+Dim shared as Tile snakeTile(3)
+'Subs---------------------------------------------------------------------------
+Function Tile.Load(filename as string, off as integer) as integer
+    dim as integer x, y, z
+    z = off*768
+    open filename for binary access read as #1
+        if eof(1) then return -1
+        for y = 0 to 15:for x = 0 to 15:z+=1:get #1,z,This.raw(x,y,0):next x:next y
+        for y = 0 to 15:for x = 0 to 15:z+=1:get #1,z,This.raw(x,y,1):next x:next y
+        for y = 0 to 15:for x = 0 to 15:z+=1:get #1,z,This.raw(x,y,2):next x:next y
+    close #1
+    This.imageL = ImageCreate(16*aspW,16*aspH)
+    This.imageR = ImageCreate(16*aspW,16*aspH)
+    for y = 0 TO 15:for x = 0 to 15
+        line This.imageR,(x*aspW,y*aspH)-(x*aspW+aspW-1,y*aspH+aspH-1),rgb(This.raw(x,y,0),This.raw(x,y,1),This.raw(x,y,2)),BF
+    next x:next y
+    for y = 0 TO 15:for x = 0 to 15
+        line This.imageL,(x*aspW,y*aspH)-(x*aspW+aspW-1,y*aspH+aspH-1),rgb(This.raw((x-15)*-1,y,0),This.raw((x-15)*-1,y,1),This.raw((x-15)*-1,y,2)),BF
+    next x:next y
+    return 0
+End Function
+
+Function Enemy.Create(x as Integer, y as Integer, typ as integer) as integer
+    if typ < 1 then return -1
+    This.Exists = typ
+    This.X = x
+    This.Y = y
+    This.XSpeed = 0
+    This.YSpeed = 0
+End Function
+
+Sub Enemy.Destroy()
+    This.Exists = 0
+End Sub
+
+Sub Enemy.Execute()
+    
+End Sub
+
+Sub Enemy.Draw()
+    select case This.D
+    case 0:put (This.X*aspW,This.Y*aspH),snakeTile(This.State).imageL,trans
+    case 1:put (This.X*aspW,This.Y*aspH),snakeTile(This.State).imageR,trans
+    end select
+End Sub
+
+Function Map.Load(filename as string) as integer
+    dim as integer x, y, z
+    open filename for binary access read as #1
+        if eof(1) then return -1
+        for y = 0 to 14:for x = 0 to 19:z+=1:get #1,z,This.tilemap(x,y):next x:next y
+        for y = 0 to 14:for x = 0 to 19:z+=1:get #1,z,This.collision(x,y):next x:next y
+    close #1
+    return 0
+End Function
+
+Sub Map.Draw(x as integer, y as integer)
+    select case This.tilemap(x,y)
+    case 1 to 8:put (x*16*aspW,y*16*aspH),bgTile(This.tilemap(x,y)-1).imageR,pset
+    case 9:put (x*16*aspW,y*16*aspH),bgTile(9).imageR,pset
+    case 10:put (x*16*aspW,y*16*aspH),bgTile(8).imageR,pset
+    end select
+    select case This.collision(x,y)
+    case 6:put (x*16*aspW,y*16*aspH),bgTile(10).imageR,trans
+    case 7:put (x*16*aspW,y*16*aspH),bgTile(11).imageR,trans
+    end select
+End Sub
+
+'Init---------------------------------------------------------------------------
+Dim as Tile charTile(6)
+Redim as Enemy snake(0)
+Dim as Map level
+Dim As Integer idx,idy, idz
+screenres 640,480,32
+aspH = 640/320
+aspW = 480/240
+
+#define TargetFPS 60
+Dim As Integer cycles,fps,seconds,tFPS = TargetFPS
+Dim As Double t, tstep, ct, lastStep, myStep = 1/TargetFPS, diff
+Dim As String sTime = Time
+
+for n = 0 to 11:bgTile(n).Load(".\data\gfx\tiles.abn",n):next
+for n = 0 to 5:charTile(n).Load(".\data\gfx\char.abn",n):next
+for n = 0 to 2:snakeTile(n).Load(".\data\gfx\snake.abn",n):next
+level.Load(".\data\map2.abm")
+for idy = 0 to 14:for idx = 0 to 19
+    idz = ubound(snake)
+    select case Level.collision(idx,idy)
+        case 4:Redim preserve snake(idz+1) as Enemy
+            snake(idz).Exists=1
+            snake(idz).X=idx*16:snake(idz).Y=idy*16
+            snake(idz).D=0:snake(idz).State=1
+    end select
+next:next
+'Main---------------------------------------------------------------------------
+Do
+    lastStep = tstep 'FPS code
+    tstep = ct - t
+    t = ct
+    diff = ( lastStep - tStep )
+    If sTime <> Time Then
+        sTime = Time
+        fps = cycles
+        cycles = 0
+    End If
+    cycles += 1
+    If tFPS < 5 Then tFPS = 5: myStep = 1/tFPS
+    
+    '----Execute----
+    For idx = 0 To ubound(snake)-1
+        If snake(idx).Exists = 1 Then snake(idx).Execute()
+    Next idx
+    
+    '----Draw----
+    For idy=0 to 15:for idx=0 to 20
+        level.Draw(idx,idy)
+    next:next
+    For idx = 0 To ubound(snake)-1
+        If snake(idx).Exists = 1 Then snake(idx).Draw()
+    Next idx
+    
+    While Timer < t + ( myStep )
+        Sleep 0,1
+    Wend
+    ct = Timer
+    windowtitle fps & "/" & tfps
+Loop

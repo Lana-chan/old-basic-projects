@@ -1,0 +1,37 @@
+legend for map BMPs: after making them, use MAKEMAP to convert to ABM and put in the game
+usage: MAKEMAP (input) (output)
+example: MAKEMAP map1.bmp map1.abm
+
+--UPPER PART
+-RED VALUES
+01 - 250 - grass ground
+02 - 230 - ground
+03 - 210 - ladder
+04 - 190 - ground with shaded bottom
+05 - 170 - shaded ground (walkable)
+06 - 150 - background
+07 - 130 - background with torch
+08 - 110 - grass ground with shaded bottom
+09 - 090 - lava
+10 - 070 - rocks
+
+--BOTTOM PART
+-RED VALUES
+01 - 250 - solid
+02 - 230 - ladder
+05 - 210 - lava (kills upon touch)
+-GREEN VALUES (spawnpoints)
+03 - 250 - herman
+04 - 230 - snake
+06 - 210 - pizza
+07 - 190 - coin
+
+the gmap: tells what map goes where in the game, takes up to 255 maps (you can re-use maps)
+basically, you have maps 1, 2 and 3. 1 exits to the right to 2 that exits bottom to 3
+should be something like this:
+
+001,002
+000,003
+
+the zeroes are just for positioning, they contain no map (and making an exit to a zero may crash the game)
+maps can exit to more than one other map, or to none at all, feel free to make complex mazes with this (think pitfall II)

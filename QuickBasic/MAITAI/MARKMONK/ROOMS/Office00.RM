@@ -1,0 +1,65 @@
+[MAITAI ROOM]
+The Office
+&DESC
+You are sitting at your desk.  Your desk has four drawers. There is one exit, in the form of a door, to the north. A bookcase with one book missing is right next to the door. There are no windows, further enhancing your bottom-rung status. 
+
+There is a stapler on your desk.
+
+%H
+%I ILLUMINATION
+A lamp overhead illuminates the room.
+%I BOOK
+There is a book on your desk. The book is giving you a nasty look you don't like.
+%H
+[ACTION]
+@GET BOOK
+CHKITEM 1 BOOK
+ You have the book.
+CHKITEM 0 BOOK
+ITEM BOOK
+You get the book...
+CHKITEM 0 NASTY LOOK
+ITEM NASTY LOOK
+...and the nasty look too.
+END
+@GET LAMP
+SAY Isn't that a bit cumbersome to carry around? I don't even think it's within reach...
+END
+@GET NASTY LOOK
+ITEM NASTY LOOK
+CHKITEM 0 NASTY LOOK
+Taken. You never know when a nasty look might come in handy.
+SCORE 1
+CHKITEM 1 NASTY LOOK
+You already have the nasty look.
+END
+@GET STAPLER
+SAY Why? You're not going to need a stapler anyway. I know, I know, it goes against adventure game logic to NOT take something which isn't nailed  down, but I know this - you're not going to need it.
+END
+@GET ILLUMINATION
+CHKITEM 0 FOLDER
+No can go! You'll need a container of the right type for that!
+CHKITEM 1 FOLDER
+Quickly, you slam the illumination into the folder.
+SCORE 1
+END
+@OPEN DRAWER
+SAY There are 4 drawers. Which one? (Say "OPEN DRAWER X")
+END
+@OPEN DRAWER 1
+GOTO Drawer01
+END
+@OPEN DRAWER 2
+GOTO Drawer02
+END
+@OPEN DRAWER 3
+CHKITEM 1 KEY
+GOTO Drawer03
+CHKITEM 0 KEY
+SAY It's locked.
+END
+@OPEN DRAWER 4
+GOTO Drawer04
+END
+@NORTH
+GOTO Hallway0

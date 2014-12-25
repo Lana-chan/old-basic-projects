@@ -1,0 +1,36 @@
+[MAITAI ROOM]
+The Field
+&DESC
+You are in The Field. There is nothing of interest here. Or is there...?
+To the south is your kitchen room.
+To the east is The Stick.
+TO the north is The Stone Bridge.
+%H
+
+[ACTION]
+@PULL OUT GRASS
+@PULL OUT SOME GRASS
+@PULL OUT CHUNK OF GRASS
+@PULL OUT WAD OF GRASS
+SAY You try that. However, the whole field gets pulled out. With no ground to stand on, you fall down, forever... and ever... anv ever... and ever...
+LOSE
+END
+
+@EAT GRASS
+SAY You're not that insane.
+END
+
+@S
+@SOUTH
+@GO SOUTH
+GOTO DINING
+
+@E
+@EAST
+@GO EAST
+GOTO STICK
+
+@N
+@NORTH
+@GO NORTH
+GOTO BRIDGE

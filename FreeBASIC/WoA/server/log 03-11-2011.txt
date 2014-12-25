@@ -1,0 +1,10 @@
+
+Session start 02:28:08
+someone joined: 0
+joined: Syniphas 255 0 0
+someone joined: 1
+joined: Amazer 25 25 125
+Receive: disconnect 3902152
+someone joined: 1
+joined: Amazer 25 25 125
+Receive: disconnect 3902008

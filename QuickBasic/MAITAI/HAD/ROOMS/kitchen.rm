@@ -1,0 +1,88 @@
+[MAITAI ROOM]
+Kitchen
+&DESC
+You are in the kitchen. You see your fridge, an open cardboard box, and you see a bottle filled with mysterious contents.
+To the west is the dining room, and to the north is The Field.
+%H
+
+[ACTION]
+
+@USE BOX
+SAY How do you use a box?
+END
+
+@OPEN BOX
+CHKITEM 0 $BOX
+ITEM $BOX
+SAY You open the box. It's empty.
+The box is already open.
+END
+
+@USE BOTTLE
+SAY How do you use a bottle?
+END
+
+@MOVE BOX
+SAY You move the box.
+END
+
+@OPEN BOTTLE
+TIMER 01 light
+TIMER 02 fog
+TIMER 03 heavy
+TIMER 04 green
+TIMER 05 death
+END
+
+@DRINK BOTTLE
+CHKITEM 1 $BOTTLE
+You drink the bottle. You suddenly stop breathing, and fall to the ground.
+LOSE
+CHKITEM 0 $BOTTLE
+You can't, it's screwed on tight.
+END
+
+@BREAK OPEN BOTTLE
+@HIT BOTTLE AGAINST COUNTER
+@HIT BOTTLE AGAINST THE COUNTER
+@HIT BOTTLE
+@HIT THE BOTTLE
+SAY The bottle breaks, and the glass punctures your skin. Everything starts spinning, and that's all you remember before you black out...
+LOSE
+END
+
+@OPEN FRIDGE
+SAY You can't open it, it's glued shut. Maybe it was a bad idea to fill the fridge with glue...
+END
+
+@USE FRIDGE
+SAY How do you use a fridge?
+END
+
+@N
+@NORTH
+@GO NORTH
+GOTO FIELD
+
+@W
+@WEST
+@GO WEST
+GOTO DINING
+
+[TIMER]
+&light
+SAY A light mist comes in
+END
+&fog
+SAY A light fog comes in
+END
+&heavy
+SAY The fog grows heavier
+END
+&green
+SAY The fog becomes green, and smells poisonous
+END
+&death
+SAY The fog is now really green, and really thick. You can't breath, and you black out.
+LOSE
+END

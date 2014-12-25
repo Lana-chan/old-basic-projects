@@ -1,0 +1,90 @@
+
+Session start 13:49:47
+
+Session start 13:50:52
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: adiosToreador 180 0 0
+someone joined: 2
+joined: twat 0 130 130
+someone joined: 3
+
+Session start 13:58:31
+someone joined: 0
+joined: adiosToreaDUDE 180 80 0
+someone joined: 1
+joined: Pickle Inspector 26 49 216
+someone joined: 2
+joined: Syniphas 255 121 0
+Receive: disconnect 6195784
+Receive: disconnect 6195640
+someone joined: 1
+joined: magmaExploiter 200 0 0
+someone joined: 2
+joined: adiosToreador 180 80 0
+someone joined: 3
+joined: syntest 50 50 50
+Receive: disconnect 6195640
+someone joined: 3
+joined: magmaExploiter 200 0 0
+Receive: disconnect 6223288
+Receive: disconnect 6195640
+someone joined: 2
+joined: magmaExploiter 200 0 0
+Receive: disconnect 6195640
+someone joined: 2
+joined: Dasty 0 150 255
+Receive: disconnect 6195712
+Receive: disconnect 6195640
+
+Session start 19:15:16
+someone joined: 0
+joined: magmaExploiter 200 0 0
+someone joined: 1
+
+Session start 19:22:50
+someone joined: 0
+joined: adiosToreador 180 80 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+someone joined: 2
+joined: electricMetalligator 0 80 255
+someone joined: 3
+joined: Karkat 60 60 60
+Receive: disconnect 25238368
+someone joined: 3
+
+Session start 19:32:28
+someone joined: 0
+joined: adiosToreador 180 80 0
+
+Session start 19:34:23
+someone joined: 0
+joined: Dasty 0 150 255
+someone joined: 1
+joined: Syniphas 255 121 0
+someone joined: 2
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE 50 50 50
+Receive: disconnect 5802800
+someone joined: 2
+joined: Karkat 60 60 60
+someone joined: 3
+joined: adiosToreador 180 80 0
+someone joined: 4
+joined: magmaExploiter 200 0 0
+Receive: disconnect 5802800
+Receive: disconnect 24265984
+someone joined: 3
+joined: magmaExploiter 200 0 0
+Receive: disconnect 24265984
+
+Session start 19:50:14
+someone joined: 0
+joined: magmaExploiter 200 0 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+Receive: disconnect 3770832
+someone joined: 1
+joined: magmaExploiter 200 0 0
+Receive: disconnect 3770976

@@ -1,0 +1,28 @@
+[MAITAI ROOM]
+The Stick
+&DESC
+You are at The Stick. You remember when you sang bread sing-alongs...
+To the west is The Field.
+%H
+
+[ACTION]
+
+@BREAK THE STICK
+SAY You do that, and the police show up, and execute you for destroying a historical landmark.
+LOSE
+END
+
+@EAT THE STICK
+SAY You're not that mentally deranged.
+
+@SING
+@SING SING ALONGS
+@SING SINGALONGS
+@SING BREAD SINGALONGS
+@SING BREAD SING ALONGS
+CHKITEM 0 $SINGALONG
+SCORE 4
+ITEM $SINGALONG
+You start singing."And bread is a good time for me, woo-oo-doot-doo, singing, bread is a good time for everybody!" You also hear some thuding.
+CHKITEM 1 $SINGALONG
+You start singing."I cut the crusts off in the morning light..." Suddenly, Marzipan comes out. "Oh, Homestar, I loved your song!"

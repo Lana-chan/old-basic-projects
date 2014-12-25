@@ -1,0 +1,10 @@
+[MAITAI ROOM]
+ 
+&DESC
+ 
+%H
+
+[ACTION]
+@STOP BEING DEAF
+GOTO notdeaf
+END

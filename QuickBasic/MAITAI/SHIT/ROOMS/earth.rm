@@ -1,0 +1,24 @@
+[MAITAI ROOM]
+Earth
+&DESC
+You jump in the hole and land on Earth. Weird huh? But you actually land on an
+hydrant to be more precise. Crotch-first to be even more specific. You'll never
+have children again.
+Besides that it's pretty up here. No more fire. You feel rejuvenated and less
+burnt.
+You see people in the distance to the north.
+To the west there is a city.
+%H
+
+[ACTION]
+@WEST
+@W
+@GO WEST
+GOTO city
+END
+
+@NORTH
+@N
+@GO NORTH
+GOTO people
+END

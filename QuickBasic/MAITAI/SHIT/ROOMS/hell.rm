@@ -1,0 +1,42 @@
+[MAITAI ROOM]
+Hell
+&DESC
+You are in hell. There are two exits here. To the north is a hole and to the
+west there is a pit of no return.
+There is a small demon here and he's looking at you with a "DIE" expression.
+%H
+
+[ACTION]
+@GET DEMON
+@PICK UP DEMON
+@GET SMALL DEMON
+@PICK UP SMALL DEMON
+SAY You try to get the demon.
+SAY He fucking swallows your innards and blood goes everywhere. You're fucking dead.
+SAY You see red as he slowly bites your dick off. This is the end.
+SAY FUUUUUUUUUUUUUUUCK!
+LOSE
+END
+
+@JUMP IN HOLE
+@JUMP IN THE HOLE
+@NORTH
+@N
+@GO NORTH
+GOTO earth
+END
+
+@JUMP IN PIT
+@JUMP IN THE PIT
+@JUMP IN PIT OF NO RETURN
+@JUMP IN THE PIT OF NO RETURN
+@WEST
+@W
+@GO WEST
+SAY You jump in the pit of no return. It's actually endless so you're going to die
+SAY of starvation.
+SAY As days pass you remember your whole life. You remember about your family and
+SAY how they laughed at you at your funeral. You were a fucking disgrace for your
+SAY planet.
+LOSE
+END

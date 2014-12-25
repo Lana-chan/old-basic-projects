@@ -1,0 +1,11 @@
+@DO STUFF
+SAY You do stuff.
+END
+
+@USE STAPLER
+SAY With what?
+END
+
+@WAIT
+SAY You wait... time passes...
+END

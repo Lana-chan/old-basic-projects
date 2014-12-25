@@ -1,0 +1,46 @@
+[MAITAI ROOM]
+Bedroom
+&DESC
+You are in your bedroom.
+%I $COWLAMP
+You see a cow lamp here.
+You also see your several self-portraits.
+To the north is the dining room.
+%H
+
+[ACTION]
+
+@GET SELF-PORTRAITS
+@GET PORTRAITS
+SAY You can't reach them.
+END
+
+@OPEN DRESSER
+CHKITEM 0 STAPLER
+SCORE 1
+ITEM STAPLER
+You open the drawer. You find your dad's stash of M-rated games! I mean, your stapler.
+You open the drawer. It's empty.
+END
+
+@USE STAPLER
+SAY With what?
+END
+
+@BREAK COW LAMP
+@BREAK LAMP
+CHKITEM 0 $COWLAMP
+SCORE 1
+ITEM $COWLAMP
+You break your Cow Lamp. It feels good.
+You already broke your Cow Lamp.
+END
+
+@N
+GOTO DINING
+
+@NORTH
+GOTO DINING
+
+@GO NORTH
+GOTO DINING

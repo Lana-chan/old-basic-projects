@@ -1,0 +1,55 @@
+[Hallway]
+Hallway
+&DESC
+You walk in to the hallway. Decrepit as ever. A water cooler sits here, recently put back in working order by a janitor. Type GET WATER to get water.
+
+The only way out of here that matters is out, and that's to the west
+
+%H
+[ACTION]
+%GET WATER
+CHKITEM 0 CUP
+SAY You put your pouty lip under the blue nozzle, and drink water right out of the watercooler. Cold. Your tetth are chatttering.
+CHKITEM 1 CUP
+SAY You put the cup under the blue nozzle, and press it down. Water pours into your cup.
+CHKITEM 0 KEY
+SAY Suddently, being carried on a bubble, is a key! KEYs AER USEFUL
+ITEM FULL CUP
+RMITEM CUP
+CHKITEM 1 KEY
+SAY Then bubbles float up. The most entertaining part of taking a drink. Sometimes you waste water just to see it happen.
+END
+@EXAMINE WATERCOOLER
+SAY It's a very nice watercooler. Rough plastic, midget-accessable, paper cup despencer...
+END
+@GET CUP
+CHKITEM 0 FULL CUP
+ITEM CUP
+PUSH THE BUTTON, MAX!
+You already have a cup.
+#chwoka, please read the fucking manual, you don't use SAYs after an ITEM.
+CHKITEM 1 FULL CUP
+SAY You already have a cup.
+END
+#hm, you can get a cup while having a full cup. is that intentional? if not, de-comment "CHKITEM 0 FULL CUP" and the other ones.
+@SHOOT WATERCOOLER
+SAY It leaks and leaks and leaks and leaks, then stops because you shot too high.
+END
+@PUSH WATERCOOLER
+SAY Look at that watercooler. Mocking you with its...watercooler. How dare he! With the might of a thousand men, you shove the water cooler over, plastic an water flooding the hallway.
+SAY ***You have won***
+SCORE 100
+SAY You scored 10x out of 102 possible points, ranking you as a super-key-getter-person-monkey-thing.
+ITEM KEY
+END
+@EAST
+SAY Don't be a butt.
+END
+@NORTH
+SAY Don't be a butt.
+END
+@SOUTH
+GOTO Office00
+END
+@WEST
+GOTO Car00000

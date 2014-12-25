@@ -1,0 +1,1236 @@
+line: 771 155 771 157
+line: 771 157 771 161
+line: 771 161 771 170
+line: 771 170 771 180
+line: 771 180 771 191
+line: 771 191 771 199
+line: 771 199 771 206
+line: 771 206 771 211
+line: 771 211 771 213
+Receive: disconnect 4164048
+
+Session start 12:33:06
+someone joined: 0
+joined: syn 255 212 2
+line: 399 275 399 272
+line: 399 272 395 265
+line: 395 265 387 251
+line: 387 251 374 235
+line: 374 235 352 221
+line: 352 221 328 209
+line: 328 209 303 202
+line: 303 202 277 197
+line: 277 197 245 195
+line: 245 195 229 195
+line: 229 195 217 198
+line: 217 198 209 203
+line: 209 203 203 208
+line: 203 208 198 214
+line: 198 214 194 221
+line: 194 221 186 238
+line: 186 238 184 252
+line: 184 252 184 262
+line: 184 262 187 273
+line: 187 273 194 284
+line: 194 284 203 293
+line: 203 293 218 307
+line: 218 307 261 339
+line: 261 339 275 343
+line: 275 343 307 345
+line: 307 345 323 345
+line: 323 345 344 345
+line: 344 345 352 345
+line: 352 345 366 345
+line: 366 345 375 345
+line: 375 345 393 345
+line: 393 345 397 345
+line: 397 345 430 345
+line: 430 345 450 345
+line: 450 345 459 345
+line: 459 345 472 341
+line: 472 341 485 334
+line: 485 334 502 320
+line: 502 320 517 309
+line: 517 309 520 307
+line: 520 307 527 304
+line: 527 304 534 304
+line: 534 304 548 319
+line: 548 319 558 338
+line: 558 338 571 373
+line: 571 373 578 394
+line: 578 394 581 410
+line: 581 410 583 420
+line: 583 420 583 424
+line: 583 424 583 427
+line: 583 427 579 429
+line: 579 429 576 431
+line: 576 431 558 435
+line: 558 435 543 436
+line: 543 436 398 427
+line: 398 427 379 415
+line: 379 415 371 403
+line: 371 403 369 379
+line: 369 379 387 347
+line: 387 347 410 323
+line: 410 323 445 290
+line: 445 290 463 273
+line: 463 273 477 261
+line: 477 261 487 253
+line: 487 253 495 245
+line: 495 245 506 241
+line: 506 241 518 236
+line: 518 236 525 234
+line: 525 234 537 230
+line: 537 230 562 220
+line: 562 220 564 218
+
+Session start 12:35:52
+someone joined: 0
+joined: syn 200 21 213
+0
+line: 481 165 477 165
+0
+line: 477 165 474 165
+0
+line: 474 165 466 165
+0
+line: 466 165 459 165
+0
+line: 459 165 456 165
+0
+line: 456 165 450 165
+0
+line: 450 165 446 165
+0
+line: 446 165 443 165
+0
+line: 443 165 439 165
+0
+line: 439 165 436 165
+0
+line: 436 165 431 167
+0
+line: 431 167 427 170
+0
+line: 427 170 423 173
+0
+line: 423 173 419 176
+0
+line: 419 176 415 180
+0
+line: 415 180 411 184
+0
+line: 411 184 407 188
+0
+line: 407 188 404 193
+0
+line: 404 193 402 197
+0
+line: 402 197 401 203
+0
+line: 401 203 400 208
+0
+line: 400 208 399 213
+0
+line: 399 213 398 218
+0
+line: 398 218 398 219
+0
+line: 398 219 398 222
+0
+line: 554 224 554 225
+0
+line: 554 225 553 228
+0
+line: 553 228 551 235
+0
+line: 551 235 547 245
+0
+line: 547 245 544 251
+0
+line: 544 251 540 262
+0
+line: 540 262 536 269
+0
+line: 536 269 532 274
+0
+line: 532 274 528 277
+0
+line: 528 277 524 281
+0
+line: 524 281 520 284
+0
+line: 520 284 515 287
+0
+line: 515 287 511 290
+0
+line: 511 290 506 292
+0
+line: 506 292 499 293
+0
+line: 499 293 492 294
+0
+line: 492 294 484 295
+0
+line: 484 295 475 295
+0
+line: 475 295 466 295
+0
+line: 466 295 459 294
+0
+line: 459 294 451 290
+0
+line: 451 290 440 286
+0
+line: 440 286 426 281
+0
+line: 426 281 413 276
+0
+line: 413 276 403 271
+0
+line: 403 271 396 268
+0
+line: 396 268 391 266
+0
+line: 391 266 387 263
+0
+line: 387 263 384 260
+0
+line: 384 260 382 257
+0
+line: 382 257 381 253
+0
+line: 381 253 380 249
+0
+line: 380 249 380 244
+0
+line: 380 244 380 239
+0
+line: 380 239 381 235
+0
+line: 381 235 381 230
+0
+line: 381 230 383 225
+0
+line: 383 225 385 221
+0
+line: 385 221 388 215
+0
+line: 388 215 392 208
+0
+line: 392 208 399 201
+0
+line: 399 201 406 193
+0
+line: 406 193 413 187
+0
+line: 413 187 421 180
+0
+line: 421 180 428 174
+0
+line: 428 174 434 168
+0
+line: 434 168 440 163
+0
+line: 440 163 446 157
+0
+line: 446 157 453 151
+0
+line: 453 151 458 148
+0
+line: 458 148 465 143
+0
+line: 465 143 472 140
+0
+line: 472 140 478 138
+0
+line: 478 138 484 137
+0
+line: 484 137 491 137
+0
+line: 491 137 501 137
+0
+line: 501 137 512 137
+0
+line: 512 137 527 137
+0
+line: 527 137 553 137
+0
+line: 553 137 562 135
+0
+line: 562 135 582 133
+0
+line: 582 133 599 129
+0
+line: 599 129 612 125
+0
+line: 612 125 622 122
+
+Session start 12:37:49
+someone joined: 0
+joined: syn 67 14 13
+0
+line: 544 252 543 250
+12
+line: 543 250 539 249
+24
+line: 539 249 524 242
+36
+line: 524 242 500 234
+48
+line: 500 234 472 229
+60
+line: 472 229 450 225
+72
+line: 450 225 438 224
+84
+line: 438 224 431 224
+96
+line: 431 224 427 224
+108
+line: 427 224 422 225
+120
+line: 422 225 418 229
+132
+line: 418 229 413 232
+144
+line: 413 232 407 237
+156
+line: 407 237 405 239
+168
+line: 405 239 399 244
+180
+line: 399 244 394 249
+192
+line: 394 249 388 255
+204
+line: 388 255 383 261
+216
+line: 383 261 379 265
+228
+line: 379 265 376 271
+240
+line: 376 271 374 277
+252
+line: 374 277 373 286
+264
+line: 373 286 372 295
+276
+line: 372 295 374 319
+288
+line: 374 319 377 324
+300
+line: 377 324 381 327
+312
+line: 381 327 386 331
+324
+line: 386 331 394 333
+336
+line: 394 333 402 336
+348
+line: 402 336 413 337
+360
+line: 413 337 423 339
+372
+line: 423 339 431 339
+384
+line: 431 339 440 339
+396
+line: 440 339 442 339
+408
+line: 442 339 446 338
+420
+line: 446 338 450 337
+432
+line: 450 337 456 334
+444
+line: 456 334 461 332
+456
+line: 461 332 467 330
+468
+line: 467 330 470 327
+480
+line: 470 327 474 322
+492
+line: 474 322 475 319
+504
+line: 475 319 480 305
+516
+line: 480 305 481 295
+528
+line: 481 295 481 287
+540
+line: 481 287 481 279
+552
+line: 481 279 481 273
+564
+line: 481 273 478 267
+576
+line: 478 267 469 261
+588
+line: 469 261 463 260
+600
+line: 463 260 453 260
+612
+line: 453 260 447 260
+624
+line: 447 260 443 260
+636
+line: 443 260 436 260
+648
+line: 436 260 434 260
+660
+line: 434 260 430 260
+672
+line: 430 260 426 260
+684
+line: 426 260 420 260
+696
+line: 420 260 417 260
+708
+line: 417 260 413 260
+720
+line: 413 260 409 262
+732
+line: 409 262 407 263
+744
+line: 407 263 405 263
+756
+line: 405 263 402 264
+768
+line: 402 264 401 265
+780
+line: 401 265 400 267
+792
+line: 400 267 398 268
+804
+line: 398 268 397 269
+816
+line: 397 269 396 271
+828
+line: 396 271 394 272
+840
+line: 394 272 393 274
+852
+line: 393 274 390 277
+864
+line: 390 277 387 280
+876
+line: 387 280 384 285
+888
+line: 384 285 382 287
+900
+line: 382 287 378 295
+912
+line: 378 295 376 301
+924
+line: 376 301 376 304
+936
+line: 376 304 377 309
+948
+line: 377 309 381 315
+960
+line: 381 315 387 320
+972
+line: 387 320 395 325
+984
+line: 395 325 400 328
+996
+line: 400 328 406 329
+1008
+line: 406 329 413 329
+1020
+line: 413 329 423 329
+1032
+line: 423 329 429 329
+1044
+line: 429 329 448 327
+1056
+line: 448 327 455 324
+1068
+line: 455 324 469 320
+1080
+line: 469 320 480 315
+1092
+line: 480 315 488 311
+1104
+line: 488 311 494 306
+1116
+line: 494 306 497 299
+1128
+line: 497 299 500 294
+1140
+line: 500 294 500 288
+1152
+line: 500 288 501 283
+1164
+line: 501 283 501 278
+1176
+line: 501 278 501 272
+1188
+line: 501 272 497 266
+1200
+line: 497 266 492 259
+1212
+line: 492 259 486 252
+1224
+line: 486 252 476 248
+1236
+line: 476 248 465 243
+1248
+line: 465 243 455 240
+1260
+line: 455 240 437 238
+1272
+line: 437 238 426 238
+1284
+line: 426 238 416 238
+1296
+line: 416 238 407 238
+1308
+line: 407 238 398 240
+1320
+line: 398 240 392 242
+1332
+line: 392 242 385 247
+1344
+line: 385 247 380 253
+1356
+line: 380 253 376 260
+1368
+line: 376 260 373 270
+1380
+line: 373 270 373 278
+1392
+line: 373 278 373 285
+1404
+line: 373 285 373 294
+1416
+line: 373 294 377 302
+1428
+line: 377 302 381 309
+1440
+line: 381 309 385 314
+1452
+line: 385 314 390 316
+1464
+line: 390 316 394 318
+1476
+line: 394 318 397 319
+1488
+line: 397 319 399 320
+Receive: disconnect 3836368
+
+Session start 12:45:37
+someone joined: 0
+joined: syn 212 212 212
+
+Session start 12:46:50
+
+Session start 12:47:04
+someone joined: 0
+joined: syn 123 65 123
+0
+12
+24
+36
+48
+60
+72
+84
+96
+108
+120
+132
+144
+156
+168
+180
+192
+204
+216
+228
+240
+252
+264
+276
+288
+300
+312
+324
+336
+348
+360
+372
+384
+396
+408
+420
+432
+444
+456
+468
+480
+492
+504
+516
+528
+540
+552
+564
+576
+588
+600
+612
+624
+636
+648
+660
+672
+684
+696
+708
+720
+732
+someone joined: 1
+joined: synw 22 223 22
+744
+756
+768
+780
+792
+804
+816
+828
+840
+852
+864
+876
+888
+900
+912
+924
+936
+948
+960
+972
+984
+996
+1008
+1020
+1032
+1044
+1056
+1068
+1080
+1092
+1104
+1116
+1128
+1140
+1152
+1164
+1176
+1188
+1200
+1212
+1224
+1236
+1248
+1260
+1272
+1284
+1296
+1308
+1320
+1332
+1344
+1356
+1368
+1380
+1392
+1404
+1416
+
+Session start 14:40:33
+Closing server
+
+Session start 14:40:48
+someone joined: 0
+joined: syn 255 121 0
+Receive: disconnect 5278160
+Closing server
+
+Session start 15:04:47
+someone joined: 0
+joined: syn 99 12 123
+470
+470
+470
+465
+452
+430
+403
+370
+337
+314
+299
+292
+290
+290
+292
+295
+302
+315
+331
+347
+367
+384
+393
+402
+
+Session start 15:08:37
+someone joined: 0
+joined: syn 255 121 0
+Closing server
+
+Session start 15:10:34
+someone joined: 0
+joined: syn 255 121 0
+
+Session start 15:23:59
+
+Session start 15:24:14
+someone joined: 0
+joined: syn 255 121 0
+someone joined: 1
+joined: ayn 24 57 23
+Receive: disconnect 2787888
+
+Session start 15:28:33
+someone joined: 0
+joined: syn 255 121 0
+Receive: disconnect 5540304
+someone joined: 0
+joined: syn 255 121 0
+Receive: disconnect 5540304
+someone joined: 0
+joined: syn 255 121 0
+Receive: disconnect 5540304
+Closing server
+
+Session start 15:32:02
+someone joined: 0
+joined: syn 255 121 0
+someone joined: 1
+joined: Gamzee 150 140 220
+someone joined: 2
+joined: equius 0 0 86
+someone joined: 3
+joined: magmaExploiter 240 0 0
+someone joined: 4
+joined: Dasty 55 55 255
+someone joined: 5
+joined: syn2 100 100 100
+Receive: disconnect 24855256
+Receive: disconnect 6195920
+
+Session start 15:37:22
+someone joined: 0
+joined: magmaExploiter 220 0 0
+someone joined: 1
+joined: syn 255 121 0
+someone joined: 2
+joined: Dasty 0 150 255
+Receive: disconnect 5802640
+someone joined: 3
+someone joined: 4
+someone joined: 5
+
+Session start 15:41:41
+someone joined: 0
+joined: syn 255 121 0
+someone joined: 1
+joined: Dasty 0 150 255
+
+Session start 15:43:28
+
+Session start 15:45:48
+someone joined: 0
+joined: Dasty 0 150 255
+someone joined: 1
+joined: Syniphas 255 121 0
+someone joined: 2
+joined: adiosToreador 180 80 0
+Receive: disconnect 3836344
+someone joined: 2
+joined: equius 0 0 86
+Receive: disconnect 3836344
+someone joined: 3
+
+Session start 16:04:34
+Closing server
+
+Session start 16:05:07
+someone joined: 0
+joined: syn 255 121 0
+Receive: disconnect 6457808
+someone joined: 0
+joined: syn 255 121 0
+Receive: disconnect 6457808
+
+Session start 16:06:26
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: Shadowtroid 61 0 117
+someone joined: 2
+joined: adiosToreador 180 80 0
+someone joined: 3
+joined: magmaExploiter 200 0 0
+someone joined: 4
+joined: sucroseSaboteur 50 100 65
+Receive: disconnect 6335800
+someone joined: 5
+
+Session start 16:23:56
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: Shadowtroid 61 0 117
+someone joined: 2
+joined: magmaExploiter 200 0 0
+someone joined: 3
+joined: sucroseSaboteur 50 120 65
+someone joined: 4
+joined: syntest 255 121 0
+Receive: disconnect 5809648
+someone joined: 4
+joined: Andrew 255 255 255
+Receive: disconnect 5809648
+someone joined: 5
+
+Session start 16:40:02
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+someone joined: 2
+joined: Aradia 255 0 0
+someone joined: 3
+joined: Equius 0 0 86
+someone joined: 4
+joined: Vriska 0 86 130
+Receive: disconnect 2591472
+someone joined: 4
+joined: Aradia 180 0 0
+someone joined: 5
+joined: shadowtroid 61 0 117
+Receive: disconnect 2591472
+someone joined: 5
+Receive: disconnect 24715336
+someone joined: 5
+joined: adiosToreadora 180 80 0
+Receive: disconnect 24715336
+someone joined: 5
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE 180 80 0
+Receive: disconnect 24715336
+
+Session start 17:01:02
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: Shadowtroid 61 0 117
+someone joined: 2
+joined: Creeper 0 200 0
+someone joined: 3
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE 180 80 0
+someone joined: 4
+joined: Aradia 100 0 0
+Receive: disconnect 2291176
+someone joined: 4
+joined: Aradia 80 0 0
+Receive: disconnect 2291056
+Receive: disconnect 2291176
+someone joined: 3
+joined: Aradia 80 0 0
+Receive: disconnect 2291176
+someone joined: 4
+
+Session start 17:05:37
+someone joined: 0
+joined: Aradia 80 0 0
+someone joined: 1
+joined: Syniphas 255 121 0
+someone joined: 2
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE 180 80 0
+
+Session start 17:13:37
+someone joined: 0
+joined: Aradia 80 0 0
+someone joined: 1
+joined: Syniphas 255 121 0
+someone joined: 2
+joined: Shadowtroid 61 0 117
+
+Session start 17:20:48
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: Aradia 80 0 0
+someone joined: 2
+joined: shadowtroid 61 0 117
+someone joined: 3
+joined: Creeper 0 150 0
+someone joined: 4
+joined: RAYCYST 60 60 60
+someone joined: 5
+joined: Karkat 204 51 0
+Receive: disconnect 24273592
+
+Session start 17:27:17
+someone joined: 0
+joined: twAt 0 130 130
+someone joined: 1
+joined: Creeper 0 125 0
+someone joined: 2
+joined: Karkat 204 51 0
+someone joined: 3
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUDE 180 80 0
+someone joined: 4
+joined: Shadowtroid 61 0 117
+Receive: disconnect 5212912
+someone joined: 4
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE 180 80 0
+Receive: disconnect 5212912
+someone joined: 4
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE 180 80 0
+Receive: disconnect 5241240
+Receive: disconnect 5212912
+someone joined: 3
+joined: Shadowtroid 61 0 117
+Receive: disconnect 5212912
+someone joined: 4
+someone joined: 5
+someone joined: 6
+
+Session start 17:32:20
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: Twat 0 130 130
+someone joined: 2
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE 180 80 0
+someone joined: 3
+joined: eMetalligator 0 60 255
+Receive: disconnect 6196040
+someone joined: 3
+joined: syntest 255 121 0
+someone joined: 4
+someone joined: 5
+joined: eMetalligator 0 80 255
+joined: Aradia 80 0 0
+Receive: disconnect 6196040
+someone joined: 6
+
+Session start 18:01:27
+someone joined: 0
+joined: syniphas 255 121 0
+someone joined: 1
+joined: Reidar 80 0 175
+Receive: disconnect 1477192
+someone joined: 1
+joined: radieR 175 0 80
+someone joined: 2
+joined: electricMetalligator 0 80 255
+someone joined: 3
+joined: Creeper 0 120 0
+someone joined: 4
+joined: Nepeta 3 4 5
+Receive: disconnect 23938144
+someone joined: 5
+someone joined: 6
+someone joined: 7
+
+Session start 18:16:48
+someone joined: 0
+joined: waywardVagabond 0 0 0
+someone joined: 1
+joined: Syniphas 255 121 0
+Receive: disconnect 2066896
+someone joined: 1
+joined: Aradia 70 0 0
+someone joined: 2
+joined: waywardVagabond 255 255 255
+someone joined: 3
+joined: Reidar 80 0 175
+someone joined: 4
+joined: aT 180 80 0
+someone joined: 5
+joined: electricMetalligator 0 80 255
+someone joined: 6
+joined: Creeper 0 120 0
+Receive: disconnect 2066920
+Receive: disconnect 2095560
+Receive: disconnect 2066896
+someone joined: 4
+joined: Aradia 70 0 0
+Receive: disconnect 2066896
+
+Session start 18:44:43
+someone joined: 0
+joined: Syniphas 255 121 0
+Receive: disconnect 3246544
+
+Session start 18:55:15
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: Vriska 0 86 130
+someone joined: 2
+joined: electricMetalligator 0 80 255
+someone joined: 3
+joined: eLITISTdEFEATIST 0 0 0
+Receive: disconnect 2067184
+someone joined: 3
+joined: eLITISTdEFEATIST 255 0 0
+Receive: disconnect 2067184
+
+Session start 18:57:16
+someone joined: 0
+joined: Karkat 255 0 0
+someone joined: 1
+joined: Syniphas 255 121 0
+someone joined: 2
+joined: Vriska 0 86 130
+someone joined: 3
+joined: electricMetalligator 0 80 255
+someone joined: 4
+joined: eLISTISTdEFEATSIST 255 0 0
+Receive: disconnect 1898928
+
+Session start 18:59:32
+someone joined: 0
+joined: eLITISTdEFEATIST 255 0 0
+someone joined: 1
+joined: electricMetalligator 0 80 255
+someone joined: 2
+joined: Karkat 255 0 0
+someone joined: 3
+joined: Syniphas 255 121 0
+Receive: disconnect 2656984
+
+Session start 19:02:14
+someone joined: 0
+joined: eD 255 0 0
+someone joined: 1
+joined: Syniphas 255 121 0
+someone joined: 2
+joined: electricMetalligator 0 80 255
+someone joined: 3
+joined: cuttlefishCuller 119 0 60
+Receive: disconnect 3640072
+someone joined: 3
+joined: Karkat 255 0 0
+Receive: disconnect 3664224
+someone joined: 3
+joined: Karkat 255 0 0
+Receive: disconnect 3664296
+someone joined: 3
+joined: caffAnalyst 240 0 0
+Receive: disconnect 3664368
+someone joined: 3
+joined: magmaExploiter 200 0 0
+Receive: disconnect 3664440
+someone joined: 3
+joined: Karkat 255 0 0
+Receive: disconnect 3664536
+someone joined: 3
+joined: cuttlefishCuller 119 0 60
+Receive: disconnect 3664632
+someone joined: 3
+joined:  11 0 99
+Receive: disconnect 3664704
+someone joined: 3
+joined: magmaExploiter 200 0 0
+Receive: disconnect 3664776
+someone joined: 3
+joined: Karkat 255 0 0
+Receive: disconnect 3664848
+someone joined: 3
+joined: caffAnalyst 240 0 0
+Receive: disconnect 3664944
+someone joined: 3
+joined: cuttlefishCuller 119 0 60
+Receive: disconnect 3665016
+someone joined: 3
+joined: magmaExploiter 200 0 0
+Receive: disconnect 3665112
+
+Session start 19:21:10
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+someone joined: 2
+
+Session start 19:26:32
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: Shadowtroid 61 0 117
+someone joined: 2
+someone joined: 3
+joined: caffAnalyst 240 0 0
+joined: electricMetalligator 0 80 255
+
+Session start 19:30:57
+someone joined: 0
+joined: Shadowtroid 61 0 117
+Receive: disconnect 3574200
+someone joined: 0
+joined: electricMetalligator 0 80 255
+someone joined: 1
+joined: Shadowtroid 61 0 117
+someone joined: 2
+joined: magmaExploiter 200 0 0
+someone joined: 3
+joined: syniphas 255 121 0
+
+Session start 19:35:20
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: electricMetalligator 0 80 255
+someone joined: 2
+joined: magmaExploiter 200 0 0
+someone joined: 3
+joined: Shadowtroid 61 0 117
+Receive: disconnect 5765808
+someone joined: 3
+joined: syntest 2 84 47
+Receive: disconnect 5765832
+
+Session start 19:39:59
+someone joined: 0
+joined: magmaExploiter 200 0 0
+someone joined: 1
+joined: Syniphas 255 121 0
+someone joined: 2
+joined: acolitoGamzeano 51 77 128
+joined: electricMetalligator 0 80 255
+Receive: disconnect 5999152
+someone joined: 3
+someone joined: 4
+joined: Syniphas 255 121 0
+joined: DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE 255 255 255
+Receive: disconnect 6027840
+Receive: disconnect 6027648
+
+Session start 19:45:51
+someone joined: 3
+
+Session start 19:47:22
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+someone joined: 2
+joined: L33T 51 77 128
+someone joined: 3
+joined: electricMetalligator 0 80 255
+someone joined: 4
+joined: arsenicCatnip 30 30 30
+Receive: disconnect 3864040
+someone joined: 4
+joined: Dasty 0 150 255
+someone joined: 5
+someone joined: 6
+joined: Vriska 0 86 130
+Receive: disconnect 3864184
+Receive: disconnect 3864304
+Receive: disconnect 3864040
+Receive: disconnect 3836344
+
+Session start 19:58:24
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+someone joined: 2
+joined: electricMetalligator 0 80 255
+someone joined: 3
+joined: acolitoGamzeano 0 255 0
+someone joined: 4
+joined: syn2 255 255 0
+Receive: disconnect 3472264
+Receive: disconnect 25042512
+someone joined: 3
+joined: Dasty 0 150 255
+joined: electricMetalligator 0 80 255
+Receive: disconnect 25042512
+Receive: disconnect 3472000
+
+Session start 20:06:29
+someone joined: 0
+joined: Syniphas 255 121 0
+Receive: disconnect 3836432
+
+Session start 20:07:17
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+someone joined: 2
+joined: adiosToreaDUUUUUDE 180 80 0
+
+Session start 20:16:54
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+someone joined: 2
+joined: acolitoGamzewhatever 51 77 128
+Receive: disconnect 2001360
+Receive: disconnect 2001648
+someone joined: 1
+joined: Syniphas 255 121 0
+Receive: disconnect 2001648
+
+Session start 20:34:27
+someone joined: 0
+joined: magmaExploiter 200 0 0
+someone joined: 1
+joined: cuttlefishCuller 116 0 60
+someone joined: 2
+joined: Josh 77 24 200
+someone joined: 3
+joined: Syniphas 255 121 0
+Receive: disconnect 3640088
+Receive: disconnect 3639968
+someone joined: 2
+joined: cuttlefishCuller 116 0 60
+
+Session start 20:37:58
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+
+Session start 20:40:15
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: magmaExploiter 200 0 0
+Receive: disconnect 6347216
+Receive: disconnect 24649320
+
+Session start 20:48:03
+someone joined: 0
+joined: Syniphas 255 121 0
+someone joined: 1
+joined: synt 33 43 86
+Receive: disconnect 6064656
+Receive: disconnect 6064800
+someone joined: 0
+joined: syn 32 40 60
+Receive: disconnect 6064800

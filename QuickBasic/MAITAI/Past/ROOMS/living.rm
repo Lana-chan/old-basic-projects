@@ -1,0 +1,52 @@
+[MAITAI ROOM]
+Living Room
+&DESC
+You are in your living room.
+%I PHONE
+Your cellphone is here.
+To the north is the outside. To the south is your bedroom and to the west there is the bathroom.
+%H
+
+[ACTION]
+@GET PHONE
+CHKITEM 0 PHONE
+SCORE 1
+ITEM PHONE
+You got your phone.
+Again?
+END
+
+@GET CELLPHONE
+CHKITEM 0 PHONE
+SCORE 1
+ITEM PHONE
+You got your phone.
+Again?
+END
+
+@NORTH
+GOTO OUT
+
+@GO NORTH
+GOTO OUT
+
+@N
+GOTO OUT
+
+@SOUTH
+GOTO BEDROOM
+
+@GO SOUTH
+GOTO BEDROOM
+
+@S
+GOTO BEDROOM
+
+@WEST
+GOTO BATHROOM
+
+@GO WEST
+GOTO BATHROOM
+
+@W
+GOTO BATHROOM

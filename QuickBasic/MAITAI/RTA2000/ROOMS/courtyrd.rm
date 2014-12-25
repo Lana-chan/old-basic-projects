@@ -1,0 +1,32 @@
+[MAITAI ROOM]
+Courtyard
+&DESC
+You go through a door to the north and come out in a courtyard. There's some
+trees and grass and birds. Yayz. Exits to the SOUTH.
+%H
+
+[ACTION]
+@GO SOUTH
+GOTO mainroom.RM
+END
+
+@THROW BABY
+SAY Wrong game buddy.
+END
+
+@DANCE
+SAY Dance party! Woohoo!
+END
+
+@DIE
+SAY Just like in all the Thy Dungeonman games, this really doesn't do much for you. You dead.
+LOSE
+END
+
+@HELP
+SAY To go somewhere else type "go <direction>". To get an item type "get <item>". To use an item type "use <item>". To use an item with an item type "use <item> with <item>". To get your bearings straight type "look". You cannot look at items in this beta version.
+END
+
+@ABOUT
+SAY Random Text Adventure 2000 by Martin Sisk. version 0.1 (beta for Eric). Released for non-commercial uses as long as the author is credited. Not permitted to be used for commercial purposes. Free to download and play.
+END

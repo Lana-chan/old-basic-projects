@@ -1,0 +1,18 @@
+[MAITAI ROOM]
+The Office
+&DESC
+You look inside your drawer.
+%I FOLDER
+There is a folder here.
+%H
+[ACTION]
+@CLOSE DRAWER
+GOTO Office00
+END
+@CLOSE DRAWER 2
+GOTO Office00
+END
+@GET FOLDER
+ITEM FOLDER
+You certainly recognize a folder when you see one, don't you?
+END

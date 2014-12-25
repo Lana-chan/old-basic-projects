@@ -1,0 +1,54 @@
+[MAITAI ROOM]
+Main Room
+&DESC
+Welcome to Random Text Adventure 2000!
+
+Quick tutorial: words in all CAPS represent an item exit or other thing you can
+get go to or do some other thing with. Type HELP if you need more.
+
+Anyways you are in a room. In the middle of the room is a table.
+%I KEY
+Upon the table lies an ITEM. Exits to the NORTH and EAST.
+%N KEY
+Exits to the NORTH and EAST.
+%H
+
+[ACTION]
+@GET TABLE
+SAY You can't get that. It doesn't play any part in the plot of this adventure.
+END
+
+@GET ITEM
+ITEM KEY
+It turns out the item is a key. What is goes to you don't know.
+There's no more items to get!
+END
+
+@GO NORTH
+GOTO courtyrd
+END
+
+@GO EAST
+GOTO hall
+END
+
+@THROW BABY
+SAY Wrong game buddy.
+END
+
+@DANCE
+SAY Dance party! Woohoo!
+END
+
+@DIE
+SAY Just like in all the Thy Dungeonman games, this really doesn't do much for you. You dead.
+LOSE
+END
+
+@HELP
+SAY To go somewhere else type "go <direction>". To get an item type "get <item>". To use an item type "use <item>". To use an item with an item type "use <item> with <item>". To get your bearings straight type "look". You cannot look at items in this beta version.
+END
+
+@ABOUT
+SAY Random Text Adventure 2000 by Martin Sisk. version 0.1 (beta for Eric). Released for non-commercial uses as long as the author is credited. Not permitted to be used for commercial purposes. Free to download and play.
+END

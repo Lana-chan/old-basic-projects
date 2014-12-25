@@ -1,0 +1,9 @@
+[THE BUS OF IsAnAtY]
+The Bus of IsAnAtY
+&DESC
+The Bus, just then, pulled up. The door opened, revealing it was a hydraulic one. Mark Monkey scampered on. He sat down. It wasn't that crowded, yet, but still. There is another man here.
+%H
+[ACTION]
+@EXAMINE SEATS
+SAY Leather on a cold day is not a good idea. Then again, it's not a good idea when it's hot. Why do people like leather!?
+END

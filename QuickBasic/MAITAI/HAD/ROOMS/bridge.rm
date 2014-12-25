@@ -1,0 +1,45 @@
+[MAITAI ROOM]
+The Stone Bridge
+&DESC
+You are at the stone bridge. The river is slowly flowing on it's east-west path. You spot several rocks near the bridge.
+To the south is The Field.
+%H
+
+[ACTION]
+@SWIM IN RIVER
+@SWIM
+@START SWIMMING
+SAY You try to swim, but the current is too strong. You get sucked awway to the ocean, never to be seen again.
+LOSE
+END
+
+@JUMP IN RIVER
+@JUMP
+SAY You don't feel that suicidal.
+END
+
+@EAT ROCK
+SAY You're not that stupid.
+END
+
+@GET ROCK
+SAY It's too heavy.
+END
+
+@USE ROCK
+SAY With what?
+END
+
+@DRINK WATER
+CHKITEM 0 $WATER
+SCORE 1
+ITEM $WATER
+You drink some of the clear river water. It's refreshing.
+You're not thirsty.
+END
+
+@S
+@SOUTH
+@GO SOUTH
+GOTO FIELD
+END
