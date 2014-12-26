@@ -1,0 +1,117 @@
+levelstuff:
+	enemydx = 0
+	bombdx = 0
+	if levwait = 0 then
+		if level = 1 then
+			if levdiv = 1 then
+				locate 11,16
+				print "Level 1"
+				locate 12,15
+				print "Get ready"
+				levwait = 150
+			elseif levdiv = 2 then
+				locate 11,16
+				print "       "
+				locate 12,15
+				print "         "
+				levwait = 20
+			elseif levdiv = 3 or levdiv = 6 or levdiv = 13 or levdiv = 14 or levdiv = 21 or levdiv = 22 or levdiv = 29 or levdiv = 30 then
+				enemx = 275
+				gosub spawnenemy
+				levwait = 30
+			elseif levdiv = 4 or levdiv = 5 then
+				enemx = 215
+				gosub spawnenemy
+				bmbx = 275
+				gosub spawnbomb
+				enemx = 335
+				gosub spawnenemy
+				levwait = 30
+			elseif levdiv = 8 then
+				enemx = 155
+				gosub spawnenemy
+				bmbx = 215
+				gosub spawnbomb
+				enemx = 275
+				gosub spawnenemy
+				bmbx = 335
+				gosub spawnbomb
+				enemx = 395
+				gosub spawnenemy
+				levwait = 30
+			elseif levdiv = 10 then
+				bmbx = 215
+				gosub spawnbomb
+				bmbx = 335
+				gosub spawnbomb
+				levwait = 30
+			elseif levdiv = 11 or levdiv = 12 then
+				bmbx = 155
+				gosub spawnbomb
+				bmbx = 395
+				gosub spawnbomb
+				levwait = 30
+			elseif levdiv = 15 or levdiv = 16 or levdiv = 19 or levdiv = 20 then
+				enemx = 215
+				gosub spawnenemy
+				levwait = 30
+			elseif levdiv = 17 or levdiv = 18 then
+				enemx = 155
+				gosub spawnenemy
+				levwait = 30
+			elseif levdiv = 23 or levdiv = 24 or levdiv = 27 or levdiv = 28 then
+				enemx = 335
+				gosub spawnenemy
+				levwait = 30
+			elseif levdiv = 25 or levdiv = 26 then
+				enemx = 395
+				gosub spawnenemy
+				levwait = 30
+			elseif levdiv = 40 then
+				freeallsprites
+				levdiv = 1
+				levwait = 0
+				level = 2
+				lives++
+				cls
+				locate 11,12
+				print "Congratulations"
+				locate 12,8
+				print "Warping to level 2..."
+				sleep 150
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					explo(i) = 0
+					shot(i) = 0
+					bomb(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+					ms(i) = 0
+					msx(i) = 0
+					msy(i) = 0
+				next
+				ship = 0
+				if gamemode = 1 then
+					goto game
+				elseif gamemode = 2 then
+					for i = 0 to 9
+						shot2(i) = 0
+					next
+					ship2 = 0
+					lives2++
+					goto 2pgame
+				endif
+			else
+				levwait = 30
+			endif
+		endif
+		levdiv++
+	endif
+	if levwait > 0 then
+		levwait--
+	endif
+	return

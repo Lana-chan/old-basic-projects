@@ -1,0 +1,878 @@
+'Airstriker
+'v0.70 - 08-10-18
+'TFD player by Shiru
+'Sega logo by Tom Maneiro
+	dim bs(5) as integer
+	dim bsx(5) as integer
+	dim bsy(5) as integer
+	dim ms(5) as integer
+	dim msx(5) as integer
+	dim msy(5) as integer
+	dim shot1(10) as integer
+	dim shot2(10) as integer
+	dim enemy(10) as integer
+	dim enemshot(10) as integer
+	dim explo(10) as integer
+	dim explowait(10) as integer
+ option title,"Airstriker"
+ 
+drawsegalogo:
+ 'Must thank Tom Maneiro for the sega logo code
+	settextplane scroll_a
+	setgfxplane scroll_a
+	loadtiles SEGALOGO,48,256
+    pallettes sp1,0,0,16
+	n=256
+	for y=1 to 4
+		for x=1 to 12
+			drawtile n,x+13,y+11
+			n=n+1
+		next
+	next
+
+	'swap pallettes for do our sega logo animation
+	sleep 10
+	pallettes sp2,0,0,16
+	sleep 10
+	pallettes sp3,0,0,16
+	sleep 10
+	pallettes sp4,0,0,16
+	sleep 10
+	pallettes sp5,0,0,16
+	sleep 10
+	pallettes sp6,0,0,16
+	sleep 10
+	pallettes sp7,0,0,16
+	sleep 10
+	pallettes sp8,0,0,16
+	sleep 15
+	cls
+	goto main
+	
+sp1:	
+	dataint $0000,$0EEE,$0E20,$0E00,$0A00,$0800,$0E40,$0E60
+	dataint $0E80,$0EA0,$0000,$0000,$0000,$0000,$0000,$0000
+sp2:
+	dataint $0000,$0EEE,$0EA0,$0E20,$0E00,$0A00,$0800,$0E40
+	dataint $0E60,$0E80,$0000,$0000,$0000,$0000,$0000,$0000
+sp3:
+	dataint $0000,$0EEE,$0E80,$0EA0,$0E20,$0E00,$0A00,$0800
+	dataint $0E40,$0E60,$0000,$0000,$0000,$0000,$0000,$0000
+sp4:
+	dataint $0000,$0EEE,$0E60,$0E80,$0EA0,$0E20,$0E00,$0A00
+	dataint $0800,$0E40,$0000,$0000,$0000,$0000,$0000,$0000
+sp5:
+	dataint $0000,$0EEE,$0E40,$0E60,$0E80,$0EA0,$0E20,$0E00
+	dataint $0A00,$0800,$0000,$0000,$0000,$0000,$0000,$0000
+sp6:
+	dataint $0000,$0EEE,$0800,$0E40,$0E60,$0E80,$0EA0,$0E20
+	dataint $0E00,$0A00,$0000,$0000,$0000,$0000,$0000,$0000
+sp7:
+	dataint $0000,$0EEE,$0A00,$0800,$0E40,$0E60,$0E80,$0EA0
+	dataint $0E20,$0E00,$0000,$0000,$0000,$0000,$0000,$0000
+sp8:
+	dataint $0000,$0EEE,$0E00,$0A00,$0800,$0E40,$0E60,$0E80
+	dataint $0EA0,$0E20,$0000,$0000,$0000,$0000,$0000,$0000
+	
+SEGALOGO:
+	datafile segalogo.bin,BIN
+
+main:
+    cls
+ 	LoadTiles logo,128,256
+ 	LoadTiles menutiles,64,456
+ 	LoadTiles gametiles,64,556
+	pallettes titlepal,0,0,16
+	
+    reload musicData
+    gosub tfdPlayInit
+    on VBLANK gosub tfdPlayFrame
+    enable INTERRUPTVBLANK
+    strt = 1
+    menuy = 0
+    music = 1
+    drawblock 256,12,5,8
+    drawblock 320,20,5,8
+    ink 0
+    locate 16,5
+    print "Hiscore - "; hiscore
+    locate 22,0
+	print "Copyright 2008 Electrokinesis Studios"
+mainLoop:
+	joy = joypad(0)
+    if joy.7 then
+    	joy = 0
+		if music = 1 then
+			reload menumusic
+    		gosub tfdPlayInit
+    	endif
+    	goto mainmenu
+    endif
+    sleep 2
+    locate 19,14
+	if strt > 19 then 
+		print "Press Start"
+	else
+		print "           "
+	endif
+	if strt < 41 then
+		strt++
+	else
+		strt = 1
+	endif
+    goto mainLoop
+    end
+    
+mainmenu:
+	cls
+	for y = 0 to 28 step 2
+		for x = 10 to 30 step 2
+			drawblock 456,x,y,2
+		next
+	next
+	locate 3,10
+	print "Main Menu"
+	locate 9,12
+	print "Start game"
+	locate 13,12
+	print "Options"
+	locate 11,12
+	print "Credits"
+menuloop:
+	joy = joypad(0)
+	drawblock 460,10,10+menuy,2
+	sleep 5
+	drawblock 456,10,10+menuy,2
+	if joy.0 and wait = 0 then
+		if menuy > 0 then
+			wait = 5
+			menuy = menuy - 2
+		endif
+	endif
+	if joy.1 and wait = 0 then
+		if menuy < 4 then
+			wait = 5
+			menuy = menuy + 2
+		endif
+	endif
+	if joy.4 and wait = 0 then
+		if menuy = 0 then
+			shotb4 = 1
+			levdiv = 1
+			level = 1
+			lives = 3
+			goto game
+		elseif menuy = 2 then
+			wait = 10
+			goto credits
+		elseif menuy = 4 then
+			goto options
+		endif
+	endif
+	if wait > 0 then
+		wait--
+	endif
+	goto menuloop
+    
+credits:
+	for y = 0 to 26 step 2
+		for x = 0 to 38 step 2
+			drawblock 456,x,y,2
+		next
+	next
+	locate 2,14
+	print "Airstriker"
+	locate 3,16
+	print "Credits"
+	locate 5,5
+	print "Programming, graphics and music"
+	locate 6,7
+	print "Syniphas"
+	locate 8,5
+	print "Level design & beta testing"
+	locate 9,7
+	print "Sik the Hedgehog"
+	locate 11,5
+	print "Additional beta tester"
+	locate 12,7
+	print "Ramiro"
+	locate 14,5
+	print "Sega logo code"
+	locate 15,7
+	print "Tom Maneiro"
+	locate 17,5
+	print "TFD player code"
+	locate 18,7
+	print "Shiru"
+	locate 20,0
+	print "Copyright 2008 Electrokinesis Studios"
+	locate 21,4
+	print "http://electrokinesis.drx.pl/"
+creditloop:
+	sleep 1
+	joy = joypad(0)
+	if joy.4 or joy.7 and wait = 0 then
+		wait = 10
+		goto mainmenu
+	endif
+	if wait > 0 then
+		wait--
+	endif
+	goto creditloop
+	
+options:
+	for y = 0 to 28 step 2
+		for x = 10 to 30 step 2
+			drawblock 456,x,y,2
+		next
+	next
+	otpy = 0
+	locate 3,10
+	print "Options"
+	locate 9,12
+	print "Music"
+	locate 11,12
+	print "Exit"
+optloop:
+	joy = joypad(0)
+	drawblock 460,10,10+opty,2
+	locate 9,18
+	if music = 1 then
+	print "on"
+	else
+	print "off"
+	endif
+	sleep 5
+	drawblock 456,10,10+opty,2
+	locate 9,18
+	print "   "
+	if joy.0 then
+		if opty > 0 then
+			opty = opty - 2
+		endif
+	endif
+	if joy.1 then
+		if opty < 2 then
+			opty = opty + 2
+		endif
+	endif
+	if joy.4 and wait = 0 then
+		if opty = 0 then
+			if music = 1 then
+				wait = 10
+				music = 0
+				reload menumusic
+    			gosub tfdPlayInit
+    			on VBLANK gosub tfdStop
+    			pokeint &hA11200,&h100
+			else
+				wait = 10
+				music = 1
+    			on VBLANK gosub tfdPlayFrame
+			endif
+		endif
+		if opty = 2 then
+			wait = 10
+			goto mainmenu
+		endif
+	endif
+	if wait > 0 then
+		wait--
+	endif
+	goto optloop
+	
+game:
+	cls
+	locate 15,15
+	print "Level ";level
+	sleep 100
+	cls
+	if music = 1 then
+		reload levelmusic
+    	gosub tfdPlayInit
+    endif
+	shipx = 272
+	shipy = 320
+	ship = addsprite(3, 3)
+	propsprite ship, 556, 0
+	movesprite ship, shipx, shipy
+	for i = 0 to 4
+		bs(i) = addsprite(1, 1)
+		bsy(i) = rnd(120)
+		propsprite bs(i), 566, 0
+		ms(i) = addsprite(1, 1)
+		msy(i) = rnd(120)
+		propsprite ms(i), 567, 0
+	next
+gameloop:
+	joy = joypad(0)
+	if joy.2 then
+		locate 11,1
+		if shipx >132 then
+			shipx = shipx - 5
+		endif
+	endif
+	if joy.3 then
+		locate 11,1
+		if shipx <420 then
+			shipx = shipx + 5
+		endif
+	endif
+	if joy.4 and shotb4 = 0 then
+		shotb4 = 1
+		for i = 0 to 9
+			if shot1(i) = 0 then
+				fixi = i
+				goto shoot
+			endif
+		next
+		goto shootfail
+shoot:
+		shot1(fixi) = addsprite(1,1)
+		propsprite shot1(fixi),565,0
+		movesprite shot1(fixi),shipx+2, shipy
+		shot2(fixi) = addsprite(1,1)
+		propsprite shot2(fixi),565,0
+		movesprite shot2(fixi),shipx+14, shipy
+	endif
+shootfail:
+	if joy.4 = 0 then
+		shotb4 = 0
+	endif
+	if joy.7 and wait = 0 then
+		locate 20,10
+		print "Paused, press A+B+C to quit"
+		wait = 10
+		joy = joypad(0)
+		while 1 = 1
+			joy = joypad(0)
+			sleep 3
+			if wait > 0 then
+				wait--
+			endif
+			if joy.7 and wait = 0 then
+				goto unpause
+			endif
+			if joy.4 and joy.5 and joy.6 and wait = 0 then
+				ship = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					shot1(i) = 0
+					shot2(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				score = 0
+				freeallsprites
+				goto main
+			endif
+		wend
+unpause:
+		wait = 10
+		locate 20,10
+		print "                            "
+	endif
+	for i = 0 to 9
+		shotstartx = spriteposx(shot1(i))
+		shotendx = spriteposx(shot2(i))+8
+		shotstarty = spriteposy(shot1(i))
+		shotendy = spriteposy(shot2(i))+8
+		if shot1(i) <> 0 then
+			shiftsprite shot1(i), 0,-5
+			shiftsprite shot2(i), 0,-5
+			for f = 0 to 9
+				if enemy(f) <> 0 then
+					enemystartx = spriteposx(enemy(f))
+					enemyendx = spriteposx(enemy(f))+24
+					enemystarty = spriteposy(enemy(f))
+					enemyendy = spriteposy(enemy(f))+24
+					if shotendx > enemystartx and shotendy > enemystarty and shotstartx < enemyendx and shotstarty < enemyendy and explo(f) = 0 then
+						freesprite shot1(i)
+						freesprite shot2(i)
+						shot1(i) = 0
+						shot2(i) = 0
+						explo(f) = 1
+						score = score + 20
+						if score > hiscore then
+							hiscore = score
+						endif
+					elseif shipx+16 > enemystartx and shipy+16 > enemystarty and shipx < enemyendx and shipy < enemyendy then
+						ship = 0
+						for i = 0 to 9
+							enemy(i) = 0
+							enemshot(i) = 0
+							explo(i) = 0
+							shot1(i) = 0
+							shot2(i) = 0
+						next
+						for i = 0 to 4
+							bs(i) = 0
+							bsx(i) = 0
+							bsy(i) = 0
+						next
+						locate 15, 15
+						print "You died."
+						sleep 100
+						freeallsprites
+						if lives > 0 then
+							lives--
+							levdiv = 1
+							goto game
+						else
+							score = 0
+							goto main
+						endif
+					endif
+				endif
+			next
+		endif
+		if spriteposy(shot1(i)) <= 125 then
+			freesprite shot1(i)
+			shot1(i) = 0
+			freesprite shot2(i)
+			shot2(i) = 0
+		endif
+		if spriteposy(enemy(i)) > 380 then
+			freesprite enemy(i)
+			enemy(i) = 0
+		endif
+		if enemy(i) <> 0 then
+			shiftsprite enemy(i), 0,2
+			enemystartx = spriteposx(enemy(i))
+			enemyendx = spriteposx(enemy(i))+24
+			enemystarty = spriteposy(enemy(i))
+			enemyendy = spriteposy(enemy(i))+24
+			if shipx+16 > enemystartx and shipy+16 > enemystarty and shipx < enemyendx and shipy < enemyendy then
+				ship = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					explo(i) = 0
+					shot1(i) = 0
+					shot2(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				locate 15, 15
+				print "You died."
+				sleep 100
+				freeallsprites
+				if lives > 0 then
+					lives--
+					levdiv = 1
+					goto game
+				else
+					score = 0
+					goto main
+				endif
+			endif
+			if spriteposy(enemy(i)) = 200 and enemshot(i) = 0 then
+				enemshot(i) = addsprite(1,1)
+				propsprite enemshot(i), 578, 0
+				movesprite enemshot(i),spriteposx(enemy(i))+8,spriteposy(enemy(i))+8
+			endif
+		endif
+		if enemshot(i) <> 0 then
+			shiftsprite enemshot(i),0,3
+			enemsstartx = spriteposx(enemshot(i))
+			enemsendx = spriteposx(enemshot(i))+8
+			enemsstarty = spriteposy(enemshot(i))
+			enemsendy = spriteposy(enemshot(i))+8
+			if shipx+16 > enemsstartx and shipy+16 > enemsstarty and shipx < enemsendx and shipy < enemsendy then
+				ship = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					explo(i) = 0
+					shot1(i) = 0
+					shot2(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				locate 15, 15
+				print "You died."
+				sleep 100
+				freeallsprites
+				if lives > 0 then
+					lives--
+					levdiv = 1
+					goto game
+				else
+					score = 0
+					goto main
+				endif
+			endif
+		endif
+		if spriteposy(enemshot(i)) > 380 then
+			freesprite enemshot(i)
+			enemshot(i) = 0
+		endif
+		if explowait(i) > 0 then
+			explowait(i)--
+		endif
+		if explo(i) = 1 then
+			explowait(i) = 5
+			propsprite enemy(i),579,0
+			explo(i)++
+		elseif explo(i) = 2 and explowait(i) = 0 then
+			explowait(i) = 5
+			propsprite enemy(i),588,0
+			explo(i)++
+		elseif explo(i) = 3 and explowait(i) = 0 then
+			explowait(i) = 5
+			propsprite enemy(i),597,0
+			explo(i)++
+		elseif explo(i) = 4 and explowait(i) = 0 then
+			freesprite enemy(i)
+			enemy(i) = 0
+			explo(i) = 0
+		endif
+	next
+	for i = 0 to 4
+		if bsy(i) <= 125 then
+			bsx(i) = rnd(310)+133
+		endif
+		if msy(i) <= 125 then
+			msx(i) = rnd(310)+133
+		endif
+		bsy(i) = bsy(i) + 5
+		msy(i) = msy(i) + 3
+		if bsy(i) >= 368 then
+			bsy(i) = rnd(120)
+		endif
+		if msy(i) >= 368 then
+			msy(i) = rnd(120)
+		endif
+		movesprite bs(i), bsx(i), bsy(i)
+		movesprite ms(i), msx(i), msy(i)
+	next
+	movesprite ship, shipx, shipy
+	if levwait = 0 then
+		levwait = 60
+		if level = 1 then
+			if levdiv = 1 then
+				levwait = 120
+			elseif (levdiv >= 2 and levdiv <= 4) or (levdiv >= 27 and levdiv <= 29) or (levdiv >= 35 and levdiv <= 37) then
+				if levdiv = 4 or levdiv = 29 or levdiv = 37 then
+					levwait = 100
+				else
+					levwait = 40
+				endif
+				enemx = 172
+				gosub spawnenemy
+				enemx = 372
+				gosub spawnenemy
+			elseif levdiv = 5 or levdiv = 32 or levdiv = 38 then
+				levwait = 20
+				enemx = 272
+				gosub spawnenemy
+			elseif levdiv = 6 or levdiv = 25 or levdiv = 31 or levdiv = 33 or levdiv = 39 then
+				levwait = 20
+				enemx = 242
+				gosub spawnenemy
+				enemx = 302
+				gosub spawnenemy
+			elseif levdiv = 7 or levdiv = 34 or levdiv = 40 then
+				levwait = 100
+				enemx = 212
+				gosub spawnenemy
+				enemx = 332
+				gosub spawnenemy
+			elseif levdiv = 8 or levdiv = 10 or levdiv = 12 then
+				levwait = 20
+				enemx = 222
+				gosub spawnenemy
+			elseif levdiv = 9 or levdiv = 11 or levdiv = 13 then
+				if levdiv = 13 then
+					levwait = 100
+				else
+					levwait = 20
+				endif
+				enemx = 322
+				gosub spawnenemy
+			elseif levdiv >= 14 and levdiv <= 18 then
+				if levdiv = 18 then
+					levwait = 40
+				else
+					levwait = 20
+				endif
+				enemx = 172 + ((levdiv - 14) * 30)
+				gosub spawnenemy
+			elseif levdiv >= 19 and levdiv <= 23 then
+				if levdiv = 23 then
+					levwait = 100
+				else
+					levwait = 20
+				endif
+				enemx = 372 - ((levdiv - 19) * 30)
+				gosub spawnenemy
+			elseif levdiv = 24 or levdiv = 30 then
+				levwait = 20
+				enemx = 212
+				gosub spawnenemy
+				enemx = 332
+				gosub spawnenemy
+			elseif levdiv = 26 then
+				levwait = 100
+				enemx = 272
+				gosub spawnenemy
+			elseif levdiv >= 41 and levdiv <= 45 then
+				if levdiv = 45 then
+					levwait = 40
+				else
+					levwait = 20
+				endif
+				enemx = 172 + ((levdiv - 41) * 30)
+				gosub spawnenemy
+			elseif levdiv >= 46 and levdiv <= 50 then
+				if levdiv = 50 then
+					levwait = 100
+				else
+					levwait = 20
+				endif
+				enemx = 372 - ((levdiv - 46) * 30)
+				gosub spawnenemy
+			elseif levdiv >= 51 and levdiv <= 55 then
+				if levdiv = 55 then
+					levwait = 40
+				else
+					levwait = 20
+				endif
+				enemx = 172 + ((levdiv - 51) * 30)
+				gosub spawnenemy
+			elseif levdiv >= 56 and levdiv <= 60 then
+				if levdiv = 60 then
+					levwait = 100
+				else
+					levwait = 20
+				endif
+				enemx = 372 - ((levdiv - 56) * 30)
+				gosub spawnenemy
+			elseif levdiv = 65 then
+				locate 15,15
+				print "Game over"
+				locate 16, 10
+				print "Thanks for playing!"
+				sleep 250
+				ship = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					shot1(i) = 0
+					shot2(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				freeallsprites
+				score = 0
+				goto main
+			endif
+			'if levdiv = 1 or levdiv = 3 then
+			'	enemx = 168
+			'	gosub spawnenemy
+			'	enemx = 388
+			'	gosub spawnenemy
+			'elseif levdiv = 2 or levdiv = 4 then
+			'	enemx = 272
+			'	gosub spawnenemy
+			'elseif levdiv = 5 then
+			'	enemx = 272
+			'	gosub spawnenemy
+			'	enemx = 388
+			'	gosub spawnenemy
+			'elseif levdiv = 6  or levdiv = 11 then
+			'elseif levdiv = 7 then
+			'	enemx = 302
+			'	gosub spawnenemy
+			'	enemx = 242
+			'	gosub spawnenemy
+			'elseif levdiv = 8 then
+			'	enemx = 322
+			'	gosub spawnenemy
+			'	enemx = 222
+			'	gosub spawnenemy
+			'elseif levdiv = 9 then
+			'	enemx = 342
+			'	gosub spawnenemy
+			'	enemx = 202
+			'	gosub spawnenemy
+			'elseif levdiv = 10 then
+			'	enemx = 362
+			'	gosub spawnenemy
+			'	enemx = 182
+			'	gosub spawnenemy
+			'elseif levdiv = 12 or levdiv = 14 or levdiv = 16 then
+			'	enemx = 168
+			'	gosub spawnenemy
+			'elseif levdiv = 13 or levdiv = 15 or levdiv = 17 then
+			'	enemx = 388
+			'	gosub spawnenemy
+			'endif
+		elseif level = 2 then
+		endif
+		levdiv++
+	endif
+	sleep 1
+	if levwait > 0 then
+		levwait--
+	endif
+	if wait > 0 then
+		wait--
+	endif
+	locate 1,1
+	print "Lives: "; lives
+	locate 1,12
+	print "Score: "; score
+	locate 1,26
+	print "Hi: "; hiscore
+	goto gameloop
+	
+
+titlepal:
+  	DATAINT	$0000,$00EE,$0EEE,$000E,$0EE0,$00E0,$0E00,$0888	'  Pallette: 0
+	DATAINT	$0CCC,$0088,$0808,$0008,$0880,$0080,$0800,$0000	
+	
+logo:
+	datafile logo.bin,bin
+	
+menutiles:
+ 	datafile menu.bin,bin
+
+gametiles:
+	datafile game.bin,bin
+
+'Replayer init. Set data read pointer to music data (by RELOAD or RESTORE)
+'and GOSUB here. It needed once before playing
+
+tfdPlayInit:
+    DataPtr&=DataPtr&()+4           'skip TFMD signature
+    for a=1 to 3                    'skip three null-terminated text lines
+    while 1
+    read b
+    if b=0 then exit while
+    wend
+    next
+    vTfdDataPtr&=DataPtr&()         'store current read position
+    vTfdLoopPtr&=vTfdDataPtr&       'default loop position
+    vTfdCurrentBank=0               'select bank0
+    vTfdFrameCnt=0                  'frame counter
+    vTfdWaitCnt=0                   'wait counter
+    pokeint &hA11100,&h100          'busreq on
+    pokeint &hA11200,&h100          'reset Z80 and YM2612
+    pokeint &hA11200,0
+    pokeint &hA11100,0              'busreq off
+ 
+    return
+ 
+
+ 
+'Replayer update. GOSUB here each frame (1/50sec) to play music.
+'Note that for NTSC system you must do speed compensation to
+'make music play at normal speed. In this example that done
+'simply by skipping every 6th frame
+
+tfdPlayFrame:
+    vTfdFrameCnt++                      'increment frame counter
+    if TvType()=0 then                  'speed compensation for NTSC
+        if vTfdFrameCnt%6=0 then return
+    endif
+    if vTfdWaitCnt then                 'skip frames if needed
+        vTfdWaitCnt--
+    else
+        vTfdDataTemp&=DataPtr&()        'store current read position
+        DataPtr&=vTfdDataPtr&           'set read position of music data
+        while 1
+            read vTag
+            if vTag<&hFA then           'write to YM2612 register
+                read vData              'read data
+                if vTag<&h30 then
+                    curBank=0           'writes below 0x30 always goes to bank0
+                else
+                    curBank=vTfdCurrentBank
+                endif
+                adrReg&=&hA04000+curBank
+                adrVal&=&hA04001+curBank
+                if vTag=&h28 then       'correction for bank1 Key On/Off event
+                    if vTfdCurrentBank then
+                        vData=vData+4
+                    endif
+                endif
+                'pokeint &hA11100,&h0100    'busreq on
+                while peek(&hA04000).7  'wait for busy
+                wend
+                poke adrReg&,vTag       'write YM2612 register number
+                while peek(&hA04000).7  'wait for busy
+                wend
+                poke adrVal&,vData      'write YM2612 register data
+                'pokeint &hA11100,&h0000    'busreq off
+            elseif vTag=&hFF  then      'single frame
+                vTfdCurrentBank=0
+                exit while
+            elseif vTag=&hFE then       'few frames
+                vTfdCurrentBank=0
+                read vTfdWaitCnt
+                vTfdWaitCnt=vTfdWaitCnt+2
+                exit while
+            elseif vTag=&hFD then       'select bank1
+                vTfdCurrentBank=2
+            elseif vTag=&hFC then       'select bank0
+                vTfdCurrentBank=0
+            elseif vTag=&hFB then       'end of data
+                DataPtr&=vTfdLoopPtr&   'jump to loop position
+            elseif vTag=&hFA then       'loop position
+                vTfdLoopPtr&=DataPtr&() 'remember read position
+                endif
+        wend
+        vTfdDataPtr&=DataPtr&()             'store read position of music data
+        DataPtr&=vTfdDataTemp&              'restore current read position
+    endif
+    return
+ 
+tfdStop:
+    return
+ 
+musicData:
+    datafile title.tfd,BIN
+    
+menumusic:
+    datafile menu.tfd,BIN
+    
+levelmusic:
+	datafile lev1.tfd,BIN
+
+declare sub drawblock(til as integer, tilx as integer, tily as integer, len as integer)
+	for ntilx = tilx to tilx+len-1
+		for ntily = tily to tily+len-1
+			drawtile til,ntilx,ntily
+			til++
+		next
+	next
+end sub
+
+spawnenemy:
+	fixf = 0
+	for f = 0 to 9
+		if enemy(f) = 0 then
+			fixf = f
+		endif
+	next
+	if fixf = 0 then
+		Return
+	endif
+	enemy(fixf) = addsprite(3,3)
+	propsprite enemy(fixf), 569, 0
+	movesprite enemy(fixf), enemx, 120
+	return

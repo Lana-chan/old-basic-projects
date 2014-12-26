@@ -13,9 +13,15 @@ Summary, as of this commit:
  * th2ass - some copy of TH2, only known working build.
  * WinDungeON - Windows version of an earlier project, DungeON. Faux-3D dungeon crawler.
  * WoA - World of Artcraft, very rudimentary group-drawing program. It works.
+ * demo - just a dumb demo that bounces some text and plays some music.
+ * stars - a starfield.
 
 * QuickBasic
  * C3E - What's left of Compy 386 Emulator. Back in 2007 someone was making this in QBasic and I offered to help. The code was a terrible mess and I tried rewriting it, and that's all I have.
  * DUNGEON - DungeON, vector-based dungeon crawler. Very rudimentary.
  * MAITAI - MaiTAI Text Adventure Interpreter, my only finished QB project. No finished games were ever made for it.
  * VISTAI - Updated version of MaiTAI with vector graphics support.
+ 
+* BasiEgaXorz
+ * Airstriker - 2008 arcade shmup for the Sega Genesis.
+ * Airstriker 2 - unfinished sequel

@@ -1,0 +1,487 @@
+'Airstriker
+'v0.10 - 08-10-18
+'TFD player by Shiru
+'Sega logo by Tom Maneiro
+
+ option title,"Airstriker"
+ 
+drawsegalogo:
+ 'Must thank Tom Maneiro for the sega logo code
+	settextplane scroll_a
+	setgfxplane scroll_a
+	loadtiles SEGALOGO,48,256
+    pallettes sp1,0,0,16
+	n=256
+	for y=1 to 4
+		for x=1 to 12
+			drawtile n,x+13,y+11
+			n=n+1
+		next
+	next
+
+	'swap pallettes for do our sega logo animation
+	sleep 10
+	pallettes sp2,0,0,16
+	sleep 10
+	pallettes sp3,0,0,16
+	sleep 10
+	pallettes sp4,0,0,16
+	sleep 10
+	pallettes sp5,0,0,16
+	sleep 10
+	pallettes sp6,0,0,16
+	sleep 10
+	pallettes sp7,0,0,16
+	sleep 10
+	pallettes sp8,0,0,16
+	sleep 15
+	cls
+	goto main
+	
+sp1:	
+	dataint $0000,$0EEE,$0E20,$0E00,$0A00,$0800,$0E40,$0E60
+	dataint $0E80,$0EA0,$0000,$0000,$0000,$0000,$0000,$0000
+sp2:
+	dataint $0000,$0EEE,$0EA0,$0E20,$0E00,$0A00,$0800,$0E40
+	dataint $0E60,$0E80,$0000,$0000,$0000,$0000,$0000,$0000
+sp3:
+	dataint $0000,$0EEE,$0E80,$0EA0,$0E20,$0E00,$0A00,$0800
+	dataint $0E40,$0E60,$0000,$0000,$0000,$0000,$0000,$0000
+sp4:
+	dataint $0000,$0EEE,$0E60,$0E80,$0EA0,$0E20,$0E00,$0A00
+	dataint $0800,$0E40,$0000,$0000,$0000,$0000,$0000,$0000
+sp5:
+	dataint $0000,$0EEE,$0E40,$0E60,$0E80,$0EA0,$0E20,$0E00
+	dataint $0A00,$0800,$0000,$0000,$0000,$0000,$0000,$0000
+sp6:
+	dataint $0000,$0EEE,$0800,$0E40,$0E60,$0E80,$0EA0,$0E20
+	dataint $0E00,$0A00,$0000,$0000,$0000,$0000,$0000,$0000
+sp7:
+	dataint $0000,$0EEE,$0A00,$0800,$0E40,$0E60,$0E80,$0EA0
+	dataint $0E20,$0E00,$0000,$0000,$0000,$0000,$0000,$0000
+sp8:
+	dataint $0000,$0EEE,$0E00,$0A00,$0800,$0E40,$0E60,$0E80
+	dataint $0EA0,$0E20,$0000,$0000,$0000,$0000,$0000,$0000
+	
+SEGALOGO:
+	datafile segalogo.bin,BIN
+
+main:
+    cls
+ 	LoadTiles logo,128,256
+ 	LoadTiles menutiles,64,456
+ 	LoadTiles gametiles,64,556
+	pallettes titlepal,0,0,16
+	
+    reload musicData
+    gosub tfdPlayInit
+    on VBLANK gosub tfdPlayFrame
+    enable INTERRUPTVBLANK
+    strt = 1
+    menuy = 0
+    music = 1
+    drawblock 256,12,5,8
+    drawblock 320,20,5,8
+    ink 0
+    locate 22,0
+	print "Copyright 2008 Electrokinesis Studios"
+mainLoop:
+	joy = joypad(0)
+    if joy.7 then
+    	joy = 0
+		if music = 1 then
+			reload menumusic
+    		gosub tfdPlayInit
+    	endif
+    	goto mainmenu
+    endif
+    sleep 2
+    locate 19,14
+	if strt > 19 then 
+		print "Press Start"
+	else
+		print "           "
+	endif
+	if strt < 41 then
+		strt++
+	else
+		strt = 1
+	endif
+    goto mainLoop
+    end
+    
+mainmenu:
+	cls
+	for y = 0 to 28 step 2
+		for x = 10 to 30 step 2
+			drawblock 456,x,y,2
+		next
+	next
+	locate 3,10
+	print "Main Menu"
+	locate 9,12
+	print "Start game"
+	locate 13,12
+	print "Options"
+	locate 11,12
+	print "Credits"
+menuloop:
+	joy = joypad(0)
+	drawblock 460,10,10+menuy,2
+	sleep 5
+	drawblock 456,10,10+menuy,2
+	if joy.0 then
+		if menuy > 0 then
+			menuy = menuy - 2
+		endif
+	endif
+	if joy.1 then
+		if menuy < 4 then
+			menuy = menuy + 2
+		endif
+	endif
+	if joy.4 then
+		if menuy = 0 then
+			goto game
+		elseif menuy = 2 then
+			goto credits
+		elseif menuy = 4 then
+			goto options
+		endif
+	endif
+	goto menuloop
+    
+credits:
+	for y = 0 to 26 step 2
+		for x = 0 to 38 step 2
+			drawblock 456,x,y,2
+		next
+	next
+	locate 3,14
+	print "Airstriker"
+	locate 4,16
+	print "Credits"
+	locate 8,5
+	print "Programming, graphics and music"
+	locate 9,7
+	print "Syniphas"
+	locate 11,5
+	print "Sega logo code"
+	locate 12,7
+	print "Tom Maneiro"
+	locate 14,5
+	print "TFD player code"
+	locate 15,7
+	print "Shiru"
+	locate 19,0
+	print "Copyright 2008 Electrokinesis Studios"
+	locate 20,4
+	print "http://electrokinesis.drx.pl/"
+creditloop:
+	joy = joypad(0)
+	if joy.4 or joy.7 then
+		goto mainmenu
+	endif
+	goto creditloop
+	
+options:
+	for y = 0 to 28 step 2
+		for x = 10 to 30 step 2
+			drawblock 456,x,y,2
+		next
+	next
+	otpy = 0
+	locate 3,10
+	print "Options"
+	locate 9,12
+	print "Music"
+	locate 11,12
+	print "Exit"
+optloop:
+	joy = joypad(0)
+	drawblock 460,10,10+opty,2
+	locate 9,18
+	if music = 1 then
+	print "on"
+	else
+	print "off"
+	endif
+	sleep 5
+	drawblock 456,10,10+opty,2
+	locate 9,18
+	print "   "
+	if joy.0 then
+		if opty > 0 then
+			opty = opty - 2
+		endif
+	endif
+	if joy.1 then
+		if opty < 2 then
+			opty = opty + 2
+		endif
+	endif
+	if joy.4 or joy.3 or joy.2 then
+		if opty = 0 then
+			if music = 1 then
+				music = 0
+				reload menumusic
+    			gosub tfdPlayInit
+    			on VBLANK gosub tfdStop
+    			pokeint &hA11200,&h100
+			else
+				music = 1
+    			on VBLANK gosub tfdPlayFrame
+			endif
+		endif
+	endif
+	if joy.4 or joy.7 then
+		if opty = 2 then
+			goto mainmenu
+		endif
+	endif
+	goto optloop
+	
+game:
+	dim bs(5) as integer
+	dim bsx(5) as integer
+	dim bsy(5) as integer
+	dim ms(5) as integer
+	dim msx(5) as integer
+	dim msy(5) as integer
+	cls
+	if music = 1 then
+		reload levelmusic
+    	gosub tfdPlayInit
+    endif
+	shipx = 272
+	shipy = 320
+	ship = addsprite(3, 3)
+	for i = 1 to 5
+		bs(i) = addsprite(1, 1)
+		bsy(i) = rnd(120)
+		propsprite bs(i), 566, 0
+		ms(i) = addsprite(1, 1)
+		msy(i) = rnd(120)
+		propsprite ms(i), 567, 0
+	next
+	propsprite ship, 556, 0
+	movesprite ship, shipx, shipy
+gameloop:
+	joy = joypad(0)
+	if joy.2 then
+		locate 11,1
+		if shipx >132 then
+			shipx = shipx - 3
+		endif
+	endif
+	if joy.3 then
+		locate 11,1
+		if shipx <420 then
+			shipx = shipx + 3
+		endif
+	endif
+	if joy.7 and wait = 0 then
+		locate 20,10
+		print "Paused"
+		wait = 10
+		joy = joypad(0)
+		while 1 = 1
+			joy = joypad(0)
+			sleep 3
+			if wait > 0 then
+				wait--
+			endif
+			if joy.7 and wait = 0 then
+				goto unpause
+			endif
+		wend
+unpause:
+		wait = 10
+		locate 20,10
+		print "      "
+	endif
+	for i = 1 to 5
+		if bsy(i) <= 125 then
+			bsx(i) = rnd(310)+133
+		endif
+		if msy(i) <= 125 then
+			msx(i) = rnd(310)+133
+		endif
+		bsy(i) = bsy(i) + 5
+		msy(i) = msy(i) + 3
+		if bsy(i) >= 368 then
+			bsy(i) = rnd(120)
+		endif
+		if msy(i) >= 368 then
+			msy(i) = rnd(120)
+		endif
+		movesprite bs(i), bsx(i), bsy(i)
+		movesprite ms(i), msx(i), msy(i)
+	next
+	movesprite ship, shipx, shipy
+	sleep 1
+	if wait > 0 then
+		wait--
+	endif
+	goto gameloop
+
+titlepal:
+  	DATAINT	$0000,$00EE,$0EEE,$000E,$0EE0,$00E0,$0E00,$0888	'  Pallette: 0
+	DATAINT	$0CCC,$0088,$0808,$0008,$0880,$0080,$0800,$0000	
+	
+logo:
+	datafile logo.bin,bin
+	
+menutiles:
+ 	datafile menu.bin,bin
+
+gametiles:
+	datafile game.bin,bin
+
+'Replayer init. Set data read pointer to music data (by RELOAD or RESTORE)
+'and GOSUB here. It needed once before playing
+
+tfdPlayInit:
+    DataPtr&=DataPtr&()+4           'skip TFMD signature
+    for a=1 to 3                    'skip three null-terminated text lines
+    while 1
+    read b
+    if b=0 then exit while
+    wend
+    next
+    vTfdDataPtr&=DataPtr&()         'store current read position
+    vTfdLoopPtr&=vTfdDataPtr&       'default loop position
+    vTfdCurrentBank=0               'select bank0
+    vTfdFrameCnt=0                  'frame counter
+    vTfdWaitCnt=0                   'wait counter
+    pokeint &hA11100,&h100          'busreq on
+    pokeint &hA11200,&h100          'reset Z80 and YM2612
+    pokeint &hA11200,0
+    pokeint &hA11100,0              'busreq off
+ 
+    return
+ 
+
+ 
+'Replayer update. GOSUB here each frame (1/50sec) to play music.
+'Note that for NTSC system you must do speed compensation to
+'make music play at normal speed. In this example that done
+'simply by skipping every 6th frame
+
+tfdPlayFrame:
+    vTfdFrameCnt++                      'increment frame counter
+    if TvType()=0 then                  'speed compensation for NTSC
+        if vTfdFrameCnt%6=0 then return
+    endif
+    if vTfdWaitCnt then                 'skip frames if needed
+        vTfdWaitCnt--
+    else
+        vTfdDataTemp&=DataPtr&()        'store current read position
+        DataPtr&=vTfdDataPtr&           'set read position of music data
+        while 1
+            read vTag
+            if vTag<&hFA then           'write to YM2612 register
+                read vData              'read data
+                if vTag<&h30 then
+                    curBank=0           'writes below 0x30 always goes to bank0
+                else
+                    curBank=vTfdCurrentBank
+                endif
+                adrReg&=&hA04000+curBank
+                adrVal&=&hA04001+curBank
+                if vTag=&h28 then       'correction for bank1 Key On/Off event
+                    if vTfdCurrentBank then
+                        vData=vData+4
+                    endif
+                endif
+                'pokeint &hA11100,&h0100    'busreq on
+                while peek(&hA04000).7  'wait for busy
+                wend
+                poke adrReg&,vTag       'write YM2612 register number
+                while peek(&hA04000).7  'wait for busy
+                wend
+                poke adrVal&,vData      'write YM2612 register data
+                'pokeint &hA11100,&h0000    'busreq off
+            elseif vTag=&hFF  then      'single frame
+                vTfdCurrentBank=0
+                exit while
+            elseif vTag=&hFE then       'few frames
+                vTfdCurrentBank=0
+                read vTfdWaitCnt
+                vTfdWaitCnt=vTfdWaitCnt+2
+                exit while
+            elseif vTag=&hFD then       'select bank1
+                vTfdCurrentBank=2
+            elseif vTag=&hFC then       'select bank0
+                vTfdCurrentBank=0
+            elseif vTag=&hFB then       'end of data
+                DataPtr&=vTfdLoopPtr&   'jump to loop position
+            elseif vTag=&hFA then       'loop position
+                vTfdLoopPtr&=DataPtr&() 'remember read position
+                endif
+        wend
+        vTfdDataPtr&=DataPtr&()             'store read position of music data
+        DataPtr&=vTfdDataTemp&              'restore current read position
+    endif
+    return
+ 
+tfdStop:
+    return
+ 
+musicData:
+    datafile title.tfd,BIN
+    
+menumusic:
+    datafile menu.tfd,BIN
+    
+levelmusic:
+	datafile lev1.tfd,BIN
+
+declare sub drawblock(til as integer, tilx as integer, tily as integer, len as integer)
+	for ntilx = tilx to tilx+len-1
+		for ntily = tily to tily+len-1
+			drawtile til,ntilx,ntily
+			til++
+		next
+	next
+end sub
+
+declare sub drawmap(til1 as integer, til2 as integer, til3 as integer, til4 as integer, til5 as integer, til6 as integer, til7 as integer, til8 as integer, til9 as integer, til10 as integer, x as integer, y as integer, len as integer)
+	drawblock til1,x,y,len
+	if til2 <> 0 then
+	x = x + len
+	drawblock til2,x,y,len
+	endif
+	if til3 <> 0 then
+	x = x + len
+	drawblock til3,x,y,len
+	endif
+	if til4 <> 0 then
+	x = x + len
+	drawblock til4,x,y,len
+	endif
+	if til5 <> 0 then
+	x = x + len
+	drawblock til5,x,y,len
+	endif
+	if til6 <> 0 then
+	x = x + len
+	drawblock til6,x,y,len
+	endif
+	if til7 <> 0 then
+	x = x + len
+	drawblock til7,x,y,len
+	endif
+	if til8 <> 0 then
+	x = x + len
+	drawblock til8,x,y,len
+	endif
+	if til9 <> 0 then
+	x = x + len
+	drawblock til9,x,y,len
+	endif
+	if til10 <> 0 then
+	x = x + len
+	drawblock til10,x,y,len
+	endif
+end sub

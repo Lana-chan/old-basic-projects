@@ -1,0 +1,2647 @@
+'Airstriker
+'v1.50 - 08-11-08
+'TFD player by Shiru
+'Sega logo by Tom Maneiro
+	dim bs(5) as integer
+	dim bsx(5) as integer
+	dim bsy(5) as integer
+	dim ms(5) as integer
+	dim msx(5) as integer
+	dim msy(5) as integer
+	dim shot(10) as integer
+	dim shotx(10) as integer
+	dim shoty(10) as integer
+	dim shot2(10) as integer
+	dim shot2x(10) as integer
+	dim shot2y(10) as integer
+	dim enemy(10) as integer
+	dim enemyx(10) as integer
+	dim enemyy(10) as integer
+	dim enemydeltax(10) as integer
+	dim enemshot(10) as integer
+	dim enemshotx(10) as integer
+	dim enemshoty(10) as integer
+	dim explo(10) as integer
+	dim explowait(10) as integer
+	dim bomb(10) as integer
+	dim bombx(10) as integer
+	dim bomby(10) as integer
+	dim bombdeltax(10) as integer
+	music = 0
+	option title,"Airstriker"
+	option textpriority, high
+ 
+drawsegalogo:
+ '************************************
+ '************************************
+ '**          SEGA LOGO             **
+ '** Developed by Tulio Adriano     **
+ '** mailto:tgoncalves@terra.com.br **
+ '************************************
+ '************************************
+ 
+ 'This is the standard Sega logo, used in most games made and officialy released for 
+ 'Sega Genesis. 
+ 'This logo can be used in any homebrew game. Please credit me in some part of it. 
+
+ Dim OffSt as Integer
+ Dim Slp   as Integer
+ dim Sprt1 as Integer
+ dim Sprt2 as Integer
+ dim Sprt3 as Integer
+
+    Slp = 3
+
+    Pallettes PalletteSEGA,0,0,16
+
+    LoadTiles tiledata_sega,48,256
+ 	
+    OffSt = 256
+ 
+    'Creates the sprite in Genesis memory	
+    Sprt1 = AddSprite(4,4)
+    Sprt2 = AddSprite(4,4)
+    Sprt3 = AddSprite(4,4)
+    
+    'Assign the sprites to the apropriate memory position
+    PropSprite Sprt1, 256, PalletteSEGA
+    PropSprite Sprt2, 272, PalletteSEGA
+    PropSprite Sprt3, 288, PalletteSEGA
+    
+    'Move the sprites to the center of the screen so they can be visible. 
+    '(Remember that center of screen + 128, so that it can be on the viewable region of the screen.)
+    MoveSprite Sprt1, 240, 216
+    MoveSprite Sprt2, 272, 216
+    MoveSprite Sprt3, 304, 216
+    
+    'DrawTiles mapdata_sega, OffSt, 14, 11, 12, 4
+ 	
+	Sleep 15
+  	Pallettes PalletteSEGA2,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA3,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA4,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA5,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA6,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA7,0,0,16
+  	
+	Sleep Slp
+  	Pallettes PalletteSEGA8,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA9,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA10,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA11,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA12,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA13,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA14,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA15,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA16,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA,0,0,16
+
+	Sleep 100
+ 	Pallettes PalletteDark,0,0,16
+	
+	'Always a good idea release the sprite before you move on
+	FreeSprite Sprt1
+	FreeSprite Sprt2
+	FreeSprite Sprt3
+	
+	Sleep 10
+
+electrologo:
+	pallettes titlepal,0,0,16
+    LoadTiles electrotiles,192,256
+    til = 256
+    tilx = 5
+    tily = 9
+    for y = 0 to 4
+    	for x = 0 to 15
+    		drawtile til+x, tilx+x, tily+y
+    	next
+    next
+    tily = 13    
+    for y = 0 to 5
+    	for x = 0 to 15
+    		drawtile til+x, tilx+x, tily+y
+    	next
+    	til = til + 16
+    next
+    til = 352
+    tilx = 21
+    tily = 9
+    for y = 0 to 4
+    	for x = 0 to 15
+    		drawtile til+x, tilx+x, tily+y
+    	next
+    next
+    tily = 13    
+    for y = 0 to 5
+    	for x = 0 to 15
+    		drawtile til+x, tilx+x, tily+y
+    	next
+    	til = til + 16
+    next
+    sleep 150
+    cls
+    sleep 10
+
+main:
+    cls
+ 	LoadTiles logo,128,256
+ 	LoadTiles menutiles,64,456
+ 	LoadTiles gametiles,128,556
+	if music = 1 then
+		reload musicData
+    	gosub tfdPlayInit
+		on VBLANK gosub tfdPlayFrame
+    	enable INTERRUPTVBLANK
+    endif
+    strt = 1
+    menuy = 0
+    drawblock 256,12,5,8
+    drawblock 320,20,5,8
+    locate 16,5
+    print "1P Hiscore - "; hiscore
+    locate 22,0
+	print "Copyright 2008 Electrokinesis Studios"
+mainLoop:
+	joy = joypad(0)
+    if joy.7 then
+		if music = 1 then
+			reload menumusic
+    		gosub tfdPlayInit
+    	endif
+    	goto mainmenu
+    endif
+    sleep 2
+    locate 19,14
+	if strt > 19 then 
+		print "Press Start"
+	else
+		print "           "
+	endif
+	if strt < 41 then
+		strt++
+	else
+		strt = 1
+	endif
+    goto mainLoop
+    end
+    
+mainmenu:
+	cls
+	drawwires 10,3,20,5
+	drawwires 12,9,23,17
+	locate 3,10
+	print "Main Menu"
+	locate 9,12
+	print "Start game"
+	locate 11,12
+	print "Highscores"
+	locate 13,12
+	print "Options"
+	locate 15,12
+	print "Credits"
+menuloop:
+	joy = joypad(0)
+	if joy.0 = 0 then
+		up = 0
+	endif
+	if joy.0 and up = 0 then
+		up = 1
+		if menuy > 0 then
+			wait = 5
+			menuy = menuy - 2
+		endif
+	endif
+	if joy.1 = 0 then
+		down = 0
+	endif
+	if joy.1 and down = 0 then
+		down = 1
+		if menuy < 6 then
+			wait = 5
+			menuy = menuy + 2
+		endif
+	endif
+	if joy.1 = 0 then
+		down = 0
+	endif
+	if joy.4 and button = 0 then
+		button = 1
+		if menuy = 0 then
+			goto gamemenu
+		elseif menuy = 2 then
+			goto highscore
+		elseif menuy = 4 then
+			goto options
+		elseif menuy = 6 then
+			goto credits
+		endif
+	endif
+	if joy.4 = 0 then
+		button = 0
+	endif
+	drawtile 464, 10, 10+menuy
+	sleep 1
+	drawtile 465, 10, 10+menuy
+	goto menuloop
+    
+credits:
+	cls
+	locate 2,14
+	print "Airstriker"
+	locate 3,16
+	print "Credits"
+	locate 5,5
+	print "Programming, graphics and music"
+	locate 6,7
+	print "Syniphas"
+	locate 8,5
+	print "Level design & beta testing"
+	locate 9,7
+	print "Sik the hedgehog"
+	locate 11,5
+	print "Additional beta tester"
+	locate 12,7
+	print "Ramiro"
+	locate 14,5
+	print "Sega logo code"
+	locate 15,7
+	print "Tulio Adriano"
+	locate 17,5
+	print "TFD player code"
+	locate 18,7
+	print "Shiru"
+	locate 20,0
+	print "Copyright 2008 Electrokinesis Studios"
+	locate 21,4
+	print "http://electrokinesis.drx.pl/"
+creditloop:
+	joy = joypad(0)
+	if joy.4 and button = 0 then
+		button = 1
+		goto mainmenu
+	endif
+	if joy.4 = 0 then
+		button = 0
+	endif
+	sleep 1
+	goto creditloop
+	
+highscore:
+	cls
+	locate 2,14
+	print "Highscores"
+	locate 5,5
+	print "Single Player"
+	locate 6,7
+	print hiscore
+	locate 8,5
+	print "Cooperative"
+	locate 9,7
+	print "Player 1 - "; hicoop1
+	locate 10,7
+	print "Player 2 - "; hicoop2
+	locate 12,5
+	print "Endurance Mode"
+	locate 13,7
+	print hiendur
+	locate 15,5
+	print "Coop Endurance"
+	locate 16,7
+	print "Player 1 - "; hiendr1
+	locate 17,7
+	print "Player 2 - "; hiendr2
+hsloop:
+	joy = joypad(0)
+	if joy.4 and button = 0 then
+		button = 1
+		goto mainmenu
+	endif
+	if joy.4 = 0 then
+		button = 0
+	endif
+	sleep 1
+	goto hsloop
+	
+options:
+	cls
+	drawwires 10,3,18,5
+	drawwires 12,9,22,13
+	opty = 0
+	locate 3,10
+	print "Options"
+	locate 9,12
+	print "Music"
+	locate 11,12
+	print "Exit"
+optloop:
+	joy = joypad(0)
+	locate 9,18
+	if music = 1 then
+		print "on"
+	else
+		print "off"
+	endif
+	if joy.0 and up = 0 then
+		up = 1
+		if opty > 0 then
+			opty = opty - 2
+		endif
+	endif
+	if joy.0 = 0 then
+		up = 0
+	endif
+	if joy.1 and down = 0 then
+		down = 1
+		if opty < 2 then
+			opty = opty + 2
+		endif
+	endif
+	if joy.1 = 0 then
+		down = 0
+	endif
+	if joy.4 and button = 0 then
+		button = 1
+		if opty = 0 then
+			if music = 1 then
+				music = 0
+				reload silent
+    			gosub tfdPlayInit
+			else
+				music = 1
+				reload menumusic
+    			gosub tfdPlayInit
+			endif
+		endif
+		if opty = 2 then
+			goto mainmenu
+		endif
+	endif
+	if joy.4 = 0 then
+		button = 0
+	endif
+	drawtile 464, 10, 10+opty
+	sleep 1
+	drawtile 465, 10, 10+opty
+	locate 9,18
+	print "   "
+	goto optloop
+	
+gamemenu:
+	cls
+	drawwires 10,3,20,5
+	drawwires 12,9,27,19
+	gmy = 0
+	locate 3,10
+	print "Game menu"
+	locate 9,12
+	print "Single Player"
+	locate 11,12
+	print "Cooperative"
+	locate 13,12
+	print "Endurance Mode"
+	locate 15,12
+	print "Coop Endurance"
+	locate 17,12
+	print "Exit"
+gmloop:
+	joy = joypad(0)
+	if joy.0 and up = 0 then
+		up = 1
+		if gmy > 0 then
+			gmy = gmy - 2
+		endif
+	endif
+	if joy.0 = 0 then
+		up = 0
+	endif
+	if joy.1 and down = 0 then
+		down = 1
+		if gmy < 8 then
+			gmy = gmy + 2
+		endif
+	endif
+	if joy.1 = 0 then
+		down = 0
+	endif
+	if joy.4 and button = 0 then
+		button = 1
+		if gmy = 0 then
+			shotb4 = 1
+			levdiv = 1
+			levwait = 0
+			level = 1
+			lives = 3
+			goto game
+		elseif gmy = 2 then
+			shotb4 = 1
+			lives = 3
+			shotb42 = 1
+			lives2 = 3
+			levdiv = 1
+			levwait = 0
+			level = 1
+			goto 2pgame
+		elseif gmy = 4 then
+			shotb4 = 1
+			levdiv = 1
+			levwait = 0
+			level = 1
+			lives = 3
+			goto endurance
+		elseif gmy = 6 then
+			shotb4 = 1
+			lives = 3
+			shotb42 = 1
+			lives2 = 3
+			levdiv = 1
+			levwait = 0
+			level = 1
+			goto cendur
+		elseif gmy = 8 then
+			goto mainmenu
+		endif
+	endif
+	if joy.4 = 0 then
+		button = 0
+	endif
+	drawtile 464, 10, 10+gmy
+	sleep 1
+	drawtile 465, 10, 10+gmy
+	goto gmloop
+	
+game:
+	cls
+	if music = 1 then
+		reload levelmusic
+		gosub tfdPlayInit
+	endif
+	bugavoid = addsprite(1,1)
+	propsprite bugavoid, 556, 0
+	movesprite bugavoid, 20, 20
+	for i = 0 to 4
+		bs(i) = addsprite(1,1)
+		propsprite bs(i), 566, 0
+		bsx(i) = rnd(320) + 128
+		bsy(i) = rnd(125)
+		movesprite bs(i), bsx(i), bsy(i)
+		ms(i) = addsprite(1,1)
+		propsprite ms(i), 567, 0
+		msx(i) = rnd(320) + 128
+		msy(i) = rnd(125)
+		movesprite ms(i), msx(i), msy(i)
+	next
+	shipx = 272
+	shipy = 310
+	ship = addsprite(3,3)
+	propsprite ship, 556, 0
+gameloop:
+	joy = joypad(0)
+	if joy.2 then
+		if shipx > 140 then
+			shipx = shipx - 5
+		endif
+	endif
+	if joy.3 then
+		if shipx < 410 then
+			shipx = shipx + 5
+		endif
+	endif
+	if joy.4 and shotb4 = 0 then
+		if b = 0 then
+			shotb4 = 1
+			for b = 0 to 9
+				if shot(b) = 0 then
+					goto shoot
+				endif
+			next
+			goto shootfail
+shoot:
+			shot(b) = addsprite(1,3)
+			shotx(b) = shipx
+			shoty(b) = shipy
+			propsprite shot(b), 606, 0
+			movesprite shot(b), shotx(b), shoty(b)
+			b = 0
+		endif
+shootfail:
+	endif
+	if joy.4 = 0 then
+		shotb4 = 0
+	endif
+	if joy.7 and pausedb4 = 0 then
+		locate 20,5
+		print "Paused, press A+B+C to quit"
+		pausedb4 = 1
+		joy = joypad(0)
+		while 1 = 1
+			joy = joypad(0)
+			sleep 1
+			if joy.7 = 0 then
+				pausedb4 = 0
+			endif
+			if joy.7 and pausedb4 = 0 then
+				goto unpause
+			endif
+			if joy.4 and joy.5 and joy.6 then
+				ship = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					shot(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				score = 0
+				freeallsprites
+				goto main
+			endif
+		wend
+unpause:
+		pausedb4 = 1
+		locate 20,5
+		print "                            "
+	endif
+	if joy.7 = 0 then
+		pausedb4 = 0
+	endif
+	for i = 0 to 4
+		bsy(i) = bsy(i) + 5
+		movesprite bs(i), bsx(i), bsy(i)
+		msy(i) = msy(i) + 3
+		movesprite ms(i), msx(i), msy(i)
+		if bsy(i) > 370 then
+			bsx(i) = rnd(320) + 128
+			bsy(i) = rnd(125)
+		endif
+		if msy(i) > 370 then
+			msx(i) = rnd(320) + 128
+			msy(i) = rnd(125)
+		endif
+	next
+	for i = 0 to 9
+		if enemy(i) <> 0 then
+			enemyy(i) = enemyy(i) + 2
+			enemyx(i) = enemyx(i) + enemydeltax(i)
+			movesprite enemy(i), enemyx(i), enemyy(i)
+			if enemyy(i) = 180 and enemshot(i) = 0 then
+				enemshot(i) = addsprite(1,1)
+				enemshotx(i) = enemyx(i) + 8
+				enemshoty(i) = enemyy(i) + 20
+				propsprite enemshot(i), 578, 0
+				movesprite enemshot(i), enemshotx(i), enemshoty(i)
+			endif
+			if enemyy(i) > 370 then
+				freesprite enemy(i)
+				enemy(i) = 0
+			endif
+'			if collision() = 1 then
+				if enemyx(i)+24 > shipx and enemyy(i)+24 > shipy and enemyx(i) < shipx+24 and enemyy(i) < shipy+24 and explo(i) = 0 then
+					goto die
+				endif
+'			endif
+		endif
+		if shot(i) <> 0 then
+			shoty(i) = shoty(i) - 5
+			movesprite shot(i), shotx(i), shoty(i)
+			if shoty(i) < 120 then
+				freesprite shot(i)
+				shot(i) = 0
+			endif
+'			if collision() = 1 then
+				for n = 0 to 9
+					if enemy(n) <> 0 then
+						if enemyx(n)+24 > shotx(i) and enemyy(n)+24 > shoty(i) and enemyx(n) < shotx(i)+24 and enemyy(n) < shoty(i)+8 and explo(n) = 0 then
+							freesprite shot(i)
+							shot(i) = 0
+							explo(n) = 1
+							score = score + 20
+							if score > hiscore then
+								hiscore = score
+							endif
+						endif
+					endif
+				next
+'			endif
+		endif
+		if enemshot(i) <> 0 then
+			enemshoty(i) = enemshoty(i) + 3
+			movesprite enemshot(i), enemshotx(i), enemshoty(i)
+			if enemshoty(i) > 370 then
+				freesprite enemshot(i)
+				enemshot(i) = 0
+			endif
+'			if collision() = 1 then
+				if enemshotx(i)+8 > shipx and enemshoty(i)+8 > shipy and enemshotx(i) < shipx+24 and enemshoty(i) < shipy+24 then
+					goto die
+				endif
+'			endif
+		endif
+		if bomb(i) <> 0 then
+			bomby(i) = bomby(i) + 2
+			bombx(i) = bombx(i) + bombdeltax(i)
+			movesprite bomb(i), bombx(i), bomby(i)
+			if bomby(i) > 370 then
+				freesprite bomb(i)
+				bomb(i) = 0
+			endif
+'			if collision() = 1 then
+				if bombx(i)+16 > shipx and bomby(i)+16 > shipy and bombx(i) < shipx+24 and bomby(i) < shipy+24 then
+					goto die
+				endif
+'			endif
+		endif
+		if explo(i) = 1 and explowait(i) = 0 then
+			propsprite enemy(i), 579, 0
+			explo(i) = 2
+			explowait(i) = 10
+		endif
+		if explo(i) = 2 and explowait(i) = 0 then
+			propsprite enemy(i), 588, 0
+			explo(i) = 3
+			explowait(i) = 10
+		endif
+		if explo(i) = 3 and explowait(i) = 0 then
+			propsprite enemy(i), 597, 0
+			explo(i) = 4
+			explowait(i) = 10
+		endif
+		if explo(i) = 4 and explowait(i) = 0 then
+			freesprite enemy(i)
+			enemy(i) = 0
+			explo(i) = 0
+		endif
+		if explowait(i) > 0 then
+			explowait(i)--
+		endif
+	next
+	movesprite ship, shipx, shipy
+	locate 1,1
+	print "Lives: "; lives
+	locate 1,12
+	print "Score: "; score
+	locate 1,27
+	print "Hi: "; hiscore
+	gosub levelstuff
+	sleep 1
+	goto gameloop
+die:
+	for i = 0 to 9
+		enemy(i) = 0
+		enemshot(i) = 0
+		explo(i) = 0
+		shot(i) = 0
+		bomb(i) = 0
+	next
+	for i = 0 to 4
+		bs(i) = 0
+		bsx(i) = 0
+		bsy(i) = 0
+		ms(i) = 0
+		msx(i) = 0
+		msy(i) = 0
+	next
+	locate 15, 15
+	print "You died."
+	for i = 0 to 2
+		propsprite ship, 579+(i*9), 0
+		sleep 10
+	next
+	freesprite ship
+	ship = 0
+	if lives > 0 then
+		sleep 45
+		freeallsprites
+		lives--
+		levdiv = 1
+		levwait = 0
+		goto game
+	else
+		locate 16,15
+		print "Game over"
+		sleep 75
+		freeallsprites
+		score = 0
+		goto main
+	endif
+
+2pgame:
+	cls
+	if music = 1 then
+		reload levelmusic
+		gosub tfdPlayInit
+	endif
+	bugavoid = addsprite(1,1)
+	propsprite bugavoid, 556, 0
+	movesprite bugavoid, 20, 20
+	for i = 0 to 4
+		bs(i) = addsprite(1,1)
+		propsprite bs(i), 566, 0
+		bsx(i) = rnd(320) + 128
+		bsy(i) = rnd(125)
+		movesprite bs(i), bsx(i), bsy(i)
+		ms(i) = addsprite(1,1)
+		propsprite ms(i), 567, 0
+		msx(i) = rnd(320) + 128
+		msy(i) = rnd(125)
+		movesprite ms(i), msx(i), msy(i)
+	next
+	shipx = 252
+	shipy = 310
+	ship = addsprite(3,3)
+	propsprite ship, 556, 0
+	ship2x = 292
+	ship2y = 310
+	ship2 = addsprite(3,3)
+	propsprite ship2, 613, 0
+2pgameloop:
+	joy = joypad(0)
+	joy2 = joypad(1)
+	if joy.2 then 'THIS IS THE PLAYER 1 STUFF THIS LINE IS BIG SO I CAN SEE IT FROM MILES AWAY
+		if shipx > 140 then
+			shipx = shipx - 5
+		endif
+	endif
+	if joy.3 then
+		if shipx < 410 then
+			shipx = shipx + 5
+		endif
+	endif
+	if joy.4 and shotb4 = 0 then
+		if b = 0 then
+			shotb4 = 1
+			for b = 0 to 9
+				if shot(b) = 0 then
+					goto 1shoot
+				endif
+			next
+			goto 1shootfail
+1shoot:
+			shot(b) = addsprite(1,3)
+			shotx(b) = shipx
+			shoty(b) = shipy
+			propsprite shot(b), 606, 0
+			movesprite shot(b), shotx(b), shoty(b)
+			b = 0
+		endif
+1shootfail:
+	endif
+	if joy.4 = 0 then
+		shotb4 = 0
+	endif
+	if joy.7 and pausedb4 = 0 then
+		locate 20,5
+		print "P1 Paused, press A+B+C to quit"
+		pausedb4 = 1
+		joy = joypad(0)
+		while 1 = 1
+			joy = joypad(0)
+			sleep 1
+			if joy.7 = 0 then
+				pausedb4 = 0
+			endif
+			if joy.7 and pausedb4 = 0 then
+				goto 1unpause
+			endif
+			if joy.4 and joy.5 and joy.6 then
+				ship = 0
+				ship2 = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					shot(i) = 0
+					shot2(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				p1score = 0
+				p2score = 0
+				freeallsprites
+				goto main
+			endif
+		wend
+1unpause:
+		pausedb4 = 1
+		locate 20,5
+		print "                               "
+	endif
+	if joy.7 = 0 then
+		pausedb4 = 0
+	endif
+	if joy2.2 then 'THIS IS THE PLAYER 2 STUFF THIS LINE IS BIG SO I CAN SEE IT FROM MILES AWAY
+		if ship2x > 140 then
+			ship2x = ship2x - 5
+		endif
+	endif
+	if joy2.3 then
+		if ship2x < 410 then
+			ship2x = ship2x + 5
+		endif
+	endif
+	if joy2.4 and shotb42 = 0 then
+		if b2 = 0 then
+			shotb42 = 1
+			for b2 = 0 to 9
+				if shot2(b2) = 0 then
+					goto 2shoot
+				endif
+			next
+			goto 2shootfail
+2shoot:
+			shot2(b2) = addsprite(1,3)
+			shot2x(b2) = ship2x
+			shot2y(b2) = ship2y
+			propsprite shot2(b2), 606, 0
+			movesprite shot2(b2), shot2x(b2), shot2y(b2)
+			b2 = 0
+		endif
+2shootfail:
+	endif
+	if joy2.4 = 0 then
+		shotb42 = 0
+	endif
+	if joy2.7 and pausedb42 = 0 then
+		locate 20,5
+		print "P2 Paused, press A+B+C to quit"
+		pausedb42 = 1
+		joy2 = joypad(1)
+		while 1 = 1
+			joy2 = joypad(1)
+			sleep 1
+			if joy2.7 = 0 then
+				pausedb42 = 0
+			endif
+			if joy2.7 and pausedb42 = 0 then
+				goto 2unpause
+			endif
+			if joy2.4 and joy2.5 and joy2.6 then
+				ship = 0
+				ship2 = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					shot(i) = 0
+					shot2(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				p1score = 0
+				p2score = 0
+				freeallsprites
+				goto main
+			endif
+		wend
+2unpause:
+		pausedb42 = 1
+		locate 20,5
+		print "                               "
+	endif
+	if joy2.7 = 0 then
+		pausedb42 = 0
+	endif
+
+	for i = 0 to 4
+		bsy(i) = bsy(i) + 5
+		movesprite bs(i), bsx(i), bsy(i)
+		msy(i) = msy(i) + 3
+		movesprite ms(i), msx(i), msy(i)
+		if bsy(i) > 370 then
+			bsx(i) = rnd(320) + 128
+			bsy(i) = rnd(125)
+		endif
+		if msy(i) > 370 then
+			msx(i) = rnd(320) + 128
+			msy(i) = rnd(125)
+		endif
+	next
+	for i = 0 to 9
+		if enemy(i) <> 0 then
+			enemyy(i) = enemyy(i) + 2
+			enemyx(i) = enemyx(i) + enemydeltax(i)
+			movesprite enemy(i), enemyx(i), enemyy(i)
+			if enemyy(i) = 180 and enemshot(i) = 0 then
+				enemshot(i) = addsprite(1,1)
+				enemshotx(i) = enemyx(i) + 8
+				enemshoty(i) = enemyy(i) + 20
+				propsprite enemshot(i), 578, 0
+				movesprite enemshot(i), enemshotx(i), enemshoty(i)
+			endif
+			if enemyy(i) > 370 then
+				freesprite enemy(i)
+				enemy(i) = 0
+			endif
+'			if collision() = 1 then
+				if enemyx(i)+24 > shipx and enemyy(i)+24 > shipy and enemyx(i) < shipx+24 and enemyy(i) < shipy+24 and explo(i) = 0 then
+					goto 1pdie
+				endif
+				if enemyx(i)+24 > ship2x and enemyy(i)+24 > ship2y and enemyx(i) < ship2x+24 and enemyy(i) < ship2y+24 and explo(i) = 0 then
+					goto 2pdie
+				endif
+'			endif
+		endif
+		if shot(i) <> 0 then
+			shoty(i) = shoty(i) - 5
+			movesprite shot(i), shotx(i), shoty(i)
+			if shoty(i) < 120 then
+				freesprite shot(i)
+				shot(i) = 0
+			endif
+'			if collision() = 1 then
+				for n = 0 to 9
+					if enemy(n) <> 0 then
+						if enemyx(n)+24 > shotx(i) and enemyy(n)+24 > shoty(i) and enemyx(n) < shotx(i)+24 and enemyy(n) < shoty(i)+8 and explo(n) = 0 then
+							freesprite shot(i)
+							shot(i) = 0
+							explo(n) = 1
+							score1p = score1p + 20
+							if score1p > hicoop1 then
+								hicoop1 = score1p
+							endif
+						endif
+					endif
+				next
+'			endif
+		endif
+		if shot2(i) <> 0 then
+			shot2y(i) = shot2y(i) - 5
+			movesprite shot2(i), shot2x(i), shot2y(i)
+			if shot2y(i) < 120 then
+				freesprite shot2(i)
+				shot2(i) = 0
+			endif
+'			if collision() = 1 then
+				for n = 0 to 9
+					if enemy(n) <> 0 then
+						if enemyx(n)+24 > shot2x(i) and enemyy(n)+24 > shot2y(i) and enemyx(n) < shot2x(i)+24 and enemyy(n) < shot2y(i)+8 and explo(n) = 0 then
+							freesprite shot2(i)
+							shot2(i) = 0
+							explo(n) = 1
+							score2p = score2p + 20
+							if score2p > hicoop2 then
+								hicoop2 = score2p
+							endif
+						endif
+					endif
+				next
+'			endif
+		endif
+		if enemshot(i) <> 0 then
+			enemshoty(i) = enemshoty(i) + 3
+			movesprite enemshot(i), enemshotx(i), enemshoty(i)
+			if enemshoty(i) > 370 then
+				freesprite enemshot(i)
+				enemshot(i) = 0
+			endif
+'			if collision() = 1 then
+				if enemshotx(i)+8 > shipx and enemshoty(i)+8 > shipy and enemshotx(i) < shipx+24 and enemshoty(i) < shipy+24 then
+					goto 1pdie
+				endif
+				if enemshotx(i)+8 > ship2x and enemshoty(i)+8 > ship2y and enemshotx(i) < ship2x+24 and enemshoty(i) < ship2y+24 then
+					goto 2pdie
+				endif
+'			endif
+		endif
+		if bomb(i) <> 0 then
+			bomby(i) = bomby(i) + 2
+			bombx(i) = bombx(i) + bombdeltax(i)
+			movesprite bomb(i), bombx(i), bomby(i)
+			if bomby(i) > 370 then
+				freesprite bomb(i)
+				bomb(i) = 0
+			endif
+'			if collision() = 1 then
+				if bombx(i)+16 > shipx and bomby(i)+16 > shipy and bombx(i) < shipx+24 and bomby(i) < shipy+24 then
+					goto 1pdie
+				endif
+				if bombx(i)+16 > ship2x and bomby(i)+16 > ship2y and bombx(i) < ship2x+24 and bomby(i) < ship2y+24 then
+					goto 2pdie
+				endif
+'			endif
+		endif
+		if explo(i) = 1 and explowait(i) = 0 then
+			propsprite enemy(i), 579, 0
+			explo(i) = 2
+			explowait(i) = 10
+		endif
+		if explo(i) = 2 and explowait(i) = 0 then
+			propsprite enemy(i), 588, 0
+			explo(i) = 3
+			explowait(i) = 10
+		endif
+		if explo(i) = 3 and explowait(i) = 0 then
+			propsprite enemy(i), 597, 0
+			explo(i) = 4
+			explowait(i) = 10
+		endif
+		if explo(i) = 4 and explowait(i) = 0 then
+			freesprite enemy(i)
+			enemy(i) = 0
+			explo(i) = 0
+		endif
+		if explowait(i) > 0 then
+			explowait(i)--
+		endif
+	next
+	movesprite ship, shipx, shipy
+	movesprite ship2, ship2x, ship2y
+	locate 1,1
+	print "L1: "; lives
+	locate 1,9
+	print "S1: "; score1p
+	locate 1,20
+	print "L2: "; lives2
+	locate 1,29
+	print "S2: "; score2p
+	gosub levelstuff
+	sleep 1
+	goto 2pgameloop
+1pdie:
+	for i = 0 to 9
+		enemy(i) = 0
+		enemshot(i) = 0
+		explo(i) = 0
+		shot(i) = 0
+		shot2(i) = 0
+		bomb(i) = 0
+	next
+	for i = 0 to 4
+		bs(i) = 0
+		bsx(i) = 0
+		bsy(i) = 0
+		ms(i) = 0
+		msx(i) = 0
+		msy(i) = 0
+	next
+	locate 15, 15
+	print "1p died."
+	for i = 0 to 2
+		propsprite ship, 579+(i*9), 0
+		sleep 10
+	next
+	freesprite ship
+	ship = 0
+	if lives > 0 then
+		sleep 45
+		freeallsprites
+		lives--
+		levdiv = 1
+		levwait = 0
+		goto 2pgame
+	else
+		locate 16,15
+		print "Game over"
+		sleep 75
+		freeallsprites
+		score1p = 0
+		score2p = 0
+		goto main
+	endif
+2pdie:
+	for i = 0 to 9
+		enemy(i) = 0
+		enemshot(i) = 0
+		explo(i) = 0
+		shot(i) = 0
+		shot2(i) = 0
+		bomb(i) = 0
+	next
+	for i = 0 to 4
+		bs(i) = 0
+		bsx(i) = 0
+		bsy(i) = 0
+		ms(i) = 0
+		msx(i) = 0
+		msy(i) = 0
+	next
+	locate 15, 15
+	print "2p died."
+	for i = 0 to 2
+		propsprite ship2, 579+(i*9), 0
+		sleep 10
+	next
+	freesprite ship2
+	ship2 = 0
+	if lives2 > 0 then
+		sleep 45
+		freeallsprites
+		lives2--
+		levdiv = 1
+		levwait = 0
+		goto 2pgame
+	else
+		locate 16,15
+		print "Game over"
+		sleep 75
+		freeallsprites
+		score1p = 0
+		score2p = 0
+		goto main
+	endif
+
+endurance:
+	cls
+	if music = 1 then
+		reload levelmusic
+		gosub tfdPlayInit
+	endif
+	bugavoid = addsprite(1,1)
+	propsprite bugavoid, 556, 0
+	movesprite bugavoid, 20, 20
+	for i = 0 to 4
+		bs(i) = addsprite(1,1)
+		propsprite bs(i), 566, 0
+		bsx(i) = rnd(320) + 128
+		bsy(i) = rnd(125)
+		movesprite bs(i), bsx(i), bsy(i)
+		ms(i) = addsprite(1,1)
+		propsprite ms(i), 567, 0
+		msx(i) = rnd(320) + 128
+		msy(i) = rnd(125)
+		movesprite ms(i), msx(i), msy(i)
+	next
+	shipx = 272
+	shipy = 310
+	ship = addsprite(3,3)
+	propsprite ship, 556, 0
+enduloop:
+	joy = joypad(0)
+	if joy.2 then
+		if shipx > 140 then
+			shipx = shipx - 5
+		endif
+	endif
+	if joy.3 then
+		if shipx < 410 then
+			shipx = shipx + 5
+		endif
+	endif
+	if joy.4 and shotb4 = 0 then
+		if b = 0 then
+			shotb4 = 1
+			for b = 0 to 9
+				if shot(b) = 0 then
+					goto endushoot
+				endif
+			next
+			goto endushootfail
+endushoot:
+			shot(b) = addsprite(1,3)
+			shotx(b) = shipx
+			shoty(b) = shipy
+			propsprite shot(b), 606, 0
+			movesprite shot(b), shotx(b), shoty(b)
+			b = 0
+		endif
+endushootfail:
+	endif
+	if joy.4 = 0 then
+		shotb4 = 0
+	endif
+	if joy.7 and pausedb4 = 0 then
+		locate 20,5
+		print "Paused, press A+B+C to quit"
+		pausedb4 = 1
+		joy = joypad(0)
+		while 1 = 1
+			joy = joypad(0)
+			sleep 1
+			if joy.7 = 0 then
+				pausedb4 = 0
+			endif
+			if joy.7 and pausedb4 = 0 then
+				goto enduunpause
+			endif
+			if joy.4 and joy.5 and joy.6 then
+				ship = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					shot(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				score = 0
+				freeallsprites
+				goto main
+			endif
+		wend
+enduunpause:
+		pausedb4 = 1
+		locate 20,5
+		print "                            "
+	endif
+	if joy.7 = 0 then
+		pausedb4 = 0
+	endif
+	for i = 0 to 4
+		bsy(i) = bsy(i) + 5
+		movesprite bs(i), bsx(i), bsy(i)
+		msy(i) = msy(i) + 3
+		movesprite ms(i), msx(i), msy(i)
+		if bsy(i) > 370 then
+			bsx(i) = rnd(320) + 128
+			bsy(i) = rnd(125)
+		endif
+		if msy(i) > 370 then
+			msx(i) = rnd(320) + 128
+			msy(i) = rnd(125)
+		endif
+	next
+	for i = 0 to 9
+		if enemy(i) <> 0 then
+			enemyy(i) = enemyy(i) + 2
+			enemyx(i) = enemyx(i) + enemydeltax(i)
+			movesprite enemy(i), enemyx(i), enemyy(i)
+			if enemyy(i) = 180 and enemshot(i) = 0 then
+				enemshot(i) = addsprite(1,1)
+				enemshotx(i) = enemyx(i) + 8
+				enemshoty(i) = enemyy(i) + 20
+				propsprite enemshot(i), 578, 0
+				movesprite enemshot(i), enemshotx(i), enemshoty(i)
+			endif
+			if enemyy(i) > 370 then
+				freesprite enemy(i)
+				enemy(i) = 0
+			endif
+'			if collision() = 1 then
+				if enemyx(i)+24 > shipx and enemyy(i)+24 > shipy and enemyx(i) < shipx+24 and enemyy(i) < shipy+24 and explo(i) = 0 then
+					goto endudie
+				endif
+'			endif
+		endif
+		if shot(i) <> 0 then
+			shoty(i) = shoty(i) - 5
+			movesprite shot(i), shotx(i), shoty(i)
+			if shoty(i) < 120 then
+				freesprite shot(i)
+				shot(i) = 0
+			endif
+'			if collision() = 1 then
+				for n = 0 to 9
+					if enemy(n) <> 0 then
+						if enemyx(n)+24 > shotx(i) and enemyy(n)+24 > shoty(i) and enemyx(n) < shotx(i)+24 and enemyy(n) < shoty(i)+8 and explo(n) = 0 then
+							freesprite shot(i)
+							shot(i) = 0
+							explo(n) = 1
+							score = score + 20
+							if score > hiscore then
+								hiendur = score
+							endif
+						endif
+					endif
+				next
+'			endif
+		endif
+		if enemshot(i) <> 0 then
+			enemshoty(i) = enemshoty(i) + 3
+			movesprite enemshot(i), enemshotx(i), enemshoty(i)
+			if enemshoty(i) > 370 then
+				freesprite enemshot(i)
+				enemshot(i) = 0
+			endif
+'			if collision() = 1 then
+				if enemshotx(i)+8 > shipx and enemshoty(i)+8 > shipy and enemshotx(i) < shipx+24 and enemshoty(i) < shipy+24 then
+					goto endudie
+				endif
+'			endif
+		endif
+		if bomb(i) <> 0 then
+			bomby(i) = bomby(i) + 2
+			bombx(i) = bombx(i) + bombdeltax(i)
+			movesprite bomb(i), bombx(i), bomby(i)
+			if bomby(i) > 370 then
+				freesprite bomb(i)
+				bomb(i) = 0
+			endif
+'			if collision() = 1 then
+				if bombx(i)+16 > shipx and bomby(i)+16 > shipy and bombx(i) < shipx+24 and bomby(i) < shipy+24 then
+					goto endudie
+				endif
+'			endif
+		endif
+		if explo(i) = 1 and explowait(i) = 0 then
+			propsprite enemy(i), 579, 0
+			explo(i) = 2
+			explowait(i) = 10
+		endif
+		if explo(i) = 2 and explowait(i) = 0 then
+			propsprite enemy(i), 588, 0
+			explo(i) = 3
+			explowait(i) = 10
+		endif
+		if explo(i) = 3 and explowait(i) = 0 then
+			propsprite enemy(i), 597, 0
+			explo(i) = 4
+			explowait(i) = 10
+		endif
+		if explo(i) = 4 and explowait(i) = 0 then
+			freesprite enemy(i)
+			enemy(i) = 0
+			explo(i) = 0
+		endif
+		if explowait(i) > 0 then
+			explowait(i)--
+		endif
+	next
+	movesprite ship, shipx, shipy
+	locate 1,1
+	print "Lives: "; lives
+	locate 1,12
+	print "Score: "; score
+	locate 1,27
+	print "Hi: "; hiscore
+	gosub endulev
+	sleep 1
+	goto enduloop
+endudie:
+	for i = 0 to 9
+		enemy(i) = 0
+		enemshot(i) = 0
+		explo(i) = 0
+		shot(i) = 0
+		bomb(i) = 0
+	next
+	for i = 0 to 4
+		bs(i) = 0
+		bsx(i) = 0
+		bsy(i) = 0
+		ms(i) = 0
+		msx(i) = 0
+		msy(i) = 0
+	next
+	locate 15, 15
+	print "You died."
+	for i = 0 to 2
+		propsprite ship, 579+(i*9), 0
+		sleep 10
+	next
+	freesprite ship
+	ship = 0
+	if lives > 0 then
+		sleep 45
+		freeallsprites
+		lives--
+		levdiv = 1
+		levwait = 0
+		goto endurance
+	else
+		locate 16,15
+		print "Game over"
+		sleep 75
+		freeallsprites
+		score = 0
+		goto main
+	endif
+	
+cendur:
+	cls
+	if music = 1 then
+		reload levelmusic
+		gosub tfdPlayInit
+	endif
+	bugavoid = addsprite(1,1)
+	propsprite bugavoid, 556, 0
+	movesprite bugavoid, 20, 20
+	for i = 0 to 4
+		bs(i) = addsprite(1,1)
+		propsprite bs(i), 566, 0
+		bsx(i) = rnd(320) + 128
+		bsy(i) = rnd(125)
+		movesprite bs(i), bsx(i), bsy(i)
+		ms(i) = addsprite(1,1)
+		propsprite ms(i), 567, 0
+		msx(i) = rnd(320) + 128
+		msy(i) = rnd(125)
+		movesprite ms(i), msx(i), msy(i)
+	next
+	shipx = 252
+	shipy = 310
+	ship = addsprite(3,3)
+	propsprite ship, 556, 0
+	ship2x = 292
+	ship2y = 310
+	ship2 = addsprite(3,3)
+	propsprite ship2, 613, 0
+cendloop:
+	joy = joypad(0)
+	joy2 = joypad(1)
+	if joy.2 then 'THIS IS THE PLAYER 1 STUFF THIS LINE IS BIG SO I CAN SEE IT FROM MILES AWAY
+		if shipx > 140 then
+			shipx = shipx - 5
+		endif
+	endif
+	if joy.3 then
+		if shipx < 410 then
+			shipx = shipx + 5
+		endif
+	endif
+	if joy.4 and shotb4 = 0 then
+		if b = 0 then
+			shotb4 = 1
+			for b = 0 to 9
+				if shot(b) = 0 then
+					goto 1cshoot
+				endif
+			next
+			goto 1cshootfail
+1cshoot:
+			shot(b) = addsprite(1,3)
+			shotx(b) = shipx
+			shoty(b) = shipy
+			propsprite shot(b), 606, 0
+			movesprite shot(b), shotx(b), shoty(b)
+			b = 0
+		endif
+1cshootfail:
+	endif
+	if joy.4 = 0 then
+		shotb4 = 0
+	endif
+	if joy.7 and pausedb4 = 0 then
+		locate 20,5
+		print "P1 Paused, press A+B+C to quit"
+		pausedb4 = 1
+		joy = joypad(0)
+		while 1 = 1
+			joy = joypad(0)
+			sleep 1
+			if joy.7 = 0 then
+				pausedb4 = 0
+			endif
+			if joy.7 and pausedb4 = 0 then
+				goto 1cunpause
+			endif
+			if joy.4 and joy.5 and joy.6 then
+				ship = 0
+				ship2 = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					shot(i) = 0
+					shot2(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				p1score = 0
+				p2score = 0
+				freeallsprites
+				goto main
+			endif
+		wend
+1cunpause:
+		pausedb4 = 1
+		locate 20,5
+		print "                               "
+	endif
+	if joy.7 = 0 then
+		pausedb4 = 0
+	endif
+	if joy2.2 then 'THIS IS THE PLAYER 2 STUFF THIS LINE IS BIG SO I CAN SEE IT FROM MILES AWAY
+		if ship2x > 140 then
+			ship2x = ship2x - 5
+		endif
+	endif
+	if joy2.3 then
+		if ship2x < 410 then
+			ship2x = ship2x + 5
+		endif
+	endif
+	if joy2.4 and shotb42 = 0 then
+		if b2 = 0 then
+			shotb42 = 1
+			for b2 = 0 to 9
+				if shot2(b2) = 0 then
+					goto 2cshoot
+				endif
+			next
+			goto 2cshootfail
+2cshoot:
+			shot2(b2) = addsprite(1,3)
+			shot2x(b2) = ship2x
+			shot2y(b2) = ship2y
+			propsprite shot2(b2), 606, 0
+			movesprite shot2(b2), shot2x(b2), shot2y(b2)
+			b2 = 0
+		endif
+2cshootfail:
+	endif
+	if joy2.4 = 0 then
+		shotb42 = 0
+	endif
+	if joy2.7 and pausedb42 = 0 then
+		locate 20,5
+		print "P2 Paused, press A+B+C to quit"
+		pausedb42 = 1
+		joy2 = joypad(1)
+		while 1 = 1
+			joy2 = joypad(1)
+			sleep 1
+			if joy2.7 = 0 then
+				pausedb42 = 0
+			endif
+			if joy2.7 and pausedb42 = 0 then
+				goto 2cunpause
+			endif
+			if joy2.4 and joy2.5 and joy2.6 then
+				ship = 0
+				ship2 = 0
+				for i = 0 to 9
+					enemy(i) = 0
+					enemshot(i) = 0
+					shot(i) = 0
+					shot2(i) = 0
+				next
+				for i = 0 to 4
+					bs(i) = 0
+					bsx(i) = 0
+					bsy(i) = 0
+				next
+				p1score = 0
+				p2score = 0
+				freeallsprites
+				goto main
+			endif
+		wend
+2cunpause:
+		pausedb42 = 1
+		locate 20,5
+		print "                               "
+	endif
+	if joy2.7 = 0 then
+		pausedb42 = 0
+	endif
+
+	for i = 0 to 4
+		bsy(i) = bsy(i) + 5
+		movesprite bs(i), bsx(i), bsy(i)
+		msy(i) = msy(i) + 3
+		movesprite ms(i), msx(i), msy(i)
+		if bsy(i) > 370 then
+			bsx(i) = rnd(320) + 128
+			bsy(i) = rnd(125)
+		endif
+		if msy(i) > 370 then
+			msx(i) = rnd(320) + 128
+			msy(i) = rnd(125)
+		endif
+	next
+	for i = 0 to 9
+		if enemy(i) <> 0 then
+			enemyy(i) = enemyy(i) + 2
+			enemyx(i) = enemyx(i) + enemydeltax(i)
+			movesprite enemy(i), enemyx(i), enemyy(i)
+			if enemyy(i) = 180 and enemshot(i) = 0 then
+				enemshot(i) = addsprite(1,1)
+				enemshotx(i) = enemyx(i) + 8
+				enemshoty(i) = enemyy(i) + 20
+				propsprite enemshot(i), 578, 0
+				movesprite enemshot(i), enemshotx(i), enemshoty(i)
+			endif
+			if enemyy(i) > 370 then
+				freesprite enemy(i)
+				enemy(i) = 0
+			endif
+'			if collision() = 1 then
+				if enemyx(i)+24 > shipx and enemyy(i)+24 > shipy and enemyx(i) < shipx+24 and enemyy(i) < shipy+24 and explo(i) = 0 then
+					goto 1pcdie
+				endif
+				if enemyx(i)+24 > ship2x and enemyy(i)+24 > ship2y and enemyx(i) < ship2x+24 and enemyy(i) < ship2y+24 and explo(i) = 0 then
+					goto 2pcdie
+				endif
+'			endif
+		endif
+		if shot(i) <> 0 then
+			shoty(i) = shoty(i) - 5
+			movesprite shot(i), shotx(i), shoty(i)
+			if shoty(i) < 120 then
+				freesprite shot(i)
+				shot(i) = 0
+			endif
+'			if collision() = 1 then
+				for n = 0 to 9
+					if enemy(n) <> 0 then
+						if enemyx(n)+24 > shotx(i) and enemyy(n)+24 > shoty(i) and enemyx(n) < shotx(i)+24 and enemyy(n) < shoty(i)+8 and explo(n) = 0 then
+							freesprite shot(i)
+							shot(i) = 0
+							explo(n) = 1
+							score1p = score1p + 20
+							if score1p > hicoop1 then
+								hiendr1 = score1p
+							endif
+						endif
+					endif
+				next
+'			endif
+		endif
+		if shot2(i) <> 0 then
+			shot2y(i) = shot2y(i) - 5
+			movesprite shot2(i), shot2x(i), shot2y(i)
+			if shot2y(i) < 120 then
+				freesprite shot2(i)
+				shot2(i) = 0
+			endif
+'			if collision() = 1 then
+				for n = 0 to 9
+					if enemy(n) <> 0 then
+						if enemyx(n)+24 > shot2x(i) and enemyy(n)+24 > shot2y(i) and enemyx(n) < shot2x(i)+24 and enemyy(n) < shot2y(i)+8 and explo(n) = 0 then
+							freesprite shot2(i)
+							shot2(i) = 0
+							explo(n) = 1
+							score2p = score2p + 20
+							if score2p > hicoop2 then
+								hiendr2 = score2p
+							endif
+						endif
+					endif
+				next
+'			endif
+		endif
+		if enemshot(i) <> 0 then
+			enemshoty(i) = enemshoty(i) + 3
+			movesprite enemshot(i), enemshotx(i), enemshoty(i)
+			if enemshoty(i) > 370 then
+				freesprite enemshot(i)
+				enemshot(i) = 0
+			endif
+'			if collision() = 1 then
+				if enemshotx(i)+8 > shipx and enemshoty(i)+8 > shipy and enemshotx(i) < shipx+24 and enemshoty(i) < shipy+24 then
+					goto 1pcdie
+				endif
+				if enemshotx(i)+8 > ship2x and enemshoty(i)+8 > ship2y and enemshotx(i) < ship2x+24 and enemshoty(i) < ship2y+24 then
+					goto 2pcdie
+				endif
+'			endif
+		endif
+		if bomb(i) <> 0 then
+			bomby(i) = bomby(i) + 2
+			bombx(i) = bombx(i) + bombdeltax(i)
+			movesprite bomb(i), bombx(i), bomby(i)
+			if bomby(i) > 370 then
+				freesprite bomb(i)
+				bomb(i) = 0
+			endif
+'			if collision() = 1 then
+				if bombx(i)+16 > shipx and bomby(i)+16 > shipy and bombx(i) < shipx+24 and bomby(i) < shipy+24 then
+					goto 1pcdie
+				endif
+				if bombx(i)+16 > ship2x and bomby(i)+16 > ship2y and bombx(i) < ship2x+24 and bomby(i) < ship2y+24 then
+					goto 2pcdie
+				endif
+'			endif
+		endif
+		if explo(i) = 1 and explowait(i) = 0 then
+			propsprite enemy(i), 579, 0
+			explo(i) = 2
+			explowait(i) = 10
+		endif
+		if explo(i) = 2 and explowait(i) = 0 then
+			propsprite enemy(i), 588, 0
+			explo(i) = 3
+			explowait(i) = 10
+		endif
+		if explo(i) = 3 and explowait(i) = 0 then
+			propsprite enemy(i), 597, 0
+			explo(i) = 4
+			explowait(i) = 10
+		endif
+		if explo(i) = 4 and explowait(i) = 0 then
+			freesprite enemy(i)
+			enemy(i) = 0
+			explo(i) = 0
+		endif
+		if explowait(i) > 0 then
+			explowait(i)--
+		endif
+	next
+	movesprite ship, shipx, shipy
+	movesprite ship2, ship2x, ship2y
+	locate 1,1
+	print "L1: "; lives
+	locate 1,9
+	print "S1: "; score1p
+	locate 1,20
+	print "L2: "; lives2
+	locate 1,29
+	print "S2: "; score2p
+	gosub endulev
+	sleep 1
+	goto cendloop
+1pcdie:
+	for i = 0 to 9
+		enemy(i) = 0
+		enemshot(i) = 0
+		explo(i) = 0
+		shot(i) = 0
+		shot2(i) = 0
+		bomb(i) = 0
+	next
+	for i = 0 to 4
+		bs(i) = 0
+		bsx(i) = 0
+		bsy(i) = 0
+		ms(i) = 0
+		msx(i) = 0
+		msy(i) = 0
+	next
+	locate 15, 15
+	print "1p died."
+	for i = 0 to 2
+		propsprite ship, 579+(i*9), 0
+		sleep 10
+	next
+	freesprite ship
+	ship = 0
+	if lives > 0 then
+		sleep 45
+		freeallsprites
+		lives--
+		levdiv = 1
+		levwait = 0
+		goto cendur
+	else
+		locate 16,15
+		print "Game over"
+		sleep 75
+		freeallsprites
+		score1p = 0
+		score2p = 0
+		goto main
+	endif
+2pcdie:
+	for i = 0 to 9
+		enemy(i) = 0
+		enemshot(i) = 0
+		explo(i) = 0
+		shot(i) = 0
+		shot2(i) = 0
+		bomb(i) = 0
+	next
+	for i = 0 to 4
+		bs(i) = 0
+		bsx(i) = 0
+		bsy(i) = 0
+		ms(i) = 0
+		msx(i) = 0
+		msy(i) = 0
+	next
+	locate 15, 15
+	print "2p died."
+	for i = 0 to 2
+		propsprite ship2, 579+(i*9), 0
+		sleep 10
+	next
+	freesprite ship2
+	ship2 = 0
+	if lives2 > 0 then
+		sleep 45
+		freeallsprites
+		lives2--
+		levdiv = 1
+		levwait = 0
+		goto cendur
+	else
+		locate 16,15
+		print "Game over"
+		sleep 75
+		freeallsprites
+		score1p = 0
+		score2p = 0
+		goto main
+	endif
+
+titlepal:
+  	DATAINT	$0000,$00EE,$0EEE,$000E,$0EE0,$00E0,$0E00,$0888	'  Pallette: 0
+	DATAINT	$0CCC,$0088,$0808,$0008,$0880,$0080,$0800,$0000	
+	
+logo:
+	datafile logo.bin,bin
+	
+menutiles:
+ 	datafile menu.bin,bin
+
+gametiles:
+	datafile game.bin,bin
+
+electrotiles:
+	datafile electro.bin,bin
+
+'Replayer init. Set data read pointer to music data (by RELOAD or RESTORE)
+'and GOSUB here. It needed once before playing
+
+tfdPlayInit:
+    DataPtr&=DataPtr&()+4           'skip TFMD signature
+    for a=1 to 3                    'skip three null-terminated text lines
+    while 1
+    read b
+    if b=0 then exit while
+    wend
+    next
+    vTfdDataPtr&=DataPtr&()         'store current read position
+    vTfdLoopPtr&=vTfdDataPtr&       'default loop position
+    vTfdCurrentBank=0               'select bank0
+    vTfdFrameCnt=0                  'frame counter
+    vTfdWaitCnt=0                   'wait counter
+    pokeint &hA11100,&h100          'busreq on
+    pokeint &hA11200,&h100          'reset Z80 and YM2612
+    pokeint &hA11200,0
+    pokeint &hA11100,0              'busreq off
+ 
+    return
+ 
+
+ 
+'Replayer update. GOSUB here each frame (1/50sec) to play music.
+'Note that for NTSC system you must do speed compensation to
+'make music play at normal speed. In this example that done
+'simply by skipping every 6th frame
+
+tfdPlayFrame:
+    vTfdFrameCnt++                      'increment frame counter
+    if TvType()=0 then                  'speed compensation for NTSC
+        if vTfdFrameCnt%6=0 then return
+    endif
+    if vTfdWaitCnt then                 'skip frames if needed
+        vTfdWaitCnt--
+    else
+        vTfdDataTemp&=DataPtr&()        'store current read position
+        DataPtr&=vTfdDataPtr&           'set read position of music data
+        while 1
+            read vTag
+            if vTag<&hFA then           'write to YM2612 register
+                read vData              'read data
+                if vTag<&h30 then
+                    curBank=0           'writes below 0x30 always goes to bank0
+                else
+                    curBank=vTfdCurrentBank
+                endif
+                adrReg&=&hA04000+curBank
+                adrVal&=&hA04001+curBank
+                if vTag=&h28 then       'correction for bank1 Key On/Off event
+                    if vTfdCurrentBank then
+                        vData=vData+4
+                    endif
+                endif
+                'pokeint &hA11100,&h0100    'busreq on
+                while peek(&hA04000).7  'wait for busy
+                wend
+                poke adrReg&,vTag       'write YM2612 register number
+                while peek(&hA04000).7  'wait for busy
+                wend
+                poke adrVal&,vData      'write YM2612 register data
+                'pokeint &hA11100,&h0000    'busreq off
+            elseif vTag=&hFF  then      'single frame
+                vTfdCurrentBank=0
+                exit while
+            elseif vTag=&hFE then       'few frames
+                vTfdCurrentBank=0
+                read vTfdWaitCnt
+                vTfdWaitCnt=vTfdWaitCnt+2
+                exit while
+            elseif vTag=&hFD then       'select bank1
+                vTfdCurrentBank=2
+            elseif vTag=&hFC then       'select bank0
+                vTfdCurrentBank=0
+            elseif vTag=&hFB then       'end of data
+                DataPtr&=vTfdLoopPtr&   'jump to loop position
+            elseif vTag=&hFA then       'loop position
+                vTfdLoopPtr&=DataPtr&() 'remember read position
+                endif
+        wend
+        vTfdDataPtr&=DataPtr&()             'store read position of music data
+        DataPtr&=vTfdDataTemp&              'restore current read position
+    endif
+    return
+ 
+tfdStop:
+    return
+ 
+musicData:
+    datafile title.tfd,BIN
+    
+menumusic:
+    datafile menu.tfd,BIN
+    
+levelmusic:
+	datafile lev1.tfd,BIN
+	
+silent:
+	datafile silent.tfd,BIN
+
+declare sub drawblock(til as integer, tilx as integer, tily as integer, len as integer)
+	for ntilx = tilx to tilx+len-1
+		for ntily = tily to tily+len-1
+			drawtile til,ntilx,ntily
+			til++
+		next
+	next
+end sub
+
+spawnenemy:
+	fixf = 0
+	for f = 0 to 9
+		if enemy(f) = 0 then
+			fixf = f
+		endif
+	next
+	if fixf = 0 then
+		Return
+	endif
+	enemy(fixf) = addsprite(3,3)
+	enemyx(fixf) = enemx
+	enemyy(fixf) = 110
+	enemydeltax(fixf) = enemydx
+	propsprite enemy(fixf), 569, 0
+	movesprite enemy(fixf), enemyx(fixf), enemyy(fixf)
+	return
+	
+declare sub drawwires(startx as integer, starty as integer, endx as integer, endy as integer)
+	for i = startx+1 to endx-1
+    	drawtile 461, i, starty
+    	drawtile 463, i, endy
+	next
+	for i = starty+1 to endy-1
+		drawtile 460, startx, i
+		drawtile 462, endx, i
+	next
+	drawtile 456, startx, starty
+	drawtile 457, endx, starty
+	drawtile 459, startx, endy
+	drawtile 458, endx, endy
+end sub
+
+spawnbomb:
+	fixp = 0
+	for p = 0 to 9
+		if bomb(p) = 0 then
+			fixp = p
+		endif
+	next
+	if fixp = 0 then
+		Return
+	endif
+	bomb(fixp) = addsprite(2,2)
+	bombx(fixp) = bmbx
+	bomby(fixp) = 110
+	bombdeltax(fixp) = bombdx
+	propsprite bomb(fixp), 609, 0
+	movesprite bomb(fixp), bombx(fixp), bomby(fixp)
+	return
+	
+levelstuff:
+	if levwait = 0 then
+		if level = 1 then
+			if levdiv = 1 then
+				locate 12,15
+				print "Get ready"
+				levwait = 150
+			elseif levdiv = 2 then
+				locate 12,15
+				print "         "
+				levwait = 60
+			elseif levdiv = 3 then
+				levwait = 60
+			elseif levdiv = 4 then
+				enemx = 155
+				gosub spawnenemy
+				enemx = 215
+				gosub spawnenemy
+				enemx = 275
+				gosub spawnenemy
+				enemx = 335
+				gosub spawnenemy
+				enemx = 395
+				gosub spawnenemy
+				levwait = 60
+			else
+				levwait = 30000
+			endif
+		elseif level = 2 then
+			if levdiv = 1 then
+				locate 12,15
+				print "Get ready"
+				levwait = 150
+			elseif (levdiv >= 2 and levdiv <= 4) or (levdiv >= 14 and levdiv <= 16) then
+				locate 12,15
+				print "         "
+				if levdiv = 4 or levdiv = 16 then
+					levwait = 60
+				else
+					levwait = 20
+				endif
+				enemx = 160
+				enemydx = 1
+				gosub spawnenemy
+			elseif (levdiv >= 5 and levdiv <= 7) or (levdiv >= 17 and levdiv <= 19) then
+				if levdiv = 7 or levdiv = 19 then
+					levwait = 60
+				else
+					levwait = 20
+				endif
+				enemx = 408
+				enemydx = -1
+				gosub spawnenemy
+			elseif levdiv = 8 or levdiv = 10 or levdiv = 12 then
+				levwait = 20
+				enemx = 276
+				enemydx = -1
+				gosub spawnenemy
+			elseif levdiv = 9 or levdiv = 11 or levdiv = 13 then
+				if levdiv = 13 then
+					levwait = 60
+				else
+					levwait = 20
+				endif
+				enemx = 276
+				enemydx = 1
+				gosub spawnenemy
+			elseif levdiv = 20 then
+				levwait = 20
+				enemx = 276
+				enemydx = 0
+				gosub spawnenemy
+			elseif levdiv = 21 then
+				levwait = 20
+				enemx = 244
+				enemydx = 0
+				gosub spawnenemy
+				enemx = 308
+				gosub spawnenemy
+			elseif levdiv = 22 then
+				levwait = 120
+				enemx = 212
+				enemydx = 0
+				gosub spawnenemy
+				enemx = 340
+				gosub spawnenemy
+			elseif levdiv = 23 or levdiv = 25 then
+				levwait = 60
+				enemx = 160
+				enemydx = 0
+				gosub spawnenemy
+				enemx = 192
+				gosub spawnenemy
+				enemx = 224
+				gosub spawnenemy
+			elseif levdiv = 24 or levdiv = 26 then
+				levwait = 60
+				enemx = 408
+				enemydx = 0
+				gosub spawnenemy
+				enemx = 376
+				gosub spawnenemy
+				enemx = 344
+				gosub spawnenemy
+			elseif levdiv > 26 and levdiv < 30 then
+				levwait = 60
+				bmbx = 300
+				bombdx = 1
+				gosub spawnbomb
+			else
+				levwait = 30000
+			endif
+		endif
+		levdiv++
+	endif
+	if levwait > 0 then
+		levwait--
+	endif
+	return
+
+endulev:
+	locate 1,1
+	enemcount = 0
+	bombcount = 0
+	spawn = rnd(10)
+	which = rnd(2)
+	if spawn = 1 then
+		if which = 0 then
+			for x = 0 to 9
+				if enemy(x) <> 0 then
+					enemcount++
+				endif
+			next
+			if enemcount < 10 then
+				enemx = rnd(300)+137
+				enemydx = rnd(3) - 1
+				gosub spawnenemy
+			endif
+		elseif which = 1 then
+			for x = 0 to 9
+				if bomb(x) <> 0 then
+				bombcount++
+				endif
+			next
+			if bombcount < 10 then
+				bmbx = rnd(300)+137
+				bombdx = rnd(3) - 1
+				gosub spawnbomb
+			endif
+		endif
+	endif
+	return
+
+PalletteSEGA:
+ 	DATAINT	$0000,$0000,$0EEE,$0E40,$0E20,$0E00,$0C00,$0A00
+ 	DATAINT	$0E60,$0E80,$0EA0,$0EC0,$0000,$0000,$0000,$0000
+
+PalletteSEGA2:
+ 	DATAINT	$0000,$0000,$0EEE,$0E60,$0E40,$0E20,$0E00,$0C00
+ 	DATAINT	$0E80,$0EA0,$0EC0,$0EA0,$0000,$0000,$0000,$0000
+
+PalletteSEGA3:
+ 	DATAINT	$0000,$0000,$0EEE,$0E80,$0E60,$0E40,$0E20,$0E00
+ 	DATAINT	$0EA0,$0EC0,$0EA0,$0E80,$0000,$0000,$0000,$0000
+
+PalletteSEGA4:
+ 	DATAINT	$0000,$0000,$0EEE,$0EA0,$0E80,$0E60,$0E40,$0E20
+ 	DATAINT	$0EC0,$0EA0,$0E80,$0E60,$0000,$0000,$0000,$0000
+
+PalletteSEGA5:
+ 	DATAINT	$0000,$0000,$0EEE,$0EC0,$0EA0,$0E80,$0E60,$0E40
+ 	DATAINT	$0EA0,$0E80,$0E60,$0E40,$0000,$0000,$0000,$0000
+
+PalletteSEGA6:
+ 	DATAINT	$0000,$0000,$0EEE,$0EA0,$0EC0,$0EA0,$0E80,$0E60
+ 	DATAINT	$0E80,$0E60,$0E40,$0E20,$0000,$0000,$0000,$0000
+
+PalletteSEGA7:
+ 	DATAINT	$0000,$0000,$0EEE,$0E80,$0EA0,$0EC0,$0EA0,$0E80
+ 	DATAINT	$0E60,$0E40,$0E20,$0E00,$0000,$0000,$0000,$0000
+
+PalletteSEGA8:
+ 	DATAINT	$0000,$0000,$0EEE,$0E60,$0E80,$0EA0,$0EC0,$0EA0
+ 	DATAINT	$0E40,$0E20,$0E00,$0C00,$0000,$0000,$0000,$0000
+
+PalletteSEGA9:
+ 	DATAINT	$0000,$0000,$0EEE,$0E40,$0E60,$0E80,$0EA0,$0EC0
+ 	DATAINT	$0E20,$0E00,$0C00,$0A00,$0000,$0000,$0000,$0000
+
+PalletteSEGA10:
+ 	DATAINT	$0000,$0000,$0EEE,$0E20,$0E40,$0E60,$0E80,$0EA0
+ 	DATAINT	$0E00,$0C00,$0A00,$0C00,$0000,$0000,$0000,$0000
+
+PalletteSEGA11:
+ 	DATAINT	$0000,$0000,$0EEE,$0E00,$0E20,$0E40,$0E60,$0E80
+ 	DATAINT	$0C00,$0A00,$0C00,$0E00,$0000,$0000,$0000,$0000
+
+PalletteSEGA12:
+ 	DATAINT	$0000,$0000,$0EEE,$0C00,$0E00,$0E20,$0E40,$0E60
+ 	DATAINT	$0A00,$0C00,$0E00,$0E20,$0000,$0000,$0000,$0000
+
+PalletteSEGA13:
+ 	DATAINT	$0000,$0000,$0EEE,$0A00,$0C00,$0E00,$0E20,$0E40
+ 	DATAINT	$0C00,$0E00,$0E20,$0E40,$0000,$0000,$0000,$0000
+
+PalletteSEGA14:
+ 	DATAINT	$0000,$0000,$0EEE,$0C00,$0A00,$0C00,$0E00,$0E20
+ 	DATAINT	$0E00,$0E20,$0E40,$0E60,$0000,$0000,$0000,$0000
+
+PalletteSEGA15:
+ 	DATAINT	$0000,$0000,$0EEE,$0E00,$0C00,$0A00,$0C00,$0E00
+ 	DATAINT	$0E20,$0E40,$0E60,$0E80,$0000,$0000,$0000,$0000
+
+PalletteSEGA16:
+ 	DATAINT	$0000,$0000,$0EEE,$0E20,$0E00,$0C00,$0A00,$0C00
+ 	DATAINT	$0E40,$0E60,$0E80,$0EA0,$0000,$0000,$0000,$0000
+
+PalletteDark:
+ 	DATAINT	$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+ 	DATAINT	$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+
+mapdata_sega:
+	DATA	$00,$04,$08,$0C,$10,$14,$18,$1C,$20,$24,$28,$2C
+	DATA	$01,$05,$09,$0D,$11,$15,$19,$1D,$21,$25,$29,$2D
+	DATA	$02,$06,$0A,$0E,$12,$16,$1A,$1E,$22,$26,$2A,$2E
+	DATA	$03,$07,$0B,$0F,$13,$17,$1B,$1F,$23,$27,$2B,$2F
+
+tiledata_sega:
+
+	DATALONG	$11111111	' Tile #0  (Sprite 1)
+	DATALONG	$11111222
+	DATALONG	$11122334
+	DATALONG	$11283333
+	DATALONG	$12883333
+	DATALONG	$12888333
+	DATALONG	$28888332
+	DATALONG	$29888823
+	DATALONG	$29888233	' Tile #12
+	DATALONG	$29988283
+	DATALONG	$29988283
+	DATALONG	$29998288
+	DATALONG	$29998288
+	DATALONG	$29999288
+	DATALONG	$29999288
+	DATALONG	$2A999928
+	DATALONG	$12999982	' Tile #24
+	DATALONG	$12A99998
+	DATALONG	$11299998
+	DATALONG	$112A9999
+	DATALONG	$11122299
+	DATALONG	$22222222
+	DATALONG	$2AAAA999
+	DATALONG	$2AAAAA99
+	DATALONG	$2BAAAA99	' Tile #36
+	DATALONG	$2BBAAAA9
+	DATALONG	$22222222
+	DATALONG	$2BBBAAAA
+	DATALONG	$2BBBAAAA
+	DATALONG	$2BBBBAAA
+	DATALONG	$2BBBBAAA
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #1
+	DATALONG	$22222222
+	DATALONG	$44455556
+	DATALONG	$44445555
+	DATALONG	$44445555
+	DATALONG	$34444555
+	DATALONG	$22222222
+	DATALONG	$33444455
+	DATALONG	$33444455	' Tile #13
+	DATALONG	$33344445
+	DATALONG	$33344445
+	DATALONG	$33222222
+	DATALONG	$33334444
+	DATALONG	$83333444
+	DATALONG	$83333444
+	DATALONG	$88333344
+	DATALONG	$22222224	' Tile #25
+	DATALONG	$88833332
+	DATALONG	$88833334
+	DATALONG	$88883333
+	DATALONG	$88883333
+	DATALONG	$22228333
+	DATALONG	$98888333
+	DATALONG	$99888833
+	DATALONG	$99888833	' Tile #37
+	DATALONG	$99988882
+	DATALONG	$22222223
+	DATALONG	$99998888
+	DATALONG	$99998888
+	DATALONG	$A9999888
+	DATALONG	$A9999888
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #2
+	DATALONG	$22222211
+	DATALONG	$66677211
+	DATALONG	$66667212
+	DATALONG	$66667228
+	DATALONG	$56666228
+	DATALONG	$22222288
+	DATALONG	$55666288
+	DATALONG	$55666298	' Tile #14
+	DATALONG	$55566298
+	DATALONG	$55566299
+	DATALONG	$22222299
+	DATALONG	$22222299
+	DATALONG	$45222299
+	DATALONG	$45522299
+	DATALONG	$44552299
+	DATALONG	$445522A9	' Tile #26
+	DATALONG	$444552A9
+	DATALONG	$244552AA
+	DATALONG	$244452AA
+	DATALONG	$244452AA
+	DATALONG	$244442AA
+	DATALONG	$244442AA
+	DATALONG	$234442AA
+	DATALONG	$234442BA	' Tile #38
+	DATALONG	$333442BA
+	DATALONG	$333442BB
+	DATALONG	$3333212B
+	DATALONG	$3333212B
+	DATALONG	$83321112
+	DATALONG	$82211111
+	DATALONG	$21111111
+	DATALONG	$11111111	' Tile #3
+	DATALONG	$11222222
+	DATALONG	$22334444
+	DATALONG	$33334444
+	DATALONG	$83333444
+	DATALONG	$83333444
+	DATALONG	$88333222
+	DATALONG	$88332344
+	DATALONG	$88823334	' Tile #15
+	DATALONG	$88823334
+	DATALONG	$88823333
+	DATALONG	$88823332
+	DATALONG	$98828333
+	DATALONG	$98828333
+	DATALONG	$99828833
+	DATALONG	$99828833
+	DATALONG	$99922222	' Tile #27
+	DATALONG	$99928883
+	DATALONG	$99928888
+	DATALONG	$99928888
+	DATALONG	$A9929888
+	DATALONG	$A9929882
+	DATALONG	$AA929988
+	DATALONG	$AA929988
+	DATALONG	$AAA29998	' Tile #39
+	DATALONG	$AAA92998
+	DATALONG	$AAAA9222
+	DATALONG	$AAAA9999
+	DATALONG	$BAAAA999
+	DATALONG	$BAAAA999
+	DATALONG	$22AAAA99
+	DATALONG	$11222222
+
+	DATALONG	$11111111	' Tile #4  (Sprite 2)
+	DATALONG	$22222222
+	DATALONG	$55556666
+	DATALONG	$55556666
+	DATALONG	$45555666
+	DATALONG	$45555666
+	DATALONG	$22222222
+	DATALONG	$44555566
+	DATALONG	$44455556	' Tile #16
+	DATALONG	$44455556
+	DATALONG	$44445555
+	DATALONG	$22222222
+	DATALONG	$34444555
+	DATALONG	$34444555
+	DATALONG	$33444455
+	DATALONG	$33444455
+	DATALONG	$22222222	' Tile #28
+	DATALONG	$33344445
+	DATALONG	$33334444
+	DATALONG	$33334444
+	DATALONG	$83333444
+	DATALONG	$22222222
+	DATALONG	$88333344
+	DATALONG	$88333344
+	DATALONG	$88833334	' Tile #40
+	DATALONG	$88833334
+	DATALONG	$22222222
+	DATALONG	$88883333
+	DATALONG	$98888333
+	DATALONG	$98888333
+	DATALONG	$99888833
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #5
+	DATALONG	$22221111
+	DATALONG	$77721122
+	DATALONG	$77721233
+	DATALONG	$67722833
+	DATALONG	$67722833
+	DATALONG	$22228883
+	DATALONG	$66728883
+	DATALONG	$66628888	' Tile #17
+	DATALONG	$66629888
+	DATALONG	$66629888
+	DATALONG	$22229988
+	DATALONG	$52229988
+	DATALONG	$52229998
+	DATALONG	$52229998
+	DATALONG	$52229999
+	DATALONG	$22229999	' Tile #29
+	DATALONG	$5222A999
+	DATALONG	$5222A999
+	DATALONG	$5222AA99
+	DATALONG	$4222AA99
+	DATALONG	$2222AAA9
+	DATALONG	$4452AAA9
+	DATALONG	$4452AAAA
+	DATALONG	$4442BAAA	' Tile #41
+	DATALONG	$4442BAAA
+	DATALONG	$22222BAA
+	DATALONG	$44422BAA
+	DATALONG	$34422BBA
+	DATALONG	$344212BA
+	DATALONG	$33421122
+	DATALONG	$22221111
+	DATALONG	$11111111	' Tile #6
+	DATALONG	$22222222
+	DATALONG	$34444555
+	DATALONG	$34444555
+	DATALONG	$33444455
+	DATALONG	$33444455
+	DATALONG	$33322222
+	DATALONG	$32244445
+	DATALONG	$23334444	' Tile #18
+	DATALONG	$23333444
+	DATALONG	$23333444
+	DATALONG	$28333222
+	DATALONG	$28333244
+	DATALONG	$28833234
+	DATALONG	$28833234
+	DATALONG	$28883233
+	DATALONG	$28883222	' Tile #30
+	DATALONG	$28888233
+	DATALONG	$28888233
+	DATALONG	$29888233
+	DATALONG	$29888233
+	DATALONG	$29988222
+	DATALONG	$29988883
+	DATALONG	$29998888
+	DATALONG	$29998888	' Tile #42
+	DATALONG	$A2299888
+	DATALONG	$AA922222
+	DATALONG	$AA999988
+	DATALONG	$AAA99998
+	DATALONG	$AAA99998
+	DATALONG	$AAAA9999
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #7
+	DATALONG	$22222222
+	DATALONG	$56666777
+	DATALONG	$56666777
+	DATALONG	$55666677
+	DATALONG	$55666677
+	DATALONG	$22222222
+	DATALONG	$55566667
+	DATALONG	$55556666	' Tile #19
+	DATALONG	$45556666
+	DATALONG	$45555666
+	DATALONG	$22222222
+	DATALONG	$44555566
+	DATALONG	$44455566
+	DATALONG	$44455556
+	DATALONG	$44445556
+	DATALONG	$22222555	' Tile #31
+	DATALONG	$34442555
+	DATALONG	$34442555
+	DATALONG	$33442455
+	DATALONG	$33442455
+	DATALONG	$33342445
+	DATALONG	$33342445
+	DATALONG	$33332444
+	DATALONG	$33332444	' Tile #43
+	DATALONG	$83332444
+	DATALONG	$22222344
+	DATALONG	$88333344
+	DATALONG	$88833334
+	DATALONG	$88833334
+	DATALONG	$88883333
+	DATALONG	$22222222
+
+	DATALONG	$11111111	' Tile #8  (Sprite 3)
+	DATALONG	$22111111
+	DATALONG	$72111111
+	DATALONG	$72111111
+	DATALONG	$72111111
+	DATALONG	$72111111
+	DATALONG	$22111111
+	DATALONG	$72111112
+	DATALONG	$72111112	' Tile #20
+	DATALONG	$72111112
+	DATALONG	$62111128
+	DATALONG	$22111128
+	DATALONG	$62111128
+	DATALONG	$62111288
+	DATALONG	$62111288
+	DATALONG	$62111298
+	DATALONG	$62112998	' Tile #32
+	DATALONG	$62112999
+	DATALONG	$52112999
+	DATALONG	$5212A999
+	DATALONG	$5212A999
+	DATALONG	$5212AA99
+	DATALONG	$522AAA99
+	DATALONG	$522AAAA9
+	DATALONG	$52BAAAA9	' Tile #44
+	DATALONG	$42BBAAAA
+	DATALONG	$44BBAAAA
+	DATALONG	$44BBBAA2
+	DATALONG	$44BBBAA2
+	DATALONG	$44BBBBA2
+	DATALONG	$44BBBBA2
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #9
+	DATALONG	$11111222
+	DATALONG	$11122555
+	DATALONG	$11244555
+	DATALONG	$12444555
+	DATALONG	$23444455
+	DATALONG	$23444455
+	DATALONG	$33344422
+	DATALONG	$33344422	' Tile #21
+	DATALONG	$33334244
+	DATALONG	$33334244
+	DATALONG	$83333244
+	DATALONG	$83332444
+	DATALONG	$88332344
+	DATALONG	$88332344
+	DATALONG	$88823334
+	DATALONG	$88823334	' Tile #33
+	DATALONG	$88823333
+	DATALONG	$88283333
+	DATALONG	$98288333
+	DATALONG	$98288322
+	DATALONG	$92888822
+	DATALONG	$92888833
+	DATALONG	$92988883
+	DATALONG	$29988883	' Tile #45
+	DATALONG	$29998888
+	DATALONG	$29992222
+	DATALONG	$A9992888
+	DATALONG	$A9922888
+	DATALONG	$AA922988
+	DATALONG	$AA222988
+	DATALONG	$22222222
+	DATALONG	$11112222	' Tile #10
+	DATALONG	$21111121
+	DATALONG	$62211121
+	DATALONG	$56621121
+	DATALONG	$56662121
+	DATALONG	$55666211
+	DATALONG	$55666211
+	DATALONG	$55566621
+	DATALONG	$55566621	' Tile #22
+	DATALONG	$25556621
+	DATALONG	$25556662
+	DATALONG	$25555662
+	DATALONG	$42555662
+	DATALONG	$42555566
+	DATALONG	$42555566
+	DATALONG	$44255556
+	DATALONG	$44255556	' Tile #34
+	DATALONG	$44245555
+	DATALONG	$44425555
+	DATALONG	$34424555
+	DATALONG	$34424555
+	DATALONG	$33442455
+	DATALONG	$33442455
+	DATALONG	$33342445
+	DATALONG	$33344245	' Tile #46
+	DATALONG	$33334244
+	DATALONG	$22222244
+	DATALONG	$83333444
+	DATALONG	$83333444
+	DATALONG	$88333344
+	DATALONG	$88333344
+	DATALONG	$22222222
+	DATALONG	$21211112	' Tile #11
+	DATALONG	$11221122
+	DATALONG	$11212212
+	DATALONG	$11211112
+	DATALONG	$11211112
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$11111111	' Tile #23
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$21111111
+	DATALONG	$21111111
+	DATALONG	$21111111
+	DATALONG	$62111111	' Tile #35
+	DATALONG	$62111111
+	DATALONG	$62111111
+	DATALONG	$56211111
+	DATALONG	$56211111
+	DATALONG	$55211111
+	DATALONG	$55621111
+	DATALONG	$55521111
+	DATALONG	$55521111	' Tile #47
+	DATALONG	$55552111
+	DATALONG	$55552111
+	DATALONG	$45552111
+	DATALONG	$45555211
+	DATALONG	$44555211
+	DATALONG	$44555211
+	DATALONG	$22222221

@@ -1,0 +1,364 @@
+	dim shot1(10) as integer
+	dim shotx(10) as integer
+	dim shoty(10) as integer
+	dim enemy(10) as integer
+	dim enemyx(10) as integer
+	dim enemyy(10) as integer
+	dim enemtype(10) as integer
+	dim eneanim(10) as integer
+	dim eneanimwait(10) as integer
+	dim enemxplo(10) as integer
+	dim enemxplowait(10) as integer
+	dim enemshot(10) as integer
+	dim enemshotx(10) as integer
+	dim enemshoty(10) as integer
+	level = 1
+	levdiv = 0
+game:
+	loadtiles gamespr,512,256
+	pallettes gamepal,0,0,16
+	ship = addsprite(2,2)
+	shipx = 160+120
+	shipy = 200+128
+	propsprite ship,256,0
+	movesprite ship,shipx,shipy
+	vel = 0
+	defacc = 3
+	velmax = 4
+	start = 0
+	ink 1
+	for i = 0 to 9
+		eneanim(i) = 1
+	next
+gameloop:
+	gosub player1
+	gosub engine1p
+	gosub levels
+	sleep 1
+	goto gameloop
+
+gamespr:
+	datafile game.bin,BIN
+
+gamepal:
+	dataint &h0000,&h0444,&h0888,&h0CCC,&h0EEE,&h000A,&h000C,&h000E
+	dataint &h066E,&h0800,&h0C00,&h0E44,&h0E88,&h0088,&h00CC,&h06EE
+	
+pause:
+	locate 4,4
+	print "paused"
+	do
+		joy1 = joypad(0)
+		if joy1.7 = 0 then
+			start = 0
+		elseif joy1.7 and start = 0 then
+			start = 1
+			locate 4,4
+			print "      "
+			return
+		endif
+		sleep 1
+	loop
+	return
+	
+player1:
+	joy1 = joypad(0)
+	if joy1.2 and explo = 0 then
+		if dir = 0 or dir = 1 then
+			dir = 1
+			if vel < velmax and acc = 0 then
+				vel++
+			endif
+		elseif vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	elseif joy1.3 and explo = 0 then
+		if dir = 0 or dir = 2 then
+			dir = 2
+			if vel < velmax and acc = 0 then
+				vel++
+			endif
+		elseif vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	elseif joy1.2 = 0 and joy1.3 = 0 then
+		if vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	endif
+	if joy1.7 = 0 then
+		start = 0
+	elseif joy1.7 and start = 0 then
+		start = 1
+		gosub pause
+	endif
+	if vel = 0 and explo = 0 then
+		propsprite ship,256,0
+	elseif vel <> 0 and explo = 0 then
+		if dir = 1 then
+			propsprite ship,260,0
+		elseif dir = 2 then
+			propsprite ship,264,0
+		endif
+	endif
+	if dir = 1 then
+		shipx = shipx - vel
+	elseif dir = 2 then
+		shipx = shipx + vel
+	endif
+	if shipx => 310+128-16 and vel > 0 and dir = 2 then
+		dir = 1
+		if vel > 2 then
+			vel--
+		endif
+	elseif shipx =< 10+128 and vel > 0 and dir = 1 then
+		dir = 2
+		if vel > 2 then
+			vel--
+		endif
+	endif
+	if joy1.5 = 0 then
+		butc = 0
+	elseif joy1.5 and butc = 0 then
+		butc = 1
+		explo = 1
+	endif
+	if explo = 1 then
+		propsprite ship,274,0
+		explo = 2
+		explowait = 5
+	elseif explo = 2 and explowait = 0 then
+		propsprite ship,278,0
+		explo = 3
+		explowait = 5
+	elseif explo = 3 and explowait = 0 then
+		propsprite ship,282,0
+		explo = 4
+		explowait = 5
+	elseif explo = 4 and explowait = 0 then
+		propsprite ship,286,0
+		explo = 5
+		explowait = 5
+	elseif explo = 5 and explowait = 0 then
+		propsprite ship,290,0
+		explo = 6
+		explowait = 5
+	elseif explo = 6 and explowait = 0 then
+		propsprite ship,294,0
+		explo = 7
+		explowait = 5
+	elseif explo = 7 and explowait = 0 then
+		propsprite ship,298,0
+		explo = 8
+		explowait = 5
+	elseif explo = 8 and explowait = 0 then
+		propsprite ship,302,0
+		explo = 9
+		explowait = 5
+	elseif explo = 9 and explowait = 0 then
+		propsprite ship,306,0
+		explo = 10
+		explowait = 5
+	elseif explo = 10 and explowait = 0 then
+		propsprite ship,256,0
+		explo = 0
+	elseif explo <> 0 and explowait <> 0 then
+		explowait--
+	endif
+	if joy1.4 = 0 then
+		butb = 0
+	elseif joy1.4 and butb = 0 and explo = 0 then
+		butb = 1
+		srm = 10
+		for s = 0 to 9
+			if shot1(s) = 0 then
+				srm = s
+			endif
+		next
+		if srm = 10 then return
+		shot1(srm) = addsprite(1,2)
+		shotx(srm) = shipx
+		shoty(srm) = shipy-5
+		propsprite shot1(srm),268,0
+		movesprite shot1(srm),shotx(srm),shoty(srm)
+	endif
+	return
+	
+spawnenemy:
+	erm = 10
+	for e = 0 to 9
+		if enemy(e) = 0 then
+			erm = e
+		endif
+	next
+	if erm = 10 then return
+	enemy(erm) = addsprite(2,2)
+	enemyx(erm) = senx+128
+	enemyy(erm) = 112
+	enemtype(erm) = type
+	if type = 1 then propsprite enemy(erm),270,0
+	if type = 2 then propsprite enemy(erm),310,0 
+	movesprite enemy(erm),enemyx(erm),enemyy(erm)
+	return
+	
+engine1p:
+	for n = 0 to 9
+		if shot1(n) <> 0 then
+			shoty(n) = shoty(n) - 4
+			if shoty(n) <= 120 then
+				freesprite shot1(n)
+				shot1(n) = 0
+				shotx(n) = 0
+				shoty(n) = 0
+			endif
+			movesprite shot1(n),shotx(n),shoty(n)
+		endif
+		if enemshot(n) <> 0 then
+			enemshoty(n) = enemshoty(n) + 4
+			if enemshoty(n) >= 242+128 then
+				freesprite enemshot(n)
+				enemshot(n) = 0
+				enemshoty(n) = 0
+				enemshotx(n) = 0
+			elseif shipx < enemshotx(n)+16 and shipy < enemshoty(n)+8 and shipx+16 > enemshotx(n) and shipy+16 > enemshoty(n) and explo = 0 then
+				explo = 1
+			endif
+			movesprite enemshot(n),enemshotx(n),enemshoty(n)
+		endif
+		if enemy(n) <> 0 then
+			enemyy(n) = enemyy(n) + 2
+			if enemxplo(n) = 0 then
+				if enemyy(n) >= 160 and enemshot(n) = 0 and enemtype(n) <> 2 and enemxplo(n) = 0 then
+					enemshot(n) = addsprite(1,2)
+					enemshotx(n) = enemyx(n)
+					enemshoty(n) = enemyy(n)+8
+					propsprite enemshot(n),354,0
+					movesprite enemshot(n),enemshotx(n),enemshoty(n)
+				endif
+				if enemyy(n) >= 242+128 then
+					freesprite enemy(n)
+					enemy(n) = 0
+					enemyx(n) = 0
+					enemyy(n) = 0
+					enemtype(n) = 0
+					eneanim(n) = 1
+					eneanimwait(n) = 0
+					enemxplo(n) = 0
+					enemxplowait(n) = 0
+				endif
+				if explo = 0 then
+					if shipx < enemyx(n)+16 and shipy < enemyy(n)+16 and shipx+16 > enemyx(n) and shipy+16 > enemyy(n) then
+						explo = 1
+					endif
+				endif
+				for f = 0 to 9
+					if shot1(f) <> 0 and enemxplo(n) = 0 then
+						if shotx(f) < enemyx(n)+16 and shoty(f) < enemyy(n)+16 and shotx(f)+16 > enemyx(n) and shoty(f)+8 > enemyy(n) and enemtype(n) <> 2 then
+							enemxplo(n) = 1
+							freesprite shot1(f)
+							shot1(f) = 0
+							shotx(f) = 0
+							shoty(f) = 0
+						endif
+					endif
+				next
+				if enemtype(n) = 2 then
+					if eneanim(n) = 1 and eneanimwait(n) = 0 then
+						eneanim(n) = 2
+						eneanimwait(n) = 10
+						propsprite enemy(n),314,0
+					elseif eneanim(n) = 2 and eneanimwait(n) = 0 then
+						eneanim(n) = 1
+						eneanimwait(n) = 10
+						propsprite enemy(n),310,0
+					elseif eneanimwait(n) <> 0 then
+						eneanimwait(n)--
+					endif
+				endif
+			elseif enemxplo(n) = 1 then
+				propsprite enemy(n),318,0
+				enemxplo(n) = 2
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 2 and enemxplowait(n) = 0 then
+				propsprite enemy(n),322,0
+				enemxplo(n) = 3
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 3 and enemxplowait(n) = 0 then
+				propsprite enemy(n),326,0
+				enemxplo(n) = 4
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 4 and enemxplowait(n) = 0 then
+				propsprite enemy(n),330,0
+				enemxplo(n) = 5
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 5 and enemxplowait(n) = 0 then
+				propsprite enemy(n),334,0
+				enemxplo(n) = 6
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 6 and enemxplowait(n) = 0 then
+				propsprite enemy(n),338,0
+				enemxplo(n) = 7
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 7 and enemxplowait(n) = 0 then
+				propsprite enemy(n),342,0
+				enemxplo(n) = 8
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 8 and enemxplowait(n) = 0 then
+				propsprite enemy(n),346,0
+				enemxplo(n) = 9
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 9 and enemxplowait(n) = 0 then
+				propsprite enemy(n),350,0
+				enemxplo(n) = 10
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 10 and enemxplowait(n) = 0 then
+				freesprite enemy(n)
+				enemy(n) = 0
+				enemyx(n) = 0
+				enemyy(n) = 0
+				enemtype(n) = 0
+				eneanim(n) = 1
+				eneanimwait(n) = 0
+				enemxplo(n) = 0
+				enemxplowait(n) = 0
+			elseif enemxplo(n) <> 0 and enemxplowait(n) <> 0 then
+				enemxplowait(n)--
+			endif
+			movesprite enemy(n),enemyx(n),enemyy(n)
+		endif
+	next
+	movesprite ship,shipx,shipy
+	if acc > 0 then
+		acc--
+	else
+		acc = defacc
+	endif
+	return
+	
+levels:
+	if levwait = 0 then
+		if level = 1 then
+			levwait = 60
+			if levdiv = 1 then
+				senx = 140
+				type = 1
+				gosub spawnenemy
+			endif
+			if levdiv = 2 then
+				senx = 180
+				type = 2
+				gosub spawnenemy
+				levdiv = 0
+			endif
+		endif
+		levdiv++
+	else
+		levwait--
+	endif
+	return

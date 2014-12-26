@@ -1,0 +1,86 @@
+	if levwait = 0 then
+		if level = 1 then
+			if levdiv = 1 then
+				locate 12,15
+				print "Get ready"
+				levwait = 150
+			elseif (levdiv >= 2 and levdiv <= 4) or (levdiv >= 14 and levdiv <= 16) then
+				locate 12,15
+				print "         "
+				if levdiv = 4 or levdiv = 16 then
+					levwait = 60
+				else
+					levwait = 20
+				endif
+				enemx = 160
+				enemydx = 1
+				gosub spawnenemy
+			elseif (levdiv >= 5 and levdiv <= 7) or (levdiv >= 17 and levdiv <= 19) then
+				if levdiv = 7 or levdiv = 19 then
+					levwait = 60
+				else
+					levwait = 20
+				endif
+				enemx = 408
+				enemydx = -1
+				gosub spawnenemy
+			elseif levdiv = 8 or levdiv = 10 or levdiv = 12 then
+				levwait = 20
+				enemx = 276
+				enemydx = -1
+				gosub spawnenemy
+			elseif levdiv = 9 or levdiv = 11 or levdiv = 13 then
+				if levdiv = 13 then
+					levwait = 60
+				else
+					levwait = 20
+				endif
+				enemx = 276
+				enemydx = 1
+				gosub spawnenemy
+			elseif levdiv = 20 then
+				levwait = 20
+				enemx = 276
+				enemydx = 0
+				gosub spawnenemy
+			elseif levdiv = 21 then
+				levwait = 20
+				enemx = 244
+				enemydx = 0
+				gosub spawnenemy
+				enemx = 308
+				gosub spawnenemy
+			elseif levdiv = 22 then
+				levwait = 120
+				enemx = 212
+				enemydx = 0
+				gosub spawnenemy
+				enemx = 340
+				gosub spawnenemy
+			elseif levdiv = 23 or levdiv = 25 then
+				levwait = 60
+				enemx = 160
+				enemydx = 0
+				gosub spawnenemy
+				enemx = 192
+				gosub spawnenemy
+				enemx = 224
+				gosub spawnenemy
+			elseif levdiv = 24 or levdiv = 26 then
+				levwait = 60
+				enemx = 408
+				enemydx = 0
+				gosub spawnenemy
+				enemx = 376
+				gosub spawnenemy
+				enemx = 344
+				gosub spawnenemy
+			else
+				levwait = 30000
+			endif
+		endif
+		levdiv++
+	endif
+	if levwait > 0 then
+		levwait--
+	endif

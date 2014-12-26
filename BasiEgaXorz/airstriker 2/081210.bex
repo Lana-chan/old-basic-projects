@@ -1,0 +1,112 @@
+game:
+	loadtiles gamespr,16,256
+	pallettes gamepal,0,0,16
+	ship = addsprite(2,2)
+	shipx = 160+128+8
+	shipy = 200+128+8
+	propsprite ship,256,0
+	movesprite ship,shipx,shipy
+	vel = 0
+	defacc = 3
+	velmax = 4
+	start = 0
+	ink 1
+gameloop:
+	joy1 = joypad(0)
+	if joy1.2 then
+		if dir = 0 or dir = 1 then
+			dir = 1
+			if vel < velmax and acc = 0 then
+				vel++
+			endif
+		elseif vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	elseif joy1.3 then
+		if dir = 0 or dir = 2 then
+			dir = 2
+			if vel < velmax and acc = 0 then
+				vel++
+			endif
+		elseif vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	elseif joy1.2 = 0 and joy1.3 = 0 then
+		if vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	endif
+	if joy1.7 = 0 then
+		start = 0
+	elseif joy1.7 and start = 0 then
+		start = 1
+		gosub pause
+	endif
+	if vel = 0 then
+		propsprite ship,256,0
+	else
+		if dir = 1 then
+			propsprite ship,260,0
+		elseif dir = 2 then
+			propsprite ship,264,0
+		endif
+	endif
+	if dir = 1 then
+		shipx = shipx - vel
+	elseif dir = 2 then
+		shipx = shipx + vel
+	endif
+	if shipx => 310+128-16 and vel > 0 and dir = 2 then
+		dir = 1
+		if vel > 2 then
+			vel--
+		endif
+	elseif shipx =< 10+128 and vel > 0 and dir = 1 then
+		dir = 2
+		if vel > 2 then
+			vel--
+		endif
+	endif
+	movesprite ship,shipx,shipy
+	if acc > 0 then
+		acc--
+	else
+		acc = defacc
+	endif
+	locate 1,1
+	print vel
+	sleep 1
+	locate 1,1
+	print "     "
+	goto gameloop
+	end
+
+gamespr:
+	datafile game.bin,BIN
+
+gamepal:
+	dataint &h0000,&h0444,&h0888,&h0CCC,&h0EEE,&h000A,&h000C,&h000E
+	dataint &h066E,&h0800,&h0C00,&h0E44,&h0E88,&h0088,&h00CC,&h06EE
+	
+pause:
+	locate 4,4
+	print "paused"
+	do
+		joy1 = joypad(0)
+		if joy1.7 = 0 then
+			start = 0
+		elseif joy1.7 and start = 0 then
+			start = 1
+			locate 4,4
+			print "      "
+			return
+		endif
+		sleep 1
+	loop
+	return

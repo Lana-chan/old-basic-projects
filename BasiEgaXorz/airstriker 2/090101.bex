@@ -1,0 +1,2372 @@
+	dim shot1(10) as integer
+	dim shotx(10) as integer
+	dim shoty(10) as integer
+	dim shot2(10) as integer
+	dim shot2x(10) as integer
+	dim shot2y(10) as integer
+	dim enemy(10) as integer
+	dim enemyx(10) as integer
+	dim enemdx(10) as integer
+	dim enemyy(10) as integer
+	dim enemtype(10) as integer
+	dim eneanim(10) as integer
+	dim eneanimwait(10) as integer
+	dim enemxplo(10) as integer
+	dim enemxplowait(10) as integer
+	dim enemshot(10) as integer
+	dim enemshotx(10) as integer
+	dim enemshoty(10) as integer
+	dim powerup(10) as integer
+	dim powerupx(10) as integer
+	dim powerupy(10) as integer
+
+drawsegalogo:
+ '************************************
+ '************************************
+ '**          SEGA LOGO             **
+ '** Developed by Tulio Adriano     **
+ '** mailto:tgoncalves@terra.com.br **
+ '************************************
+ '************************************
+ 
+ 'This is the standard Sega logo, used in most games made and officialy released for 
+ 'Sega Genesis. 
+ 'This logo can be used in any homebrew game. Please credit me in some part of it. 
+
+ Dim OffSt as Integer
+ Dim Slp   as Integer
+ dim Sprt1 as Integer
+ dim Sprt2 as Integer
+ dim Sprt3 as Integer
+
+    Slp = 3
+
+    Pallettes PalletteSEGA,0,0,16
+
+    LoadTiles tiledata_sega,48,256
+ 	
+    OffSt = 256
+ 
+    'Creates the sprite in Genesis memory	
+    Sprt1 = AddSprite(4,4)
+    Sprt2 = AddSprite(4,4)
+    Sprt3 = AddSprite(4,4)
+    
+    'Assign the sprites to the apropriate memory position
+    PropSprite Sprt1, 256, PalletteSEGA
+    PropSprite Sprt2, 272, PalletteSEGA
+    PropSprite Sprt3, 288, PalletteSEGA
+    
+    'Move the sprites to the center of the screen so they can be visible. 
+    '(Remember that center of screen + 128, so that it can be on the viewable region of the screen.)
+    MoveSprite Sprt1, 240, 216
+    MoveSprite Sprt2, 272, 216
+    MoveSprite Sprt3, 304, 216
+    
+    'DrawTiles mapdata_sega, OffSt, 14, 11, 12, 4
+ 	
+	Sleep 15
+  	Pallettes PalletteSEGA2,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA3,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA4,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA5,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA6,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA7,0,0,16
+  	
+	Sleep Slp
+  	Pallettes PalletteSEGA8,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA9,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA10,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA11,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA12,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA13,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA14,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA15,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA16,0,0,16
+
+	Sleep Slp
+  	Pallettes PalletteSEGA,0,0,16
+
+	Sleep 100
+ 	Pallettes PalletteDark,0,0,16
+	
+	'Always a good idea release the sprite before you move on
+	FreeSprite Sprt1
+	FreeSprite Sprt2
+	FreeSprite Sprt3
+	
+	Sleep 10
+
+electrologo:
+	pallettes electropal,0,0,16
+    LoadTiles electrotiles,192,256
+    til = 256
+    tilx = 5
+    tily = 9
+    for y = 0 to 4
+    	for x = 0 to 15
+    		drawtile til+x, tilx+x, tily+y
+    	next
+    next
+    tily = 13    
+    for y = 0 to 5
+    	for x = 0 to 15
+    		drawtile til+x, tilx+x, tily+y
+    	next
+    	til = til + 16
+    next
+    til = 352
+    tilx = 21
+    tily = 9
+    for y = 0 to 4
+    	for x = 0 to 15
+    		drawtile til+x, tilx+x, tily+y
+    	next
+    next
+    tily = 13    
+    for y = 0 to 5
+    	for x = 0 to 15
+    		drawtile til+x, tilx+x, tily+y
+    	next
+    	til = til + 16
+    next
+    sleep 150
+    cls
+    sleep 10
+    
+title:
+	loadtiles titlespr,385,128
+	pallettes titlepal,0,0,16
+	drawtilesovr titlemap,128,0,3,40,8
+	drawtilesovr titlemap2,383,0,10,40,12
+    reload musicTitle
+    gosub tfdPlayInit
+    on VBLANK gosub tfdPlayFrame
+    enable INTERRUPTVBLANK
+mainLoop:
+	if titlewait = 0 then
+		titlewait = 30
+		if titlestate = 0 then
+			locate 24,13
+			'ink 1
+			print "Press Start"
+			'ink 0
+			titlestate = 1
+		else
+			locate 24,13
+			print "           "	
+			titlestate = 0
+		endif
+	else
+		titlewait--
+	endif
+	joy = joypad(0)
+	if joy.7 = 0 then
+		start = 0
+	elseif joy.7 and start = 0 then
+		start = 1
+		goto mainmenu
+	endif
+	sleep 1
+    goto mainLoop
+
+mainmenu:
+	cls
+	setgfxplane scroll_b
+	settextplane scroll_a
+	loadtiles titlespr,385,128
+	pallettes titlepal,0,0,16
+	drawtilesovr titlemap,128,0,3,40,8
+	drawtilesovr titlemap2,383,0,10,40,12
+    sleep 10
+    pallettes titlepal2,0,0,16
+    sleep 10
+    pallettes titlepal3,0,0,16
+    locate 10,13
+	print "Main Menu"
+	locate 13,13
+	print "Start game"
+	locate 15,13
+	print "Options"
+	locate 17,13
+	print "Credits"
+	locate 19,13
+	print "Highscores"
+	menuptr = 1
+mainmenuloop:
+	joy = joypad(0)
+	if joy.0 = 0 then
+		up = 0
+	elseif joy.0 and up = 0 then
+		up = 1
+		if menuptr > 1 then menuptr--
+	endif
+	if joy.1 = 0 then
+		dw = 0
+	elseif joy.1 and dw = 0 then
+		dw = 1
+		if menuptr < 4 then menuptr++
+	endif
+	if joy.4 = 0 then
+		butb = 0
+	elseif joy.4 and butb = 0 then
+		butb = 1
+		if menuptr = 1 then goto gamemenu
+		if menuptr = 2 then goto optnmenu
+		if menuptr = 3 then goto creditsm
+		if menuptr = 4 then goto highscor
+	endif
+	locate 11+(menuptr*2),11
+	print ">"
+	sleep 1
+	locate 11+(menuptr*2),11
+	print " "
+	goto mainmenuloop
+
+creditsm:
+	cls
+	setgfxplane scroll_b
+	settextplane scroll_a
+	loadtiles titlespr,385,128
+    pallettes titlepal3,0,0,16
+	drawtilesovr titlemap,128,0,3,40,8
+	drawtilesovr titlemap2,383,0,10,40,12
+	locate 10,15
+	print "Credits"
+	locate 14,4
+	print "Programming and graphic design"
+	locate 15,3
+	print "Syniphas"
+	locate 17,4
+	print "Music"
+	locate 18,3
+	print "Blue Reverberance"
+	locate 22,2
+	print "Airstriker 2 (C) 2008-2009"
+	locate 23,2
+	print "Electrokinesis Studios"
+credloop:
+	joy = joypad(0)
+	if joy.4 = 0 then
+		butb = 0
+	elseif joy.4 and butb = 0 then
+		goto mainmenu
+	endif
+	sleep 1
+	goto credloop
+
+gamemenu:
+	cls
+	setgfxplane scroll_b
+	settextplane scroll_a
+	loadtiles titlespr,385,128
+    pallettes titlepal3,0,0,16
+	drawtilesovr titlemap,128,0,3,40,8
+	drawtilesovr titlemap2,383,0,10,40,12
+    locate 10,13
+	print "Game Menu"
+	locate 13,13
+	print "1P game"
+	locate 15,13
+	print "2P game"
+	locate 17,13
+	print "1P Endurance mode"
+	locate 19,13
+	print "2P Endurance mode"
+	locate 21,13
+	print "Back"
+	menuptr = 1
+gmenloop:
+	joy = joypad(0)
+	if joy.0 = 0 then
+		up = 0
+	elseif joy.0 and up = 0 then
+		up = 1
+		if menuptr > 1 then menuptr--
+	endif
+	if joy.1 = 0 then
+		dw = 0
+	elseif joy.1 and dw = 0 then
+		dw = 1
+		if menuptr < 5 then menuptr++
+	endif
+	if joy.4 = 0 then
+		butb = 0
+	elseif joy.4 and butb = 0 then
+		butb = 1
+		if menuptr = 1 then
+			lives1 = 3
+			health = 5
+			score1 = 0
+			level = 1
+			levdiv = 0
+			goto 1pgame
+		elseif menuptr = 2 then
+			lives1 = 3
+			health = 5
+			score1 = 0
+			level = 1
+			levdiv = 0
+			lives2 = 3
+			health2 = 5	
+			score2 = 0
+			goto 2pgame
+		elseif menuptr = 3 then
+			
+		elseif menuptr = 4 then
+			
+		elseif menuptr = 5 then
+			goto mainmenu
+		endif
+	endif
+	locate 11+(menuptr*2),11
+	print ">"
+	sleep 1
+	locate 11+(menuptr*2),11
+	print " "
+	goto gmenloop
+
+optnmenu:
+highscor:
+	cls
+	setgfxplane scroll_b
+	settextplane scroll_a
+	loadtiles titlespr,385,128
+    pallettes titlepal3,0,0,16
+	drawtilesovr titlemap,128,0,3,40,8
+	drawtilesovr titlemap2,383,0,10,40,12
+	locate 10,14
+	print "Highscores"
+	locate 14,4
+	print "1P mode"
+	locate 15,3
+	print ophigh
+	locate 17,4
+	print "2p mode"
+	locate 18,3
+	print "1P - "; tphigho
+	locate 19,3
+	print "2P - "; tphight
+highloop:
+	joy = joypad(0)
+	if joy.4 = 0 then
+		butb = 0
+	elseif joy.4 and butb = 0 then
+		goto mainmenu
+	endif
+	sleep 1
+	goto highloop
+
+bgtil:
+	datafile bg.bin,bin
+
+bgpal:
+	DATAINT	$0026,$0024,$0046,$0048,$004A,$006A,$006C,$0002
+	DATAINT	$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+
+1pgame:
+	cls
+	loadtiles bgtil,520,512
+	pallettes bgpal,2,0,16
+	ink 2
+	setgfxplane scroll_b
+	for y = 0 to 13
+		for x = 0 to 39
+			drawtile 512+x+(y*40),x,y
+		next
+	next
+	setgfxplane scroll_a
+	ink 0
+	loadtiles gamespr,256,256
+	pallettes gamepal,0,0,16
+	ship = addsprite(2,2)
+	shipx = 160+120
+	shipy = 200+128
+	propsprite ship,256,0
+	movesprite ship,shipx,shipy
+	vel = 0
+	vel2 = 0
+	defacc = 3
+	velmax = 4
+	start = 0
+	start2 = 0
+	locate 14,14
+	ink 1
+	print "Get ready..."
+	sleep 100
+	locate 14,14
+	print "            "
+	ink 0
+	for i = 0 to 9
+		eneanim(i) = 1
+	next
+gameloop:
+	gosub player1
+	gosub engine1p
+	gosub levels
+	sleep 1
+	goto gameloop
+
+2pgame:
+	cls
+	loadtiles bgtil,520,512
+	pallettes bgpal,2,0,16
+	ink 2
+	setgfxplane scroll_b
+	for y = 0 to 13
+		for x = 0 to 39
+			drawtile 512+x+(y*40),x,y
+		next
+	next
+	setgfxplane scroll_a
+	ink 0
+	loadtiles gamespr,256,256
+	pallettes gamepal,0,0,16
+	ship = addsprite(2,2)
+	shipx = 160+120
+	shipy = 200+128
+	propsprite ship,256,0
+	movesprite ship,shipx,shipy
+	ship2 = addsprite(2,2)
+	ship2x = 180+120
+	ship2y = 200+128
+	propsprite ship2,378,0
+	movesprite ship2,ship2x,ship2y
+	vel = 0
+	vel2 = 0
+	defacc = 3
+	velmax = 4
+	start = 0
+	start2 = 0
+	locate 14,14
+	ink 1
+	print "Get ready..."
+	sleep 100
+	locate 14,14
+	print "            "
+	ink 0
+	for i = 0 to 9
+		eneanim(i) = 1
+	next
+2pgameloop:
+	gosub player1
+	gosub player2
+	gosub engine2p
+	gosub levels
+	sleep 1
+	goto 2pgameloop
+
+gamespr:
+	datafile game.bin,BIN
+
+gamepal:
+	dataint &h0000,&h0444,&h0888,&h0CCC,&h0EEE,&h000A,&h000C,&h000E
+	dataint &h066E,&h0800,&h0C00,&h0E44,&h0E88,&h0088,&h00CC,&h06EE
+	
+player1:
+	joy1 = joypad(0)
+	if joy1.2 and explo = 0 then
+		if dir = 0 or dir = 1 then
+			dir = 1
+			if vel < velmax and acc = 0 then
+				vel++
+			endif
+		elseif vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	elseif joy1.3 and explo = 0 then
+		if dir = 0 or dir = 2 then
+			dir = 2
+			if vel < velmax and acc = 0 then
+				vel++
+			endif
+		elseif vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	elseif joy1.2 = 0 and joy1.3 = 0 then
+		if vel > 0 and acc = 0 then
+			vel--
+		elseif vel = 0 and acc = 0 then
+			dir = 0
+		endif
+	endif
+	if joy1.7 = 0 then
+		start = 0
+	elseif joy1.7 and start = 0 then
+		start = 1
+		buttons = 1
+		locate 18,8
+		ink 1
+		print "Paused. A+B+C to quit."
+		ink 0
+		do
+			joy1 = joypad(0)
+			if joy1.7 = 0 then
+				start = 0
+			elseif joy1.7 and start = 0 then
+				start = 1
+				locate 18,8
+				print "                      "
+				return
+			endif
+			if joy1.4 = 0 or joy1.5 = 0 or joy1.6 = 0 then
+				buttons = 0
+			elseif joy1.4 and joy1.5 and joy1.6 then
+				goto endgame
+			endif
+			sleep 1
+		loop
+	endif
+	if vel = 0 and explo = 0 and imm = 0 then
+		propsprite ship,256,0
+	elseif vel <> 0 and explo = 0 and imm = 0 then
+		if dir = 1 then
+			propsprite ship,260,0
+		elseif dir = 2 then
+			propsprite ship,264,0
+		endif
+	endif
+	if dir = 1 then
+		shipx = shipx - vel
+	elseif dir = 2 then
+		shipx = shipx + vel
+	endif
+	if shipx => 310+128-16 and vel > 0 and dir = 2 then
+		dir = 1
+		if vel > 2 then
+			vel--
+		endif
+	elseif shipx =< 10+128 and vel > 0 and dir = 1 then
+		dir = 2
+		if vel > 2 then
+			vel--
+		endif
+	endif
+	if explo = 1 then
+		propsprite ship,274,0
+		explo = 2
+		explowait = 5
+	elseif explo = 2 and explowait = 0 then
+		propsprite ship,278,0
+		explo = 3
+		explowait = 5
+	elseif explo = 3 and explowait = 0 then
+		propsprite ship,282,0
+		explo = 4
+		explowait = 5
+	elseif explo = 4 and explowait = 0 then
+		propsprite ship,286,0
+		explo = 5
+		explowait = 5
+	elseif explo = 5 and explowait = 0 then
+		propsprite ship,290,0
+		explo = 6
+		explowait = 5
+	elseif explo = 6 and explowait = 0 then
+		propsprite ship,294,0
+		explo = 7
+		explowait = 5
+	elseif explo = 7 and explowait = 0 then
+		propsprite ship,298,0
+		explo = 8
+		explowait = 5
+	elseif explo = 8 and explowait = 0 then
+		propsprite ship,302,0
+		explo = 9
+		explowait = 5
+	elseif explo = 9 and explowait = 0 then
+		propsprite ship,306,0
+		explo = 10
+		explowait = 5
+	elseif explo = 10 and explowait = 0 then
+		propsprite ship,256,0
+		health = 5
+		explo = 0
+		lives1--
+		if score1 > 50 then
+			score1 = score1 - 50
+		else
+			score1 = 0
+		endif
+		if lives1 = 0 then goto endgame
+		shipx = 160+120
+		movesprite ship,shipx,shipy
+		locate 14,14
+		print "Get ready..."
+		sleep 100
+		locate 14,14
+		print "            "
+	elseif explo <> 0 and explowait <> 0 then
+		explowait--
+	endif
+	if imm = 1 then
+		if immwait > 0 then
+			if immstate = 1 then 
+				propsprite ship,306,0
+				immstate++
+			elseif immstate = 2 then
+				propsprite ship,256,0
+				immstate--
+			endif
+			immwait--
+		else
+			imm = 0
+		endif
+	endif
+	if joy1.4 = 0 then
+		butb = 0
+	elseif joy1.4 and butb = 0 and explo = 0 then
+		butb = 1
+		srm = 10
+		for s = 0 to 9
+			if shot1(s) = 0 then
+				srm = s
+			endif
+		next
+		if srm = 10 then return
+		shot1(srm) = addsprite(1,2)
+		shotx(srm) = shipx
+		shoty(srm) = shipy-5
+		propsprite shot1(srm),268,0
+		movesprite shot1(srm),shotx(srm),shoty(srm)
+	endif
+	return
+
+player2:
+	joy2 = joypad(1)
+	if joy2.2 and explo2 = 0 then
+		if dir2 = 0 or dir2 = 1 then
+			dir2 = 1
+			if vel2 < velmax and acc2 = 0 then
+				vel2++
+			endif
+		elseif vel2 > 0 and acc2 = 0 then
+			vel2--
+		elseif vel2 = 0 and acc2 = 0 then
+			dir2 = 0
+		endif
+	elseif joy2.3 and explo2 = 0 then
+		if dir2 = 0 or dir2 = 2 then
+			dir2 = 2
+			if vel2 < velmax and acc2 = 0 then
+				vel2++
+			endif
+		elseif vel2 > 0 and acc2 = 0 then
+			vel2--
+		elseif vel2 = 0 and acc2 = 0 then
+			dir2 = 0
+		endif
+	elseif joy2.2 = 0 and joy2.3 = 0 then
+		if vel2 > 0 and acc2 = 0 then
+			vel2--
+		elseif vel2 = 0 and acc2 = 0 then
+			dir2 = 0
+		endif
+	endif
+	if joy2.7 = 0 then
+		start2 = 0
+	elseif joy2.7 and start2 = 0 then
+		start2 = 1
+		buttons2 = 1
+		locate 18,8
+		ink 1
+		print "Paused. A+B+C to quit."
+		ink 0
+		do
+			joy2 = joypad(1)
+			if joy2.7 = 0 then
+				start = 0
+			elseif joy2.7 and start2 = 0 then
+				start2 = 1
+				locate 18,8
+				print "                      "
+				return
+			endif
+			if joy2.4 = 0 or joy2.5 = 0 or joy2.6 = 0 then
+				buttons = 0
+			elseif joy2.4 and joy2.5 and joy2.6 then
+				goto endgame
+			endif
+			sleep 1
+		loop
+	endif
+	if vel2 = 0 and explo2 = 0 and imm2 = 0 then
+		propsprite ship2,378,0
+	elseif vel2 <> 0 and explo2 = 0 and imm2 = 0 then
+		if dir2 = 1 then
+			propsprite ship2,382,0
+		elseif dir2 = 2 then
+			propsprite ship2,386,0
+		endif
+	endif
+	if dir2 = 1 then
+		ship2x = ship2x - vel2
+	elseif dir2 = 2 then
+		ship2x = ship2x + vel2
+	endif
+	if ship2x => 310+128-16 and vel2 > 0 and dir2 = 2 then
+		dir2 = 1
+		if vel2 > 2 then
+			vel2--
+		endif
+	elseif ship2x =< 10+128 and vel2 > 0 and dir2 = 1 then
+		dir2 = 2
+		if vel2 > 2 then
+			vel2--
+		endif
+	endif
+	if explo2 = 1 then
+		propsprite ship2,390,0
+		explo2 = 2
+		explo2wait = 5
+	elseif explo2 = 2 and explo2wait = 0 then
+		propsprite ship2,394,0
+		explo2 = 3
+		explo2wait = 5
+	elseif explo2 = 3 and explo2wait = 0 then
+		propsprite ship2,398,0
+		explo2 = 4
+		explo2wait = 5
+	elseif explo2 = 4 and explo22wait = 0 then
+		propsprite ship2,402,0
+		explo2 = 5
+		explo2wait = 5
+	elseif explo2 = 5 and explo2wait = 0 then
+		propsprite ship2,290,0
+		explo2 = 6
+		explo2wait = 5
+	elseif explo2 = 6 and explo2wait = 0 then
+		propsprite ship2,294,0
+		explo2 = 7
+		explo2wait = 5
+	elseif explo2 = 7 and explo2wait = 0 then
+		propsprite ship2,298,0
+		explo2 = 8
+		explo2wait = 5
+	elseif explo2 = 8 and explo2wait = 0 then
+		propsprite ship2,302,0
+		explo2 = 9
+		explo2wait = 5
+	elseif explo2 = 9 and explo2wait = 0 then
+		propsprite ship2,306,0
+		explo2 = 10
+		explo2wait = 5
+	elseif explo2 = 10 and explo2wait = 0 then
+		propsprite ship2,378,0
+		health = 5
+		explo2 = 0
+		lives2--
+		if score2 > 50 then
+			score2 = score2 - 50
+		else
+			score2 = 0
+		endif
+		if lives2 = 0 then goto endgame
+		ship2x = 180+120
+		movesprite ship2,ship2x,ship2y
+		locate 14,14
+		print "Get ready..."
+		sleep 100
+		locate 14,14
+		print "            "
+	elseif explo2 <> 0 and explo2wait <> 0 then
+		explo2wait--
+	endif
+	if imm2 = 1 then
+		if imm2wait > 0 then
+			if imm2state = 1 then 
+				propsprite ship2,306,0
+				imm2state++
+			elseif imm2state = 2 then
+				propsprite ship2,378,0
+				imm2state--
+			endif
+			imm2wait--
+		else
+			imm2 = 0
+		endif
+	endif
+	if joy2.4 = 0 then
+		butb2 = 0
+	elseif joy2.4 and butb2 = 0 and explo2 = 0 then
+		butb2 = 1
+		srm2 = 10
+		for s2 = 0 to 9
+			if shot2(s2) = 0 then
+				srm2 = s2
+			endif
+		next
+		if srm2 = 10 then return
+		shot2(srm2) = addsprite(1,2)
+		shot2x(srm2) = ship2x
+		shot2y(srm2) = ship2y-5
+		propsprite shot2(srm2),268,0
+		movesprite shot2(srm2),shot2x(srm2),shot2y(srm2)
+	endif
+	return
+	
+spawnenemy:
+	erm = 10
+	for e = 0 to 9
+		if enemy(e) = 0 then
+			erm = e
+		endif
+	next
+	if erm = 10 then return
+	enemy(erm) = addsprite(2,2)
+	enemyx(erm) = senx+128
+	enemyy(erm) = 112
+	enemtype(erm) = type
+	enemdx(erm) = sendx
+	if type = 1 then propsprite enemy(erm),270,0
+	if type = 2 then propsprite enemy(erm),310,0 
+	if type = 3 then propsprite enemy(erm),358,0 
+	movesprite enemy(erm),enemyx(erm),enemyy(erm)
+	return
+	
+engine1p:
+	for n = 0 to 9
+		if shot1(n) <> 0 then
+			shoty(n) = shoty(n) - 4
+			if shoty(n) <= 120 then
+				freesprite shot1(n)
+				shot1(n) = 0
+				shotx(n) = 0
+				shoty(n) = 0
+			endif
+			movesprite shot1(n),shotx(n),shoty(n)
+		endif
+		if enemshot(n) <> 0 then
+			enemshoty(n) = enemshoty(n) + 4
+			if enemshoty(n) >= 242+128 then
+				freesprite enemshot(n)
+				enemshot(n) = 0
+				enemshoty(n) = 0
+				enemshotx(n) = 0
+			endif
+			if explo = 0 and imm = 0 then
+				if shipx < enemshotx(n)+8 and shipy < enemshoty(n)+8 and shipx+16 > enemshotx(n) and shipy+16 > enemshoty(n) then
+					health--
+					if health > 0 then
+						imm = 1
+						immwait = 100
+						immstate = 1
+					endif
+				endif
+			endif
+			movesprite enemshot(n),enemshotx(n),enemshoty(n)
+		endif
+		if powerup(n) <> 0 then
+			powerupy(n) = powerupy(n) + 1
+			if powerupy(n) = 242+128 then
+				freesprite powerup(n)
+				powerup(n) = 0
+				powerupy(n) = 0
+				powerupx(n) = 0
+			endif
+			if explo = 0 then
+				if shipx < powerupx(n)+8 and shipy < powerupy(n)+8 and shipx+16 > powerupx(n) and shipy+16 > powerupy(n) then
+					health = 5
+					freesprite powerup(n)
+					powerup(n) = 0
+					powerupy(n) = 0
+					powerupx(n) = 0
+					score1 = score1 + 10
+					if score1 > ophigh then ophigh = score1
+				endif
+			endif
+			movesprite powerup(n),powerupx(n),powerupy(n)
+		endif
+		if enemy(n) <> 0 then
+			enemyy(n) = enemyy(n) + 2
+			enemyx(n) = enemyx(n) + enemdx(n)
+			if enemxplo(n) = 0 then
+				if enemyy(n) = 160 and enemshot(n) = 0 and enemtype(n) = 1 and enemxplo(n) = 0 then
+					enemshot(n) = addsprite(1,1)
+					enemshotx(n) = enemyx(n)+4
+					enemshoty(n) = enemyy(n)+8
+					propsprite enemshot(n),354,0
+					movesprite enemshot(n),enemshotx(n),enemshoty(n)
+				endif
+				if enemyy(n) >= 242+128 then
+					freesprite enemy(n)
+					enemy(n) = 0
+					enemyx(n) = 0
+					enemyy(n) = 0
+					enemtype(n) = 0
+					eneanim(n) = 1
+					eneanimwait(n) = 0
+					enemxplo(n) = 0
+					enemxplowait(n) = 0
+				endif
+				if explo = 0 and imm = 0 then
+					if shipx < enemyx(n)+16 and shipy < enemyy(n)+16 and shipx+16 > enemyx(n) and shipy+16 > enemyy(n) then
+						health--
+						if health > 0 then
+							imm = 1
+							immwait = 100
+							immstate = 1
+						endif
+					endif
+				endif
+				for f = 0 to 9
+					if shot1(f) <> 0 and enemxplo(n) = 0 then
+						if shotx(f) < enemyx(n)+16 and shoty(f) < enemyy(n)+16 and shotx(f)+16 > enemyx(n) and shoty(f)+8 > enemyy(n) and enemtype(n) <> 2 then
+							enemxplo(n) = 1
+							freesprite shot1(f)
+							shot1(f) = 0
+							shotx(f) = 0
+							shoty(f) = 0
+							if enemtype(n) = 1 then score1 = score1 + 30
+							if enemtype(n) = 3 then score1 = score1 + 10
+							if score1 > ophigh then ophigh = score1
+						endif
+					endif
+				next
+				if enemtype(n) = 2 then
+					if eneanim(n) = 1 and eneanimwait(n) = 0 then
+						eneanim(n) = 2
+						eneanimwait(n) = 10
+						propsprite enemy(n),314,0
+					elseif eneanim(n) = 2 and eneanimwait(n) = 0 then
+						eneanim(n) = 1
+						eneanimwait(n) = 10
+						propsprite enemy(n),310,0
+					elseif eneanimwait(n) <> 0 then
+						eneanimwait(n)--
+					endif
+				endif
+			elseif enemxplo(n) = 1 then
+				if enemtype(n) = 3 and powerup(n) = 0 then
+					powerup(n) = addsprite(1,1)
+					powerupx(n) = enemyx(n)+4
+					powerupy(n) = enemyy(n)+8
+					propsprite powerup(n),355,0
+					movesprite powerup(n),powerupx(n),powerupy(n)
+				endif
+				if enemtype(n) = 1 then propsprite enemy(n),318,0
+				if enemtype(n) = 3 then propsprite enemy(n),362,0
+				enemxplo(n) = 2
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 2 and enemxplowait(n) = 0 then
+				if enemtype(n) = 1 then propsprite enemy(n),322,0
+				if enemtype(n) = 3 then propsprite enemy(n),366,0
+				enemxplo(n) = 3
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 3 and enemxplowait(n) = 0 then
+				if enemtype(n) = 1 then propsprite enemy(n),326,0
+				if enemtype(n) = 3 then propsprite enemy(n),370,0
+				enemxplo(n) = 4
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 4 and enemxplowait(n) = 0 then
+				if enemtype(n) = 1 then propsprite enemy(n),330,0
+				if enemtype(n) = 3 then propsprite enemy(n),374,0
+				enemxplo(n) = 5
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 5 and enemxplowait(n) = 0 then
+				propsprite enemy(n),334,0
+				enemxplo(n) = 6
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 6 and enemxplowait(n) = 0 then
+				propsprite enemy(n),338,0
+				enemxplo(n) = 7
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 7 and enemxplowait(n) = 0 then
+				propsprite enemy(n),342,0
+				enemxplo(n) = 8
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 8 and enemxplowait(n) = 0 then
+				propsprite enemy(n),346,0
+				enemxplo(n) = 9
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 9 and enemxplowait(n) = 0 then
+				propsprite enemy(n),350,0
+				enemxplo(n) = 10
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 10 and enemxplowait(n) = 0 then
+				freesprite enemy(n)
+				enemy(n) = 0
+				enemyx(n) = 0
+				enemyy(n) = 0
+				enemtype(n) = 0
+				eneanim(n) = 1
+				eneanimwait(n) = 0
+				enemxplo(n) = 0
+				enemxplowait(n) = 0
+			elseif enemxplo(n) <> 0 and enemxplowait(n) <> 0 then
+				enemxplowait(n)--
+			endif
+			movesprite enemy(n),enemyx(n),enemyy(n)
+		endif
+	next
+	ink 0
+	if health = 5 then
+		drawtile 356,1,2
+		drawtile 356,2,2
+		drawtile 356,3,2
+		drawtile 356,4,2
+		drawtile 356,5,2
+	elseif health = 4 then
+		drawtile 356,1,2
+		drawtile 356,2,2
+		drawtile 356,3,2
+		drawtile 356,4,2
+		drawtile 357,5,2
+	elseif health = 3 then
+		drawtile 356,1,2
+		drawtile 356,2,2
+		drawtile 356,3,2
+		drawtile 357,4,2
+		drawtile 357,5,2
+	elseif health = 2 then
+		drawtile 356,1,2
+		drawtile 356,2,2
+		drawtile 357,3,2
+		drawtile 357,4,2
+		drawtile 357,5,2
+	elseif health = 1 then
+		drawtile 356,1,2
+		drawtile 357,2,2
+		drawtile 357,3,2
+		drawtile 357,4,2
+		drawtile 357,5,2
+	elseif health = 0 and explo = 0 then
+		drawtile 357,1,2
+		drawtile 357,2,2
+		drawtile 357,3,2
+		drawtile 357,4,2
+		drawtile 357,5,2
+		explo = 1
+	endif
+	ink 1
+	locate 0,0
+	print "Health","Score","Lives"
+	print ,score1,lives1
+	ink 0
+	movesprite ship,shipx,shipy
+	if acc > 0 then
+		acc--
+	else
+		acc = defacc
+	endif
+	return
+	
+engine2p:
+	for n = 0 to 9
+		if shot1(n) <> 0 then
+			shoty(n) = shoty(n) - 4
+			if shoty(n) <= 120 then
+				freesprite shot1(n)
+				shot1(n) = 0
+				shotx(n) = 0
+				shoty(n) = 0
+			endif
+			movesprite shot1(n),shotx(n),shoty(n)
+		endif
+		if shot2(n) <> 0 then
+			shot2y(n) = shot2y(n) - 4
+			if shot2y(n) <= 120 then
+				freesprite shot2(n)
+				shot2(n) = 0
+				shot2x(n) = 0
+				shot2y(n) = 0
+			endif
+			movesprite shot2(n),shot2x(n),shot2y(n)
+		endif
+		if enemshot(n) <> 0 then
+			enemshoty(n) = enemshoty(n) + 4
+			if enemshoty(n) >= 242+128 then
+				freesprite enemshot(n)
+				enemshot(n) = 0
+				enemshoty(n) = 0
+				enemshotx(n) = 0
+			endif
+			if explo = 0 and imm = 0 then
+				if shipx < enemshotx(n)+8 and shipy < enemshoty(n)+8 and shipx+16 > enemshotx(n) and shipy+16 > enemshoty(n) then
+					health--
+					if health > 0 then
+						imm = 1
+						immwait = 100
+						immstate = 1
+					endif
+				endif
+			endif
+			if explo2 = 0 and imm2 = 0 then
+				if ship2x < enemshotx(n)+8 and ship2y < enemshoty(n)+8 and ship2x+16 > enemshotx(n) and ship2y+16 > enemshoty(n) then
+					health2--
+					if health2 > 0 then
+						imm2 = 1
+						imm2wait = 100
+						imm2state = 1
+					endif
+				endif
+			endif
+			movesprite enemshot(n),enemshotx(n),enemshoty(n)
+		endif
+		if powerup(n) <> 0 then
+			powerupy(n) = powerupy(n) + 1
+			if powerupy(n) = 242+128 then
+				freesprite powerup(n)
+				powerup(n) = 0
+				powerupy(n) = 0
+				powerupx(n) = 0
+			endif
+			if explo = 0 then
+				if shipx < powerupx(n)+8 and shipy < powerupy(n)+8 and shipx+16 > powerupx(n) and shipy+16 > powerupy(n) then
+					health = 5
+					freesprite powerup(n)
+					powerup(n) = 0
+					powerupy(n) = 0
+					powerupx(n) = 0
+					score1 = score1 + 10
+					if score1 > tphigho then tphigho = score1
+				endif
+			endif
+			if explo2 = 0 then
+				if ship2x < powerupx(n)+8 and ship2y < powerupy(n)+8 and ship2x+16 > powerupx(n) and ship2y+16 > powerupy(n) then
+					health2 = 5
+					freesprite powerup(n)
+					powerup(n) = 0
+					powerupy(n) = 0
+					powerupx(n) = 0
+					score2 = score2 + 10
+					if score2 > tphight then tphight = score2
+				endif
+			endif
+			movesprite powerup(n),powerupx(n),powerupy(n)
+		endif
+		if enemy(n) <> 0 then
+			enemyy(n) = enemyy(n) + 2
+			enemyx(n) = enemyx(n) + enemdx(n)
+			if enemxplo(n) = 0 then
+				if enemyy(n) = 160 and enemshot(n) = 0 and enemtype(n) = 1 and enemxplo(n) = 0 then
+					enemshot(n) = addsprite(1,1)
+					enemshotx(n) = enemyx(n)+4
+					enemshoty(n) = enemyy(n)+8
+					propsprite enemshot(n),354,0
+					movesprite enemshot(n),enemshotx(n),enemshoty(n)
+				endif
+				if enemyy(n) >= 242+128 then
+					freesprite enemy(n)
+					enemy(n) = 0
+					enemyx(n) = 0
+					enemyy(n) = 0
+					enemtype(n) = 0
+					eneanim(n) = 1
+					eneanimwait(n) = 0
+					enemxplo(n) = 0
+					enemxplowait(n) = 0
+				endif
+				if explo = 0 and imm = 0 then
+					if shipx < enemyx(n)+16 and shipy < enemyy(n)+16 and shipx+16 > enemyx(n) and shipy+16 > enemyy(n) then
+						health--
+						if health > 0 then
+							imm = 1
+							immwait = 100
+							immstate = 1
+						endif
+					endif
+				endif
+				if explo2 = 0 and imm2 = 0 then
+					if ship2x < enemyx(n)+16 and ship2y < enemyy(n)+16 and ship2x+16 > enemyx(n) and ship2y+16 > enemyy(n) then
+						health2--
+						if health2 > 0 then
+							imm2 = 1
+							imm2wait = 100
+							imm2state = 1
+						endif
+					endif
+				endif
+				for f = 0 to 9
+					if shot1(f) <> 0 and enemxplo(n) = 0 then
+						if shotx(f) < enemyx(n)+16 and shoty(f) < enemyy(n)+16 and shotx(f)+16 > enemyx(n) and shoty(f)+8 > enemyy(n) and enemtype(n) <> 2 then
+							enemxplo(n) = 1
+							freesprite shot1(f)
+							shot1(f) = 0
+							shotx(f) = 0
+							shoty(f) = 0
+							if enemtype(n) = 1 then score1 = score1 + 30
+							if enemtype(n) = 3 then score1 = score1 + 10
+							if score1 > tphigho then tphigho = score1
+						endif
+					endif
+					if shot2(f) <> 0 and enemxplo(n) = 0 then
+						if shot2x(f) < enemyx(n)+16 and shot2y(f) < enemyy(n)+16 and shot2x(f)+16 > enemyx(n) and shot2y(f)+8 > enemyy(n) and enemtype(n) <> 2 then
+							enemxplo(n) = 1
+							freesprite shot2(f)
+							shot2(f) = 0
+							shot2x(f) = 0
+							shot2y(f) = 0
+							if enemtype(n) = 1 then score2 = score2 + 30
+							if enemtype(n) = 3 then score2 = score2 + 10
+							if score2 > tphight then tphight = score2
+						endif
+					endif
+				next
+				if enemtype(n) = 2 then
+					if eneanim(n) = 1 and eneanimwait(n) = 0 then
+						eneanim(n) = 2
+						eneanimwait(n) = 10
+						propsprite enemy(n),314,0
+					elseif eneanim(n) = 2 and eneanimwait(n) = 0 then
+						eneanim(n) = 1
+						eneanimwait(n) = 10
+						propsprite enemy(n),310,0
+					elseif eneanimwait(n) <> 0 then
+						eneanimwait(n)--
+					endif
+				endif
+			elseif enemxplo(n) = 1 then
+				if enemtype(n) = 3 and powerup(n) = 0 then
+					powerup(n) = addsprite(1,1)
+					powerupx(n) = enemyx(n)+4
+					powerupy(n) = enemyy(n)+8
+					propsprite powerup(n),355,0
+					movesprite powerup(n),powerupx(n),powerupy(n)
+				endif
+				if enemtype(n) = 1 then propsprite enemy(n),318,0
+				if enemtype(n) = 3 then propsprite enemy(n),362,0
+				enemxplo(n) = 2
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 2 and enemxplowait(n) = 0 then
+				if enemtype(n) = 1 then propsprite enemy(n),322,0
+				if enemtype(n) = 3 then propsprite enemy(n),366,0
+				enemxplo(n) = 3
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 3 and enemxplowait(n) = 0 then
+				if enemtype(n) = 1 then propsprite enemy(n),326,0
+				if enemtype(n) = 3 then propsprite enemy(n),370,0
+				enemxplo(n) = 4
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 4 and enemxplowait(n) = 0 then
+				if enemtype(n) = 1 then propsprite enemy(n),330,0
+				if enemtype(n) = 3 then propsprite enemy(n),374,0
+				enemxplo(n) = 5
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 5 and enemxplowait(n) = 0 then
+				propsprite enemy(n),334,0
+				enemxplo(n) = 6
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 6 and enemxplowait(n) = 0 then
+				propsprite enemy(n),338,0
+				enemxplo(n) = 7
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 7 and enemxplowait(n) = 0 then
+				propsprite enemy(n),342,0
+				enemxplo(n) = 8
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 8 and enemxplowait(n) = 0 then
+				propsprite enemy(n),346,0
+				enemxplo(n) = 9
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 9 and enemxplowait(n) = 0 then
+				propsprite enemy(n),350,0
+				enemxplo(n) = 10
+				enemxplowait(n) = 5
+			elseif enemxplo(n) = 10 and enemxplowait(n) = 0 then
+				freesprite enemy(n)
+				enemy(n) = 0
+				enemyx(n) = 0
+				enemyy(n) = 0
+				enemtype(n) = 0
+				eneanim(n) = 1
+				eneanimwait(n) = 0
+				enemxplo(n) = 0
+				enemxplowait(n) = 0
+			elseif enemxplo(n) <> 0 and enemxplowait(n) <> 0 then
+				enemxplowait(n)--
+			endif
+			movesprite enemy(n),enemyx(n),enemyy(n)
+		endif
+	next
+	ink 0
+	if health = 5 then
+		drawtile 356,13,1
+		drawtile 356,14,1
+		drawtile 356,15,1
+		drawtile 356,16,1
+		drawtile 356,17,1
+	elseif health = 4 then
+		drawtile 356,13,1
+		drawtile 356,14,1
+		drawtile 356,15,1
+		drawtile 356,16,1
+		drawtile 357,17,1
+	elseif health = 3 then
+		drawtile 356,13,1
+		drawtile 356,14,1
+		drawtile 356,15,1
+		drawtile 357,16,1
+		drawtile 357,17,1
+	elseif health = 2 then
+		drawtile 356,13,1
+		drawtile 356,14,1
+		drawtile 357,15,1
+		drawtile 357,16,1
+		drawtile 357,17,1
+	elseif health = 1 then
+		drawtile 356,13,1
+		drawtile 357,14,1
+		drawtile 357,15,1
+		drawtile 357,16,1
+		drawtile 357,17,1
+	elseif health = 0 and explo = 0 then
+		drawtile 357,13,1
+		drawtile 357,14,1
+		drawtile 357,15,1
+		drawtile 357,16,1
+		drawtile 357,17,1
+		explo = 1
+	endif
+	if health2 = 5 then
+		drawtile 356,21,1
+		drawtile 356,22,1
+		drawtile 356,23,1
+		drawtile 356,24,1
+		drawtile 356,25,1
+	elseif health2 = 4 then
+		drawtile 356,21,1
+		drawtile 356,22,1
+		drawtile 356,23,1
+		drawtile 356,24,1
+		drawtile 357,25,1
+	elseif health2 = 3 then
+		drawtile 356,21,1
+		drawtile 356,22,1
+		drawtile 356,23,1
+		drawtile 357,24,1
+		drawtile 357,25,1
+	elseif health2 = 2 then
+		drawtile 356,21,1
+		drawtile 356,22,1
+		drawtile 357,23,1
+		drawtile 357,24,1
+		drawtile 357,25,1
+	elseif health2 = 1 then
+		drawtile 356,21,1
+		drawtile 357,22,1
+		drawtile 357,23,1
+		drawtile 357,24,1
+		drawtile 357,25,1
+	elseif health2 = 0 and explo2 = 0 then
+		drawtile 357,21,1
+		drawtile 357,22,1
+		drawtile 357,23,1
+		drawtile 357,24,1
+		drawtile 357,25,1
+		explo2 = 1
+	endif
+	locate 1,1
+	print ,,score1,score2
+	movesprite ship,shipx,shipy
+	movesprite ship2,ship2x,ship2y
+	if acc > 0 then
+		acc--
+	else
+		acc = defacc
+	endif
+	if acc2 > 0 then
+		acc2--
+	else
+		acc2 = defacc
+	endif
+	return
+
+levels:
+	if levwait = 0 then
+		if level = 1 then
+			levwait = 30
+			if levdiv =  2 then
+			    senx =  48
+			    sendx = 1
+			    type = 2
+			    gosub spawnenemy
+			    senx =  258
+			    sendx = -1
+			    type = 2
+			    gosub spawnenemy
+			elseif levdiv =  4 then
+			    senx =  78
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  228
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  6 then
+			    senx =  48
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  198
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  7 then
+			    senx =  108
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  258
+			    sendx = -1
+			    type = 3
+			    gosub spawnenemy
+			elseif levdiv =  8 then
+			    senx =  138
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  168
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  9 then
+			    senx =  138
+			    sendx = -1
+			    type = 1
+			    gosub spawnenemy
+			    senx =  168
+			    sendx = 1
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  10 then
+			    senx =  18
+			    sendx = 0
+			    type = 3
+			    gosub spawnenemy
+			    senx =  288
+			    sendx = -1
+			    type = 3
+			    gosub spawnenemy
+			elseif levdiv =  12 then
+			    senx =  18
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  13 then
+			    senx =  18
+			    sendx = 1
+			    type = 1
+			    gosub spawnenemy
+			    senx =  78
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  14 then
+			    senx =  78
+			    sendx = 1
+			    type = 1
+			    gosub spawnenemy
+			    senx =  138
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  15 then
+			    senx =  138
+			    sendx = 1
+			    type = 3
+			    gosub spawnenemy
+			    senx =  198
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  16 then
+			    senx =  198
+			    sendx = -1
+			    type = 1
+			    gosub spawnenemy
+			    senx =  258
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  17 then
+			    senx =  48
+			    sendx = 0
+			    type = 3
+			    gosub spawnenemy
+			    senx =  108
+			    sendx = 0
+			    type = 3
+			    gosub spawnenemy
+			    senx =  288
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			elseif levdiv =  18 then
+			    senx =  78
+			    sendx = 1
+			    type = 2
+			    gosub spawnenemy
+			elseif levdiv =  19 then
+			    senx =  258
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  288
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  20 then
+			    senx =  168
+			    sendx = -1
+			    type = 1
+			    gosub spawnenemy
+			    senx =  198
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  228
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  258
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  288
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  21 then
+			    senx =  48
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			elseif levdiv =  22 then
+			    senx =  108
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			    senx =  168
+			    sendx = 1
+			    type = 3
+			    gosub spawnenemy
+			    senx =  198
+			    sendx = -1
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  23 then
+			    senx =  78
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			    senx =  288
+			    sendx = -1
+			    type = 3
+			    gosub spawnenemy
+			elseif levdiv =  24 then
+			    senx =  108
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			    senx =  138
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  168
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			    senx =  198
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			    senx =  228
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			elseif levdiv =  26 then
+			    senx =  18
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			    senx =  78
+			    sendx = 1
+			    type = 2
+			    gosub spawnenemy
+			    senx =  228
+			    sendx = -1
+			    type = 2
+			    gosub spawnenemy
+			    senx =  288
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			elseif levdiv =  27 then
+			    senx =  138
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  168
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  29 then
+			    senx =  108
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  198
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  31 then
+			    senx =  78
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  228
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  33 then
+			    senx =  48
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  258
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  35 then
+			    senx =  18
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  138
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			    senx =  168
+			    sendx = 0
+			    type = 2
+			    gosub spawnenemy
+			    senx =  288
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			elseif levdiv =  37 then
+			    senx =  78
+			    sendx = -1
+			    type = 2
+			    gosub spawnenemy
+			    senx =  108
+			    sendx = 1
+			    type = 2
+			    gosub spawnenemy
+			    senx =  138
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  168
+			    sendx = 0
+			    type = 1
+			    gosub spawnenemy
+			    senx =  198
+			    sendx = 1
+			    type = 2
+			    gosub spawnenemy
+			    senx =  228
+			    sendx = -1
+			    type = 2
+			    gosub spawnenemy
+			endif
+		endif
+		levdiv++
+	else
+		levwait--
+	endif
+	return
+
+endulev:
+	enemcount = 0
+	bombcount = 0
+	spawn = rnd(10)
+	type = rnd(3)+1
+	if spawn = 1 then
+		for x = 0 to 9
+			if enemy(x) <> 0 then
+				enemcount++
+			endif
+		next
+		if enemcount < 5 then
+			senx = rnd(300)+137
+			sendx = rnd(3) - 1
+			gosub spawnenemy
+		endif
+	endif
+	return
+	
+endgame:
+	cls
+	freeallsprites
+	ship = 0
+	shipx = 0
+	shipy = 0
+	health = 0
+	lives1 = 0
+	imm = 0
+	ship2 = 0
+	ship2x = 0
+	ship2y = 0
+	health2 = 0
+	lives2 = 0
+	imm2 = 0
+	for f = 0 to 9
+		enemy(f) = 0
+		enemyx(f) = 0
+		enemyy(f) = 0
+		enemtype(f) = 0
+		eneanim(f) = 1
+		eneanimwait(f) = 0
+		enemxplo(f) = 0
+		enemxplowait(f) = 0
+		enemshot(f) = 0
+		enemshotx(f) = 0
+		enemshoty(f) = 0
+		shot1(f) = 0
+		shotx(f) = 0
+		shoty(f) = 0
+		shot2(f) = 0
+		shot2x(f) = 0
+		shot2y(f) = 0
+	next
+	locate 14,14
+	print "Game over."
+	sleep 100
+	locate 14,14
+	print "          "
+	goto mainmenu
+
+titlepal:
+	DATAINT	$0EEE,$0000,$0AAA,$0888,$0CCC,$0666,$0002,$0446
+	DATAINT	$0244,$0246,$0046,$0024,$004A,$026A,$0000,$0000
+
+titlepal2:
+	DATAINT	$0CCC,$0000,$0888,$0666,$0AAA,$0444,$0000,$0224
+	DATAINT	$0022,$0024,$0024,$0002,$0028,$0048,$0000,$0000
+
+titlepal3:
+	DATAINT	$0AAA,$0EEE,$0666,$0444,$0888,$0222,$0000,$0002
+	DATAINT	$0000,$0002,$0002,$0000,$0006,$0026,$0000,$0000
+
+titlespr:
+	datafile title2.bin,BIN
+
+titlemap:
+	DATA $0000,$0000,$0000,$0000,$0001,$0002,$0003,$0004,$0005,$0006,$0007,$0008,$0009,$000A,$000B,$000C,$000D,$000E,$000F,$0010,$0011,$0012,$0013,$0014,$0015,$0016,$0017,$0018,$0019,$001A,$001B,$001C,$001D,$001E,$001F,$0020,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0021,$0022,$0023,$0024,$0025,$0026,$0027,$0028,$0029,$002A,$002B,$002C,$002D,$002E,$002F,$0030,$0031,$0032,$0033,$0034,$0035,$0036,$0037,$0038,$0039,$003A,$003B,$003C,$003D,$003E,$003F,$0040,$0041,$0042,$0043,$0044,$0000,$0000
+	DATA $0000,$0045,$0046,$0047,$0048,$0049,$004A,$004B,$004C,$004D,$004E,$004F,$0050,$0051,$0052,$0053,$0054,$0055,$0056,$0057,$0058,$0059,$005A,$005B,$005C,$005D,$005E,$005F,$0000,$0060,$0061,$0062,$0063,$0064,$0065,$0066,$0067,$0068,$0069,$0000
+	DATA $0000,$006A,$006B,$006C,$006D,$006E,$006F,$0070,$0071,$0072,$0073,$0074,$0075,$0076,$0077,$0078,$0079,$007A,$007B,$007C,$007D,$007E,$007F,$0080,$0081,$0082,$0083,$0084,$0000,$0085,$0086,$0087,$0088,$0089,$008A,$008B,$008C,$008D,$008E,$0000
+	DATA $0000,$008F,$0090,$0091,$0092,$0093,$0094,$0095,$0096,$0097,$0098,$0099,$009A,$009B,$009C,$009D,$009E,$009F,$00A0,$00A1,$00A2,$00A3,$00A4,$00A5,$00A6,$00A7,$00A8,$00A9,$00AA,$00AB,$00AC,$00AD,$00AE,$00AF,$00B0,$00B1,$00B2,$00B3,$00B4,$0000
+	DATA $0000,$00B5,$00B6,$00B7,$00B8,$00B9,$00BA,$00BB,$00BC,$00BD,$00BE,$00BF,$00C0,$00C1,$00C2,$00C3,$00C4,$00C5,$00C6,$00C7,$00C8,$00C9,$00CA,$00CB,$00CC,$00CD,$00CE,$00CF,$00D0,$00D1,$00D2,$00D3,$00D4,$00D5,$00D6,$00D7,$00D8,$00D9,$00DA,$0000
+	DATA $0000,$00DB,$00DC,$0000,$00DD,$00DE,$00DF,$00E0,$00E1,$00E2,$00E3,$00E4,$00E5,$00E6,$00E7,$00E8,$00E9,$00EA,$00EB,$00EC,$00ED,$00EE,$00EF,$00F0,$00F1,$00F2,$0000,$00F3,$00F4,$00F5,$00F6,$00F7,$00F8,$00F9,$00FA,$00FB,$00FC,$00FD,$00FE,$0000
+	DATA $0000,$00FF,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	
+titlemap2:
+	DATA $0000,$0000,$0001,$0000,$0002,$0003,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0004,$0005,$0006,$0007,$0008,$0009,$000A,$000B,$000C,$000D,$000E,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$000F,$0010,$0011,$0012,$0013,$0000
+	DATA $0000,$0014,$0015,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0016,$0017,$0018,$0019,$001A,$001B,$001C,$001D,$001E,$001F,$0020,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0021,$0022,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0023,$0024,$0024,$0025,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0026,$0027,$0028,$0029,$002A,$002B,$002C,$002D,$002E,$002F,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0030,$0031,$0032,$0033,$0034,$0035,$0036,$0037,$0038,$0039,$003A,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$003B,$003C,$003D,$003E,$003F,$0040,$0041,$0042,$0043,$0044,$0045,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0046,$0047,$0048,$0049,$004A,$004B,$004C,$004D,$004E,$004F,$0050,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0051,$0052,$0053,$0054,$0055,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0056,$0057,$0058,$0059,$005A,$005B,$005C,$005D,$005E,$005F,$0060,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0061,$0062,$0063,$0064,$0065,$0066,$0067,$0068,$0069,$006A,$006B,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$006C,$006D,$006E,$006F,$0070,$0071,$0072,$0073,$0074,$0075,$0076,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+	DATA $0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0077,$0078,$0079,$007A,$007B,$007C,$007D,$007E,$007F,$0080,$0081,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+
+PalletteSEGA:
+ 	DATAINT	$0000,$0000,$0EEE,$0E40,$0E20,$0E00,$0C00,$0A00
+ 	DATAINT	$0E60,$0E80,$0EA0,$0EC0,$0000,$0000,$0000,$0000
+
+PalletteSEGA2:
+ 	DATAINT	$0000,$0000,$0EEE,$0E60,$0E40,$0E20,$0E00,$0C00
+ 	DATAINT	$0E80,$0EA0,$0EC0,$0EA0,$0000,$0000,$0000,$0000
+
+PalletteSEGA3:
+ 	DATAINT	$0000,$0000,$0EEE,$0E80,$0E60,$0E40,$0E20,$0E00
+ 	DATAINT	$0EA0,$0EC0,$0EA0,$0E80,$0000,$0000,$0000,$0000
+
+PalletteSEGA4:
+ 	DATAINT	$0000,$0000,$0EEE,$0EA0,$0E80,$0E60,$0E40,$0E20
+ 	DATAINT	$0EC0,$0EA0,$0E80,$0E60,$0000,$0000,$0000,$0000
+
+PalletteSEGA5:
+ 	DATAINT	$0000,$0000,$0EEE,$0EC0,$0EA0,$0E80,$0E60,$0E40
+ 	DATAINT	$0EA0,$0E80,$0E60,$0E40,$0000,$0000,$0000,$0000
+
+PalletteSEGA6:
+ 	DATAINT	$0000,$0000,$0EEE,$0EA0,$0EC0,$0EA0,$0E80,$0E60
+ 	DATAINT	$0E80,$0E60,$0E40,$0E20,$0000,$0000,$0000,$0000
+
+PalletteSEGA7:
+ 	DATAINT	$0000,$0000,$0EEE,$0E80,$0EA0,$0EC0,$0EA0,$0E80
+ 	DATAINT	$0E60,$0E40,$0E20,$0E00,$0000,$0000,$0000,$0000
+
+PalletteSEGA8:
+ 	DATAINT	$0000,$0000,$0EEE,$0E60,$0E80,$0EA0,$0EC0,$0EA0
+ 	DATAINT	$0E40,$0E20,$0E00,$0C00,$0000,$0000,$0000,$0000
+
+PalletteSEGA9:
+ 	DATAINT	$0000,$0000,$0EEE,$0E40,$0E60,$0E80,$0EA0,$0EC0
+ 	DATAINT	$0E20,$0E00,$0C00,$0A00,$0000,$0000,$0000,$0000
+
+PalletteSEGA10:
+ 	DATAINT	$0000,$0000,$0EEE,$0E20,$0E40,$0E60,$0E80,$0EA0
+ 	DATAINT	$0E00,$0C00,$0A00,$0C00,$0000,$0000,$0000,$0000
+
+PalletteSEGA11:
+ 	DATAINT	$0000,$0000,$0EEE,$0E00,$0E20,$0E40,$0E60,$0E80
+ 	DATAINT	$0C00,$0A00,$0C00,$0E00,$0000,$0000,$0000,$0000
+
+PalletteSEGA12:
+ 	DATAINT	$0000,$0000,$0EEE,$0C00,$0E00,$0E20,$0E40,$0E60
+ 	DATAINT	$0A00,$0C00,$0E00,$0E20,$0000,$0000,$0000,$0000
+
+PalletteSEGA13:
+ 	DATAINT	$0000,$0000,$0EEE,$0A00,$0C00,$0E00,$0E20,$0E40
+ 	DATAINT	$0C00,$0E00,$0E20,$0E40,$0000,$0000,$0000,$0000
+
+PalletteSEGA14:
+ 	DATAINT	$0000,$0000,$0EEE,$0C00,$0A00,$0C00,$0E00,$0E20
+ 	DATAINT	$0E00,$0E20,$0E40,$0E60,$0000,$0000,$0000,$0000
+
+PalletteSEGA15:
+ 	DATAINT	$0000,$0000,$0EEE,$0E00,$0C00,$0A00,$0C00,$0E00
+ 	DATAINT	$0E20,$0E40,$0E60,$0E80,$0000,$0000,$0000,$0000
+
+PalletteSEGA16:
+ 	DATAINT	$0000,$0000,$0EEE,$0E20,$0E00,$0C00,$0A00,$0C00
+ 	DATAINT	$0E40,$0E60,$0E80,$0EA0,$0000,$0000,$0000,$0000
+
+PalletteDark:
+ 	DATAINT	$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+ 	DATAINT	$0000,$0000,$0000,$0000,$0000,$0000,$0000,$0000
+
+mapdata_sega:
+	DATA	$00,$04,$08,$0C,$10,$14,$18,$1C,$20,$24,$28,$2C
+	DATA	$01,$05,$09,$0D,$11,$15,$19,$1D,$21,$25,$29,$2D
+	DATA	$02,$06,$0A,$0E,$12,$16,$1A,$1E,$22,$26,$2A,$2E
+	DATA	$03,$07,$0B,$0F,$13,$17,$1B,$1F,$23,$27,$2B,$2F
+
+tiledata_sega:
+
+	DATALONG	$11111111	' Tile #0  (Sprite 1)
+	DATALONG	$11111222
+	DATALONG	$11122334
+	DATALONG	$11283333
+	DATALONG	$12883333
+	DATALONG	$12888333
+	DATALONG	$28888332
+	DATALONG	$29888823
+	DATALONG	$29888233	' Tile #12
+	DATALONG	$29988283
+	DATALONG	$29988283
+	DATALONG	$29998288
+	DATALONG	$29998288
+	DATALONG	$29999288
+	DATALONG	$29999288
+	DATALONG	$2A999928
+	DATALONG	$12999982	' Tile #24
+	DATALONG	$12A99998
+	DATALONG	$11299998
+	DATALONG	$112A9999
+	DATALONG	$11122299
+	DATALONG	$22222222
+	DATALONG	$2AAAA999
+	DATALONG	$2AAAAA99
+	DATALONG	$2BAAAA99	' Tile #36
+	DATALONG	$2BBAAAA9
+	DATALONG	$22222222
+	DATALONG	$2BBBAAAA
+	DATALONG	$2BBBAAAA
+	DATALONG	$2BBBBAAA
+	DATALONG	$2BBBBAAA
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #1
+	DATALONG	$22222222
+	DATALONG	$44455556
+	DATALONG	$44445555
+	DATALONG	$44445555
+	DATALONG	$34444555
+	DATALONG	$22222222
+	DATALONG	$33444455
+	DATALONG	$33444455	' Tile #13
+	DATALONG	$33344445
+	DATALONG	$33344445
+	DATALONG	$33222222
+	DATALONG	$33334444
+	DATALONG	$83333444
+	DATALONG	$83333444
+	DATALONG	$88333344
+	DATALONG	$22222224	' Tile #25
+	DATALONG	$88833332
+	DATALONG	$88833334
+	DATALONG	$88883333
+	DATALONG	$88883333
+	DATALONG	$22228333
+	DATALONG	$98888333
+	DATALONG	$99888833
+	DATALONG	$99888833	' Tile #37
+	DATALONG	$99988882
+	DATALONG	$22222223
+	DATALONG	$99998888
+	DATALONG	$99998888
+	DATALONG	$A9999888
+	DATALONG	$A9999888
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #2
+	DATALONG	$22222211
+	DATALONG	$66677211
+	DATALONG	$66667212
+	DATALONG	$66667228
+	DATALONG	$56666228
+	DATALONG	$22222288
+	DATALONG	$55666288
+	DATALONG	$55666298	' Tile #14
+	DATALONG	$55566298
+	DATALONG	$55566299
+	DATALONG	$22222299
+	DATALONG	$22222299
+	DATALONG	$45222299
+	DATALONG	$45522299
+	DATALONG	$44552299
+	DATALONG	$445522A9	' Tile #26
+	DATALONG	$444552A9
+	DATALONG	$244552AA
+	DATALONG	$244452AA
+	DATALONG	$244452AA
+	DATALONG	$244442AA
+	DATALONG	$244442AA
+	DATALONG	$234442AA
+	DATALONG	$234442BA	' Tile #38
+	DATALONG	$333442BA
+	DATALONG	$333442BB
+	DATALONG	$3333212B
+	DATALONG	$3333212B
+	DATALONG	$83321112
+	DATALONG	$82211111
+	DATALONG	$21111111
+	DATALONG	$11111111	' Tile #3
+	DATALONG	$11222222
+	DATALONG	$22334444
+	DATALONG	$33334444
+	DATALONG	$83333444
+	DATALONG	$83333444
+	DATALONG	$88333222
+	DATALONG	$88332344
+	DATALONG	$88823334	' Tile #15
+	DATALONG	$88823334
+	DATALONG	$88823333
+	DATALONG	$88823332
+	DATALONG	$98828333
+	DATALONG	$98828333
+	DATALONG	$99828833
+	DATALONG	$99828833
+	DATALONG	$99922222	' Tile #27
+	DATALONG	$99928883
+	DATALONG	$99928888
+	DATALONG	$99928888
+	DATALONG	$A9929888
+	DATALONG	$A9929882
+	DATALONG	$AA929988
+	DATALONG	$AA929988
+	DATALONG	$AAA29998	' Tile #39
+	DATALONG	$AAA92998
+	DATALONG	$AAAA9222
+	DATALONG	$AAAA9999
+	DATALONG	$BAAAA999
+	DATALONG	$BAAAA999
+	DATALONG	$22AAAA99
+	DATALONG	$11222222
+
+	DATALONG	$11111111	' Tile #4  (Sprite 2)
+	DATALONG	$22222222
+	DATALONG	$55556666
+	DATALONG	$55556666
+	DATALONG	$45555666
+	DATALONG	$45555666
+	DATALONG	$22222222
+	DATALONG	$44555566
+	DATALONG	$44455556	' Tile #16
+	DATALONG	$44455556
+	DATALONG	$44445555
+	DATALONG	$22222222
+	DATALONG	$34444555
+	DATALONG	$34444555
+	DATALONG	$33444455
+	DATALONG	$33444455
+	DATALONG	$22222222	' Tile #28
+	DATALONG	$33344445
+	DATALONG	$33334444
+	DATALONG	$33334444
+	DATALONG	$83333444
+	DATALONG	$22222222
+	DATALONG	$88333344
+	DATALONG	$88333344
+	DATALONG	$88833334	' Tile #40
+	DATALONG	$88833334
+	DATALONG	$22222222
+	DATALONG	$88883333
+	DATALONG	$98888333
+	DATALONG	$98888333
+	DATALONG	$99888833
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #5
+	DATALONG	$22221111
+	DATALONG	$77721122
+	DATALONG	$77721233
+	DATALONG	$67722833
+	DATALONG	$67722833
+	DATALONG	$22228883
+	DATALONG	$66728883
+	DATALONG	$66628888	' Tile #17
+	DATALONG	$66629888
+	DATALONG	$66629888
+	DATALONG	$22229988
+	DATALONG	$52229988
+	DATALONG	$52229998
+	DATALONG	$52229998
+	DATALONG	$52229999
+	DATALONG	$22229999	' Tile #29
+	DATALONG	$5222A999
+	DATALONG	$5222A999
+	DATALONG	$5222AA99
+	DATALONG	$4222AA99
+	DATALONG	$2222AAA9
+	DATALONG	$4452AAA9
+	DATALONG	$4452AAAA
+	DATALONG	$4442BAAA	' Tile #41
+	DATALONG	$4442BAAA
+	DATALONG	$22222BAA
+	DATALONG	$44422BAA
+	DATALONG	$34422BBA
+	DATALONG	$344212BA
+	DATALONG	$33421122
+	DATALONG	$22221111
+	DATALONG	$11111111	' Tile #6
+	DATALONG	$22222222
+	DATALONG	$34444555
+	DATALONG	$34444555
+	DATALONG	$33444455
+	DATALONG	$33444455
+	DATALONG	$33322222
+	DATALONG	$32244445
+	DATALONG	$23334444	' Tile #18
+	DATALONG	$23333444
+	DATALONG	$23333444
+	DATALONG	$28333222
+	DATALONG	$28333244
+	DATALONG	$28833234
+	DATALONG	$28833234
+	DATALONG	$28883233
+	DATALONG	$28883222	' Tile #30
+	DATALONG	$28888233
+	DATALONG	$28888233
+	DATALONG	$29888233
+	DATALONG	$29888233
+	DATALONG	$29988222
+	DATALONG	$29988883
+	DATALONG	$29998888
+	DATALONG	$29998888	' Tile #42
+	DATALONG	$A2299888
+	DATALONG	$AA922222
+	DATALONG	$AA999988
+	DATALONG	$AAA99998
+	DATALONG	$AAA99998
+	DATALONG	$AAAA9999
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #7
+	DATALONG	$22222222
+	DATALONG	$56666777
+	DATALONG	$56666777
+	DATALONG	$55666677
+	DATALONG	$55666677
+	DATALONG	$22222222
+	DATALONG	$55566667
+	DATALONG	$55556666	' Tile #19
+	DATALONG	$45556666
+	DATALONG	$45555666
+	DATALONG	$22222222
+	DATALONG	$44555566
+	DATALONG	$44455566
+	DATALONG	$44455556
+	DATALONG	$44445556
+	DATALONG	$22222555	' Tile #31
+	DATALONG	$34442555
+	DATALONG	$34442555
+	DATALONG	$33442455
+	DATALONG	$33442455
+	DATALONG	$33342445
+	DATALONG	$33342445
+	DATALONG	$33332444
+	DATALONG	$33332444	' Tile #43
+	DATALONG	$83332444
+	DATALONG	$22222344
+	DATALONG	$88333344
+	DATALONG	$88833334
+	DATALONG	$88833334
+	DATALONG	$88883333
+	DATALONG	$22222222
+
+	DATALONG	$11111111	' Tile #8  (Sprite 3)
+	DATALONG	$22111111
+	DATALONG	$72111111
+	DATALONG	$72111111
+	DATALONG	$72111111
+	DATALONG	$72111111
+	DATALONG	$22111111
+	DATALONG	$72111112
+	DATALONG	$72111112	' Tile #20
+	DATALONG	$72111112
+	DATALONG	$62111128
+	DATALONG	$22111128
+	DATALONG	$62111128
+	DATALONG	$62111288
+	DATALONG	$62111288
+	DATALONG	$62111298
+	DATALONG	$62112998	' Tile #32
+	DATALONG	$62112999
+	DATALONG	$52112999
+	DATALONG	$5212A999
+	DATALONG	$5212A999
+	DATALONG	$5212AA99
+	DATALONG	$522AAA99
+	DATALONG	$522AAAA9
+	DATALONG	$52BAAAA9	' Tile #44
+	DATALONG	$42BBAAAA
+	DATALONG	$44BBAAAA
+	DATALONG	$44BBBAA2
+	DATALONG	$44BBBAA2
+	DATALONG	$44BBBBA2
+	DATALONG	$44BBBBA2
+	DATALONG	$22222222
+	DATALONG	$11111111	' Tile #9
+	DATALONG	$11111222
+	DATALONG	$11122555
+	DATALONG	$11244555
+	DATALONG	$12444555
+	DATALONG	$23444455
+	DATALONG	$23444455
+	DATALONG	$33344422
+	DATALONG	$33344422	' Tile #21
+	DATALONG	$33334244
+	DATALONG	$33334244
+	DATALONG	$83333244
+	DATALONG	$83332444
+	DATALONG	$88332344
+	DATALONG	$88332344
+	DATALONG	$88823334
+	DATALONG	$88823334	' Tile #33
+	DATALONG	$88823333
+	DATALONG	$88283333
+	DATALONG	$98288333
+	DATALONG	$98288322
+	DATALONG	$92888822
+	DATALONG	$92888833
+	DATALONG	$92988883
+	DATALONG	$29988883	' Tile #45
+	DATALONG	$29998888
+	DATALONG	$29992222
+	DATALONG	$A9992888
+	DATALONG	$A9922888
+	DATALONG	$AA922988
+	DATALONG	$AA222988
+	DATALONG	$22222222
+	DATALONG	$11112222	' Tile #10
+	DATALONG	$21111121
+	DATALONG	$62211121
+	DATALONG	$56621121
+	DATALONG	$56662121
+	DATALONG	$55666211
+	DATALONG	$55666211
+	DATALONG	$55566621
+	DATALONG	$55566621	' Tile #22
+	DATALONG	$25556621
+	DATALONG	$25556662
+	DATALONG	$25555662
+	DATALONG	$42555662
+	DATALONG	$42555566
+	DATALONG	$42555566
+	DATALONG	$44255556
+	DATALONG	$44255556	' Tile #34
+	DATALONG	$44245555
+	DATALONG	$44425555
+	DATALONG	$34424555
+	DATALONG	$34424555
+	DATALONG	$33442455
+	DATALONG	$33442455
+	DATALONG	$33342445
+	DATALONG	$33344245	' Tile #46
+	DATALONG	$33334244
+	DATALONG	$22222244
+	DATALONG	$83333444
+	DATALONG	$83333444
+	DATALONG	$88333344
+	DATALONG	$88333344
+	DATALONG	$22222222
+	DATALONG	$21211112	' Tile #11
+	DATALONG	$11221122
+	DATALONG	$11212212
+	DATALONG	$11211112
+	DATALONG	$11211112
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$11111111	' Tile #23
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$11111111
+	DATALONG	$21111111
+	DATALONG	$21111111
+	DATALONG	$21111111
+	DATALONG	$62111111	' Tile #35
+	DATALONG	$62111111
+	DATALONG	$62111111
+	DATALONG	$56211111
+	DATALONG	$56211111
+	DATALONG	$55211111
+	DATALONG	$55621111
+	DATALONG	$55521111
+	DATALONG	$55521111	' Tile #47
+	DATALONG	$55552111
+	DATALONG	$55552111
+	DATALONG	$45552111
+	DATALONG	$45555211
+	DATALONG	$44555211
+	DATALONG	$44555211
+	DATALONG	$22222221
+	
+electropal:
+  	DATAINT	$0000,$00EE,$0EEE,$000E,$0EE0,$00E0,$0E00,$0888	'  Pallette: 0
+	DATAINT	$0CCC,$0088,$0808,$0008,$0880,$0080,$0800,$0000	
+
+electrotiles:
+	datafile electro.bin,bin
+
+'Replayer init. Set data read pointer to music data (by RELOAD or RESTORE)
+'and GOSUB here. It needed once before playing
+
+tfdPlayInit:
+    DataPtr&=DataPtr&()+4           'skip TFMD signature
+    for a=1 to 3                    'skip three null-terminated text lines
+    while 1
+    read b
+    if b=0 then exit while
+    wend
+    next
+    vTfdDataPtr&=DataPtr&()         'store current read position
+    vTfdLoopPtr&=vTfdDataPtr&       'default loop position
+    vTfdCurrentBank=0               'select bank0
+    vTfdFrameCnt=0                  'frame counter
+    vTfdWaitCnt=0                   'wait counter
+    pokeint &hA11100,&h100          'busreq on
+    pokeint &hA11200,&h100          'reset Z80 and YM2612
+    pokeint &hA11200,0
+    pokeint &hA11100,0              'busreq off
+ 
+    return
+ 
+
+ 
+'Replayer update. GOSUB here each frame (1/50sec) to play music.
+'Note that for NTSC system you must do speed compensation to
+'make music play at normal speed. In this example that done
+'simply by skipping every 6th frame
+
+tfdPlayFrame:
+    vTfdFrameCnt++                      'increment frame counter
+    if TvType()=0 then                  'speed compensation for NTSC
+        if vTfdFrameCnt%6=0 then return
+    endif
+    if vTfdWaitCnt then                 'skip frames if needed
+        vTfdWaitCnt--
+    else
+        vTfdDataTemp&=DataPtr&()        'store current read position
+        DataPtr&=vTfdDataPtr&           'set read position of music data
+        while 1
+            read vTag
+            if vTag<&hFA then           'write to YM2612 register
+                read vData              'read data
+                if vTag<&h30 then
+                    curBank=0           'writes below 0x30 always goes to bank0
+                else
+                    curBank=vTfdCurrentBank
+                endif
+                adrReg&=&hA04000+curBank
+                adrVal&=&hA04001+curBank
+                if vTag=&h28 then       'correction for bank1 Key On/Off event
+                    if vTfdCurrentBank then
+                        vData=vData+4
+                    endif
+                endif
+                'pokeint &hA11100,&h0100    'busreq on
+                while peek(&hA04000).7  'wait for busy
+                wend
+                poke adrReg&,vTag       'write YM2612 register number
+                while peek(&hA04000).7  'wait for busy
+                wend
+                poke adrVal&,vData      'write YM2612 register data
+                'pokeint &hA11100,&h0000    'busreq off
+            elseif vTag=&hFF  then      'single frame
+                vTfdCurrentBank=0
+                exit while
+            elseif vTag=&hFE then       'few frames
+                vTfdCurrentBank=0
+                read vTfdWaitCnt
+                vTfdWaitCnt=vTfdWaitCnt+2
+                exit while
+            elseif vTag=&hFD then       'select bank1
+                vTfdCurrentBank=2
+            elseif vTag=&hFC then       'select bank0
+                vTfdCurrentBank=0
+            elseif vTag=&hFB then       'end of data
+                DataPtr&=vTfdLoopPtr&   'jump to loop position
+            elseif vTag=&hFA then       'loop position
+                vTfdLoopPtr&=DataPtr&() 'remember read position
+                endif
+        wend
+        vTfdDataPtr&=DataPtr&()             'store read position of music data
+        DataPtr&=vTfdDataTemp&              'restore current read position
+    endif
+    return
+ 
+musicTitle:
+    datafile title.tfd,BIN
+    
+musiclevel:
+    datafile level.tfd,BIN
